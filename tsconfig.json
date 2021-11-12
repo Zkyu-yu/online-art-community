@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "useDefineForClassFields": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"]
+    "target": "esnext",  // 指定编译之后的版本目标
+    "useDefineForClassFields": true,  // 迁移到即将推出的类字段标准版本的一部分
+    "module": "esnext",  // 指定要使用的模块标准
+    "moduleResolution": "node",  // 选择模块解析策略
+    "strict": true,  // 启动所有类型检查
+    "jsx": "preserve",  // 指定jsx代码用于的开发环境
+    "sourceMap": true,  // 是否生成map文件
+    "resolveJsonModule": true,  // 包含导入的模块。json的扩展。
+    "esModuleInterop": true,  // 为运行时babel生态系统兼容性提供“……importstar”和“……importdefault”帮助，并为类型系统兼容性启用“——allowSyntheticDefaultImports”。
+    "lib": ["esnext", "dom"]  // 编译过程中需要引入的库文件的列表
   },
+  // 指定匹配列表
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

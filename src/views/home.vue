@@ -1,18 +1,12 @@
 <template>
-  <Home></Home>
-  <Test></Test>
+  <div>Welcome to the Art Community!</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
-import Home from './views/home.vue'
-import Test from './components/test.vue'
 
 export default defineComponent({
-  components: {
-    Home,
-    Test,
-  },
+  name: 'Home',
   setup() {
     return {}
   },

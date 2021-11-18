@@ -1,5 +1,5 @@
 <template>
-  <div class="carouselContainer">
+  <div class="carousel_container">
     <el-carousel :height="bannerHeight + 'px'" indicator-position="none">
       <el-carousel-item v-for="(img, index) in imgList" :key="index">
         <img class="img" :src="getImageUrl(img.img_name)" />
@@ -37,10 +37,10 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 首次加载时,需要调用一次
+      // 首次加载时用
       screenWidth.value = window.innerWidth
       setSize()
-      // 窗口大小发生改变时,调用一次
+      // 窗口大小发生改变时调用
       window.onresize = () => {
         screenWidth.value = window.innerWidth
         setSize()
@@ -52,7 +52,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.carouselContainer {
+.carousel_container {
   position: relative;
   width: 100%;
   height: 100%;

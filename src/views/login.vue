@@ -58,42 +58,18 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/runtime-core'
-export interface loginUser {
-  userName: string
-  userPwd: string
-}
-export interface registerUser {
-  userName: string
-  userPwd: string
-  email: string
-  mobile: string
-}
-export interface RuleInput {
-  required: boolean
-  message: string
-  trigger: string
-}
-export interface loginRules {
-  userName: RuleInput[]
-  userPwd: RuleInput[]
-}
-export interface registerRules {
-  userName: RuleInput[]
-  userPwd: RuleInput[]
-  email: RuleInput[]
-  mobile: RuleInput[]
-}
+
 export default defineComponent({
   name: 'Login',
   setup() {
     const type = ref('login')
-    const loginUser = reactive<loginUser>({ userName: '', userPwd: '' })
-    const registerUser = reactive<registerUser>({ userName: '', userPwd: '', email: '', mobile: '' })
-    const loginRules = reactive<loginRules>({
+    const loginUser = reactive({ userName: '', userPwd: '' })
+    const registerUser = reactive({ userName: '', userPwd: '', email: '', mobile: '' })
+    const loginRules = reactive({
       userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
       userPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
     })
-    const registerRules = reactive<registerRules>({
+    const registerRules = reactive({
       userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
       userPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }],

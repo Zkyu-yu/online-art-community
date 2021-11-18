@@ -1,6 +1,18 @@
 <template>
   <div class="test">Welcome to the Human Community</div>
   <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
+  <div class="emoji">●ˍ●</div>
 </template>
 
 <script lang="ts">

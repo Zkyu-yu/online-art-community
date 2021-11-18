@@ -5,7 +5,9 @@
         <img class="img" :src="getImageUrl(img.img_name)" />
       </el-carousel-item>
     </el-carousel>
-    <div class="start" @click="goHome">LET'S START ➩</div>
+    <div class="title">This is Earth Space, now here's Human Community.</div>
+    <div class="emo">●ˍ●</div>
+    <div class="start" @click="letsScroll">LET'S START ➩</div>
   </div>
 </template>
 
@@ -29,8 +31,9 @@ export default defineComponent({
     const setSize = () => {
       bannerHeight.value = (2304 / 3840) * screenWidth.value * 0.8
     }
-    const goHome = () => {
-      console.log(111)
+    // 点击滚动
+    const letsScroll = () => {
+      window.scrollTo({ top: bannerHeight.value + 60, behavior: 'smooth' })
     }
 
     onMounted(() => {
@@ -43,7 +46,7 @@ export default defineComponent({
         setSize()
       }
     })
-    return { bannerHeight, imgList, getImageUrl, goHome }
+    return { bannerHeight, imgList, getImageUrl, letsScroll }
   },
 })
 </script>
@@ -53,6 +56,8 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 100%;
+  color: #fff;
+  cursor: default;
   .el-carousel {
     margin: 0 auto;
     width: 80%;
@@ -61,14 +66,28 @@ export default defineComponent({
     width: 100%;
     height: inherit;
   }
+  .title {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    font-size: 35px;
+    font-family: 'Aldrich';
+  }
+  .emo {
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    transform: translate(-50%, -87%);
+    font-size: 25px;
+    font-family: 'Aldrich';
+  }
   .start {
     position: absolute;
-    display: block;
     top: 95%;
     left: 50%;
     transform: translate(-50%, -95%);
     cursor: pointer;
-    color: #fff;
     font-size: 24px;
     font-family: 'Aldrich';
     padding: 5px 30px;

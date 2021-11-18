@@ -37,13 +37,13 @@ export default defineComponent({
 .main {
   // position: fixed;
   width: 100%;
-  height: 80px;
+  height: 60px;
   // z-index: 200;
   color: #fff;
   .header {
     display: flex;
     max-width: 1200px;
-    padding-top: 20px;
+    padding-top: 5px;
     margin: 0 auto;
     justify-content: space-between;
     .logo img {

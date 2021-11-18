@@ -2,7 +2,7 @@
   <div class="main">
     <div class="header">
       <div class="logo">
-        <img src="../assets/img/logo.png" />
+        <!-- <img src="../assets/img/logo.png" /> -->
       </div>
       <div class="nav">
         <ul>
@@ -37,15 +37,15 @@ export default defineComponent({
 .main {
   // position: fixed;
   width: 100%;
-  height: 100px;
-  z-index: 200;
+  height: 80px;
+  // z-index: 200;
+  color: #fff;
   .header {
     display: flex;
     max-width: 1200px;
+    padding-top: 20px;
     margin: 0 auto;
     justify-content: space-between;
-    text-align: center;
-    line-height: 100px;
     .logo img {
       display: block;
       border-radius: 50%;
@@ -56,7 +56,6 @@ export default defineComponent({
         list-style: none;
         cursor: pointer;
         margin-right: 70px;
-        text-align: center;
       }
     }
   }

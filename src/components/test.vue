@@ -1,5 +1,6 @@
 <template>
-  <div>Hello World!</div>
+  <div class="test">Welcome to the Human Community</div>
+  <div class="emoji">●ˍ●</div>
 </template>
 
 <script lang="ts">
@@ -12,3 +13,20 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss">
+.test {
+  display: flex;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+}
+.emoji {
+  display: flex;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 50px 0;
+}
+</style>

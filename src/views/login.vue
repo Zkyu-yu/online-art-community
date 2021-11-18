@@ -4,8 +4,8 @@
       <!-- 按钮栏 -->
       <div class="switch-wrapper">
         <div class="btn-wrapper">
-          <div v-if="type == 'login'" class="txt" @click="type = 'register'">去注册</div>
-          <div v-else class="txt" @click="type = 'login'">去登录</div>
+          <div v-if="type == 'login'" class="txt" @click="type = 'register'">Create Account</div>
+          <div v-else class="txt" @click="type = 'login'">Login</div>
         </div>
       </div>
       <!-- 表单栏 -->
@@ -14,7 +14,7 @@
           <!-- 登录From -->
           <div v-show="type == 'login'" class="login">
             <el-form ref="loginForm" :model="loginUser" :rules="loginRules" status-icon>
-              <div class="title">登录</div>
+              <div class="title">Login</div>
               <el-form-item prop="userName">
                 <el-input v-model="loginUser.userName" type="text" placeholder="请输入账号 / 手机号 / 邮箱" />
               </el-form-item>
@@ -22,7 +22,7 @@
                 <el-input v-model="loginUser.userPwd" type="userPwd" prefix-icon="el-icon-view" placeholder="请输入密码" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="btn-login" @click="login">登录</el-button>
+                <el-button type="primary" class="btn-login" @click="login">Login</el-button>
               </el-form-item>
               <!-- <div class="w100 aCenter jSb">
                 <el-button type="text" class="forgetuserPwd" @click="onOpenForgetuserPwd">忘记密码</el-button>
@@ -32,7 +32,7 @@
           <!-- 注册From -->
           <div v-show="type == 'register'" class="register">
             <el-form ref="registerForm" :model="registerUser" :rules="registerRules" status-icon>
-              <div class="title">注册</div>
+              <div class="title">Create Account</div>
               <el-form-item prop="userName">
                 <el-input v-model="registerUser.userName" type="text" prefix-icon="el-icon-user" placeholder="请输入账号 / 手机号 / 邮箱" />
               </el-form-item>
@@ -46,7 +46,7 @@
                 <el-input v-model="registerUser.userPwd" type="userPwd" prefix-icon="el-icon-view" placeholder="请输入密码" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="btn-login" @click="register">确认注册</el-button>
+                <el-button type="primary" class="btn-login" @click="register">Create Account</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -126,11 +126,12 @@ export default defineComponent({
       }
       .btn-wrapper {
         position: absolute;
-        width: 100px;
         height: 36px;
+        padding: 0 20px;
         color: #fffffe;
         background-color: #6689e2;
         font-size: 15px;
+        font-family: 'Coda';
         border-radius: 30px;
         cursor: pointer;
         flex-wrap: wrap;
@@ -166,6 +167,7 @@ export default defineComponent({
         justify-content: center;
         .title {
           font-size: 36px;
+          font-family: 'Coda';
           line-height: 1.5;
           text-align: center;
           margin-bottom: 30px;

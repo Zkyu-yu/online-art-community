@@ -1,10 +1,12 @@
 <template>
-  <el-carousel :height="bannerHeight + 'px'" indicator-position="none">
-    <el-carousel-item v-for="(img, index) in imgList" :key="index">
-      <img class="img" :src="getImageUrl(img.img_name)" />
-    </el-carousel-item>
-  </el-carousel>
-  <div class="start" @click="goHome">LET'S START ➩</div>
+  <div class="carouselContainer">
+    <el-carousel :height="bannerHeight + 'px'" indicator-position="none">
+      <el-carousel-item v-for="(img, index) in imgList" :key="index">
+        <img class="img" :src="getImageUrl(img.img_name)" />
+      </el-carousel-item>
+    </el-carousel>
+    <div class="start" @click="goHome">LET'S START ➩</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -47,25 +49,30 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.el-carousel {
+.carouselContainer {
   position: relative;
-  margin: 0 auto;
-  width: 80%;
-}
-.img {
   width: 100%;
-  height: inherit;
-}
-.start {
-  position: absolute;
-  display: block;
-  top: 95%;
-  left: 50%;
-  transform: translate(-50%, -95%);
-  cursor: pointer;
-  color: #fff;
-  font-size: 24px;
-  padding: 5px 30px;
-  border: 2px solid #fff;
+  height: 100%;
+  .el-carousel {
+    margin: 0 auto;
+    width: 80%;
+  }
+  .img {
+    width: 100%;
+    height: inherit;
+  }
+  .start {
+    position: absolute;
+    display: block;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -95%);
+    cursor: pointer;
+    color: #fff;
+    font-size: 24px;
+    font-family: 'Aldrich';
+    padding: 5px 30px;
+    border: 2px solid #fff;
+  }
 }
 </style>

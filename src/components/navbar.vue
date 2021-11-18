@@ -56,6 +56,7 @@ export default defineComponent({
         list-style: none;
         cursor: pointer;
         margin-right: 70px;
+        font-family: 'Coda';
       }
     }
   }

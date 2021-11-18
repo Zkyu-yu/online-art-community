@@ -21,6 +21,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   padding-top: 50px;
+  font-family: 'Aldrich';
 }
 .emoji {
   display: flex;

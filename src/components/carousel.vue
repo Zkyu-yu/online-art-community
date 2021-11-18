@@ -33,7 +33,7 @@ export default defineComponent({
     }
     // 点击滚动
     const letsScroll = () => {
-      window.scrollTo({ top: bannerHeight.value + 60, behavior: 'smooth' })
+      window.scrollTo({ top: bannerHeight.value + 70, behavior: 'smooth' })
     }
 
     onMounted(() => {

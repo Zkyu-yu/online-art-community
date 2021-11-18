@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar></Navbar>
     <Carousel></Carousel>
-    <CardHome></CardHome>
+    <Card></Card>
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 import { defineComponent } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
 import Carousel from '../components/carousel.vue'
-import CardHome from '../components/cardHome.vue'
+import Card from '../components/card.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
     Navbar,
     Carousel,
-    CardHome,
+    Card,
   },
   setup() {
     return {}

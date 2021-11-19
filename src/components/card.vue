@@ -1,5 +1,5 @@
 <template>
-  <el-row style="background-color: #fcfcfc">
+  <el-row class="card_container">
     <el-col v-for="(o, index) in 10" :key="o" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }">
         <div class="pic">
@@ -30,29 +30,33 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.pic {
-  img {
-    width: 100%;
-    height: 280px;
+.card_container {
+  background-color: #fcfcfc;
+  padding-bottom: 30px;
+  .pic {
+    img {
+      width: 100%;
+      height: 280px;
+    }
   }
-}
-.title {
-  font-size: 24px;
-  padding: 20px 0 20px 20px;
-}
-.content {
-  font-size: 16px;
-  padding-left: 20px;
-  color: #505153;
-}
-.personal {
-  font-size: 15px;
-  margin-top: 50px;
-  padding: 20px 0 20px 20px;
-  border-top: 1px solid #f0f0f0;
-  color: #aaa;
-  .date {
-    padding-top: 10px;
+  .title {
+    font-size: 24px;
+    padding: 20px 0 20px 20px;
+  }
+  .content {
+    font-size: 16px;
+    padding-left: 20px;
+    color: #505153;
+  }
+  .personal {
+    font-size: 15px;
+    margin-top: 50px;
+    padding: 20px 0 20px 20px;
+    border-top: 1px solid #f0f0f0;
+    color: #aaa;
+    .date {
+      padding-top: 10px;
+    }
   }
 }
 </style>

@@ -60,7 +60,7 @@ export default defineComponent({
   cursor: default;
   .el-carousel {
     margin: 0 auto;
-    width: 80%;
+    width: 90%;
     opacity: 0.9;
   }
   .img {

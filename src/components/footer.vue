@@ -27,6 +27,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
   .footer_content {
     float: left;
     line-height: 100px;

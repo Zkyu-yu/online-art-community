@@ -35,15 +35,14 @@ export default defineComponent({
 
 <style lang="scss">
 .main {
-  // position: fixed;
   width: 100%;
   height: 60px;
-  // z-index: 200;
   color: #fcfcfc;
   .header {
     display: flex;
     width: 80%;
-    padding-top: 5px;
+    font-size: 18px;
+    padding-top: 20px;
     margin: 0 auto;
     justify-content: space-between;
     .logo img {

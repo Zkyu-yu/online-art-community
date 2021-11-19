@@ -39,10 +39,10 @@ export default defineComponent({
   width: 100%;
   height: 60px;
   // z-index: 200;
-  color: #fff;
+  color: #fcfcfc;
   .header {
     display: flex;
-    max-width: 1200px;
+    width: 80%;
     padding-top: 5px;
     margin: 0 auto;
     justify-content: space-between;

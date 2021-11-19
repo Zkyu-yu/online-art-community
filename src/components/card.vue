@@ -1,5 +1,5 @@
 <template>
-  <el-row style="background-color: #fff">
+  <el-row style="background-color: #fcfcfc">
     <el-col v-for="(o, index) in 10" :key="o" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }">
         <div class="pic">

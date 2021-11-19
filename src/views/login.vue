@@ -88,20 +88,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .login-wrapper {
-  background-color: #ededed;
+  background-color: #121212;
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   margin: auto;
   .login-container {
-    background-color: #fff;
+    background-color: #121212;
     position: relative;
-    width: 1000px;
-    height: 600px;
+    width: 100%;
+    height: 100vh;
     margin: auto;
     overflow: hidden;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 5px #ddd;
     .switch-wrapper {
       position: absolute;
       z-index: 99;
@@ -118,7 +116,7 @@ export default defineComponent({
         content: '';
         display: block;
         background-image: url('../assets/img/ld.jpg');
-        background-size: 1000px 550px;
+        background-size: 1000px 100vh;
         background-position: top left;
         width: 100%;
         height: 100%;
@@ -128,7 +126,7 @@ export default defineComponent({
         position: absolute;
         height: 36px;
         padding: 0 20px;
-        color: #fffffe;
+        color: #e2e8f2;
         background-color: #6689e2;
         font-size: 15px;
         font-family: 'Coda';
@@ -159,7 +157,7 @@ export default defineComponent({
       .container {
         width: 100%;
         height: 100%;
-        background-color: #fffffe;
+        background-color: #121212;
         display: flex;
         display: -webkit-flex;
         flex-direction: row;
@@ -171,7 +169,7 @@ export default defineComponent({
           line-height: 1.5;
           text-align: center;
           margin-bottom: 30px;
-          color: #666;
+          color: #e2e8f2;
         }
         .btn-login {
           width: 100%;
@@ -181,13 +179,13 @@ export default defineComponent({
   }
   .active {
     .switch-wrapper {
-      transform: translateX(calc(1000px - 100%));
+      transform: translateX(calc(100vw - 100%));
       &::after {
         background-position: top right;
       }
     }
     .outerBox {
-      transform: translateX(calc(-1000px + 100%));
+      transform: translateX(calc(-100vw + 100%));
     }
     .txt :first-child {
       margin-top: -100%;

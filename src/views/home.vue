@@ -3,6 +3,7 @@
     <Navbar></Navbar>
     <Carousel></Carousel>
     <Card></Card>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { defineComponent } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
 import Carousel from '../components/carousel.vue'
 import Card from '../components/card.vue'
+import Footer from '../components/footer.vue'
 
 export default defineComponent({
   name: 'Home',
@@ -18,6 +20,7 @@ export default defineComponent({
     Navbar,
     Carousel,
     Card,
+    Footer,
   },
   setup() {
     return {}
@@ -28,6 +31,6 @@ export default defineComponent({
 <style lang="scss">
 .container {
   width: 100%;
-  background-color: #000;
+  background-color: #121212;
 }
 </style>

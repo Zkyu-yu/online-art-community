@@ -56,11 +56,12 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: #e2e8f2;
   cursor: default;
   .el-carousel {
     margin: 0 auto;
     width: 80%;
+    opacity: 0.9;
   }
   .img {
     width: 100%;
@@ -91,7 +92,7 @@ export default defineComponent({
     font-size: 24px;
     font-family: 'Aldrich';
     padding: 5px 30px;
-    border: 2px solid #fff;
+    border: 2px solid #e2e8f2;
   }
 }
 </style>

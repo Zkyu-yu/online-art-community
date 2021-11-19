@@ -39,9 +39,8 @@ export default defineComponent({
     border: 2px solid #e2e8f2;
     color: #e2e8f2;
     &:hover {
-      background-color: #121212;
-      border: 2px solid #e2e8f2;
-      color: #e2e8f2;
+      color: #fff;
+      font-weight: 800;
     }
   }
   .icon {

@@ -57,6 +57,10 @@ export default defineComponent({
         cursor: pointer;
         margin-right: 70px;
         font-family: 'Coda';
+        &:hover {
+          color: #fff;
+          font-weight: 600;
+        }
       }
     }
   }

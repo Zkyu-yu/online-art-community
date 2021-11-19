@@ -87,12 +87,35 @@ export default defineComponent({
     position: absolute;
     top: 95%;
     left: 50%;
-    transform: translate(-50%, -95%);
     cursor: pointer;
     font-size: 24px;
     font-family: 'Aldrich';
     padding: 5px 30px;
     border: 2px solid #e2e8f2;
+    transform: translate(-50%, -95%);
+    text-transform: uppercase;
+    outline: none;
+    overflow: hidden;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -36px;
+      left: -100px;
+      background: white;
+      width: 50px;
+      height: 125px;
+      opacity: 20%;
+      transform: rotate(-45deg);
+    }
+    &:hover {
+      font-weight: 600;
+    }
+    &:hover::after {
+      left: 120%;
+      transition: all 1200ms cubic-bezier(0.3, 1, 0.2, 1);
+      -webkit-transition: all 1200ms cubic-bezier(0.3, 1, 0.2, 1);
+    }
   }
 }
 </style>

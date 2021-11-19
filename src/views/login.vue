@@ -1,49 +1,47 @@
 <template>
   <div class="login-wrapper">
-    <div :class="['login-container', type == 'login' ? 'active' : '']">
+    <div :class="['login-container', type === 'login' ? 'active' : '']">
       <!-- 按钮栏 -->
       <div class="switch-wrapper">
         <div class="btn-wrapper">
-          <div v-if="type == 'login'" class="txt" @click="type = 'register'">Create Account</div>
-          <div v-else class="txt" @click="type = 'login'">Login</div>
+          <el-button v-if="type === 'login'" type="primary" class="btn-login" @click="changeAndReset">Create Account</el-button>
+          <el-button v-else type="primary" class="btn-login" @click="changeAndReset">Login</el-button>
         </div>
       </div>
       <!-- 表单栏 -->
-      <div :class="['outerBox', type == 'login' ? 'active' : '']">
+      <div :class="['outerBox', type === 'login' ? 'active' : '']">
         <div class="container">
           <!-- 登录From -->
-          <div v-show="type == 'login'" class="login">
-            <el-form ref="loginForm" :model="loginUser" :rules="loginRules" status-icon>
+          <div v-show="type === 'login'" class="login">
+            <el-form ref="loginFormData" :model="loginUser" :rules="loginRules">
               <div class="title">Login</div>
               <el-form-item prop="userName">
-                <el-input v-model="loginUser.userName" type="text" placeholder="请输入账号 / 手机号 / 邮箱" />
+                <el-input v-model="loginUser.userName" type="text" :prefix-icon="User" placeholder="Name / Phone / Email" />
               </el-form-item>
               <el-form-item prop="userPwd">
-                <el-input v-model="loginUser.userPwd" type="userPwd" prefix-icon="el-icon-view" placeholder="请输入密码" />
+                <el-input v-model="loginUser.userPwd" type="password" :prefix-icon="View" placeholder="Password" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" class="btn-login" @click="login">Login</el-button>
               </el-form-item>
-              <!-- <div class="w100 aCenter jSb">
-                <el-button type="text" class="forgetuserPwd" @click="onOpenForgetuserPwd">忘记密码</el-button>
-              </div> -->
+              <el-button type="text" @click="forgetPwd">Forget password?</el-button>
             </el-form>
           </div>
           <!-- 注册From -->
-          <div v-show="type == 'register'" class="register">
-            <el-form ref="registerForm" :model="registerUser" :rules="registerRules" status-icon>
+          <div v-show="type === 'register'" class="register">
+            <el-form ref="registerFormData" :model="registerUser" :rules="registerRules">
               <div class="title">Create Account</div>
               <el-form-item prop="userName">
-                <el-input v-model="registerUser.userName" type="text" prefix-icon="el-icon-user" placeholder="请输入账号 / 手机号 / 邮箱" />
-              </el-form-item>
-              <el-form-item prop="email">
-                <el-input v-model="registerUser.email" type="text" prefix-icon="el-icon-message" placeholder="请输入邮箱地址" />
-              </el-form-item>
-              <el-form-item prop="mobile">
-                <el-input v-model="registerUser.mobile" type="number" prefix-icon="el-icon-mobile" placeholder="请输入手机号码" />
+                <el-input v-model="registerUser.userName" type="text" :prefix-icon="User" placeholder="Name / Phone / Email" />
               </el-form-item>
               <el-form-item prop="userPwd">
-                <el-input v-model="registerUser.userPwd" type="userPwd" prefix-icon="el-icon-view" placeholder="请输入密码" />
+                <el-input v-model="registerUser.userPwd" type="password" :prefix-icon="View" placeholder="Password" />
+              </el-form-item>
+              <el-form-item prop="email">
+                <el-input v-model="registerUser.email" type="text" :prefix-icon="Message" placeholder="Email Address" />
+              </el-form-item>
+              <el-form-item prop="mobile">
+                <el-input v-model="registerUser.mobile" type="text" :prefix-icon="Phone" placeholder="Phone Number" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" class="btn-login" @click="register">Create Account</el-button>
@@ -57,31 +55,77 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/runtime-core'
+import { defineComponent, ref } from '@vue/runtime-core'
+import { User, Message, Phone, View } from '@element-plus/icons'
 
 export default defineComponent({
   name: 'Login',
   setup() {
     const type = ref('login')
-    const loginUser = reactive({ userName: '', userPwd: '' })
-    const registerUser = reactive({ userName: '', userPwd: '', email: '', mobile: '' })
-    const loginRules = reactive({
-      userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-      userPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    const loginFormData = ref()
+    const registerFormData = ref()
+    const loginUser = ref({ userName: '', userPwd: '' })
+    const registerUser = ref({ userName: '', userPwd: '', email: '', mobile: '' })
+    const loginRules = ref({
+      userName: [{ required: true, message: 'Please input your name.', trigger: 'blur' }],
+      userPwd: [{ required: true, message: 'Please input your password.', trigger: 'blur' }],
     })
-    const registerRules = reactive({
-      userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-      userPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-      email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }],
-      mobile: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
+    const registerRules = ref({
+      userName: [{ required: true, message: 'Please input your name.', trigger: 'blur' }],
+      userPwd: [{ required: true, message: 'Please input your password.', trigger: 'blur' }],
+      email: [{ required: true, message: 'Please input email address.', trigger: 'blur' }],
+      mobile: [{ required: true, message: 'Please input phone number.', trigger: 'blur' }],
     })
+    // 切换 & 重置表单
+    const changeAndReset = () => {
+      if (type.value === 'register') {
+        type.value = 'login'
+        registerFormData.value.resetFields()
+      } else {
+        type.value = 'register'
+        loginFormData.value.resetFields()
+      }
+    }
     const login = () => {
-      console.log('登录成功~')
+      loginFormData.value.validate((valid: boolean) => {
+        if (valid) {
+          console.log('submit')
+        } else {
+          console.log('error submit')
+          return false
+        }
+      })
     }
     const register = () => {
-      console.log('注册成功~')
+      registerFormData.value.validate((valid: boolean) => {
+        if (valid) {
+          console.log('submit')
+        } else {
+          console.log('error submit')
+          return false
+        }
+      })
     }
-    return { type, loginUser, registerUser, loginRules, registerRules, login, register }
+    const forgetPwd = () => {
+      console.log('活该')
+    }
+    return {
+      type,
+      loginFormData,
+      registerFormData,
+      loginUser,
+      registerUser,
+      loginRules,
+      registerRules,
+      changeAndReset,
+      login,
+      register,
+      forgetPwd,
+      User,
+      Message,
+      Phone,
+      View,
+    }
   },
 })
 </script>
@@ -100,6 +144,9 @@ export default defineComponent({
     height: 100vh;
     margin: auto;
     overflow: hidden;
+    .el-button {
+      font-family: 'Coda';
+    }
     .switch-wrapper {
       position: absolute;
       z-index: 99;
@@ -124,26 +171,6 @@ export default defineComponent({
       }
       .btn-wrapper {
         position: absolute;
-        height: 36px;
-        padding: 0 20px;
-        color: #e2e8f2;
-        background-color: #6689e2;
-        font-size: 15px;
-        font-family: 'Coda';
-        border-radius: 30px;
-        cursor: pointer;
-        flex-wrap: wrap;
-        overflow: hidden;
-        .txt {
-          width: 100%;
-          height: 100%;
-          transition: all 1s ease-in-out;
-          display: flex;
-          display: -webkit-flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-        }
       }
     }
     .outerBox {
@@ -169,7 +196,7 @@ export default defineComponent({
           line-height: 1.5;
           text-align: center;
           margin-bottom: 30px;
-          color: #e2e8f2;
+          color: #fcfcfc;
         }
         .btn-login {
           width: 100%;

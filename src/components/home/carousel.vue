@@ -25,7 +25,7 @@ export default defineComponent({
 
     // vite静态资源处理方法（不可用require）
     const getImageUrl = (name: string) => {
-      return new URL(`../assets/img/${name}.jpg`, import.meta.url).href
+      return new URL(`../../assets/img/${name}.jpg`, import.meta.url).href
     }
     // 通过浏览器宽度(图片宽度)计算高度
     const setSize = () => {

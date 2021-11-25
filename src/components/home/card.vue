@@ -33,7 +33,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .card_container {
   background-color: #fcfcfc;
   padding-bottom: 30px;

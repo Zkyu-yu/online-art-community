@@ -1,6 +1,6 @@
 <template>
   <div class="blog_container">
-    <div class="picture">
+    <div class="header">
       <div class="img_blur"></div>
     </div>
     <div class="top">
@@ -13,7 +13,17 @@
         <div class="watch">阅读：102400</div>
       </div>
     </div>
-    <div class="article">This is balabalabala</div>
+    <div class="article">
+      This is balabal abalabalab alabalabalab alabalabalabal abalabal abalabala balabalab alabala balabalaba labal abala balabalab alabala
+      balabalaba labal abala
+    </div>
+    <div class="picture">
+      <img src="../../assets/img/1.jpg" />
+      <img src="../../assets/img/2.jpg" />
+      <img src="../../assets/img/3.jpg" />
+      <img src="../../assets/img/4.jpg" />
+      <img src="../../assets/img/5.jpg" />
+    </div>
   </div>
 </template>
 
@@ -36,7 +46,7 @@ export default defineComponent({
 .blog_container {
   background-color: #fcfcfc;
   padding-bottom: 30px;
-  .picture {
+  .header {
     position: relative;
     overflow: hidden; // 去除白边
     .img_blur {
@@ -93,10 +103,19 @@ export default defineComponent({
     }
   }
   .article {
-    margin: 30px;
-    display: flex;
+    width: 40%;
+    color: #aaa;
+    margin: 50px auto;
     text-align: center;
-    justify-content: center;
+    line-height: 30px;
+  }
+  .picture {
+    margin: 0 auto;
+    width: 70%;
+    > img {
+      width: 100%;
+      margin-top: 10px;
+    }
   }
 }
 </style>

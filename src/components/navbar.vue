@@ -7,10 +7,11 @@
       </div>
       <div class="nav">
         <ul>
-          <li>About us</li>
-          <li>Blog</li>
-          <li>Contact</li>
-          <li @click="goLogin">Sign in</li>
+          <li :class="{ active: activeTab === 1 }" @click="goAbout">About us</li>
+          <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
+          <li :class="{ active: activeTab === 3 }" @click="goContact">Contact</li>
+          <li v-if="!isSign" @click="goLogin">Sign in</li>
+          <li v-else :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
         </ul>
       </div>
     </div>
@@ -18,21 +19,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, ref } from '@vue/runtime-core'
 import router from '../router'
 
 export default defineComponent({
   name: 'Navbar',
+  props: {
+    activeTab: {
+      type: Number,
+      default: 0,
+    },
+  },
   setup() {
-    const goLogin = () => {
-      router.push({ name: 'Login' })
-    }
+    const isSign = ref(false)
     const goHome = () => {
       router.push({ name: 'Home' })
     }
+    const goAbout = () => {
+      router.push({ name: 'About' })
+    }
+    const goBlogPage = () => {
+      router.push({ name: 'BlogPage' })
+    }
+    const goContact = () => {
+      router.push({ name: 'Contact' })
+    }
+    const goLogin = () => {
+      router.push({ name: 'Login' })
+    }
+    const goSpace = () => {
+      router.push({ name: 'MySpace' })
+    }
     return {
-      goLogin,
+      isSign,
       goHome,
+      goAbout,
+      goBlogPage,
+      goContact,
+      goLogin,
+      goSpace,
     }
   },
 })
@@ -75,6 +100,9 @@ export default defineComponent({
           color: #fff;
           font-weight: 600;
         }
+      }
+      ul .active {
+        text-decoration: underline;
       }
     }
   }

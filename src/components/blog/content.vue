@@ -29,14 +29,10 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
-import { onMounted } from 'vue'
 
 export default defineComponent({
   name: 'Content',
   setup() {
-    onMounted(() => {
-      window.scrollTo({ top: 0 })
-    })
     return {}
   },
 })

@@ -26,7 +26,7 @@ export default defineComponent({
   name: 'Card',
   setup() {
     const openBlog = () => {
-      router.push({ name: 'Blog' })
+      router.push({ name: 'BlogContent' })
     }
     return { openBlog }
   },

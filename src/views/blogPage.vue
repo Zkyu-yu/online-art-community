@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Navbar></Navbar>
-    <Content></Content>
+    <Navbar :active-tab="2"></Navbar>
+    <Card></Card>
     <Footer></Footer>
   </div>
 </template>
@@ -9,14 +9,14 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
-import Content from '../components/blog/content.vue'
+import Card from '../components/home/card.vue'
 import Footer from '../components/footer.vue'
 
 export default defineComponent({
-  name: 'Blog',
+  name: 'BlogPage',
   components: {
     Navbar,
-    Content,
+    Card,
     Footer,
   },
   setup() {

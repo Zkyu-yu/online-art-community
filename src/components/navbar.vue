@@ -1,8 +1,9 @@
 <template>
   <div class="main">
     <div class="header">
-      <div class="logo">
-        <!-- <img src="../assets/img/logo.png" /> -->
+      <div class="logo" @click="goHome">
+        <img src="../assets/img/logo.svg" />
+        <div class="logo_text">Human ByeBye</div>
       </div>
       <div class="nav">
         <ul>
@@ -26,8 +27,12 @@ export default defineComponent({
     const goLogin = () => {
       router.push({ name: 'Login' })
     }
+    const goHome = () => {
+      router.push({ name: 'Home' })
+    }
     return {
       goLogin,
+      goHome,
     }
   },
 })
@@ -45,9 +50,19 @@ export default defineComponent({
     padding-top: 20px;
     margin: 0 auto;
     justify-content: space-between;
-    .logo img {
-      display: block;
-      border-radius: 50%;
+    .logo {
+      width: 20%;
+      height: 30px;
+      cursor: pointer;
+      > img {
+        float: left;
+        width: 30px;
+      }
+      .logo_text {
+        float: left;
+        line-height: 30px;
+        margin-left: 5px;
+      }
     }
     .nav {
       ul li {

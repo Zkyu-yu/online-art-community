@@ -104,3 +104,7 @@
     border-radius: 5px;
     background: #aaa;
 }
+
+.el-input__prefix-inner {
+  display: inline-block !important;
+}

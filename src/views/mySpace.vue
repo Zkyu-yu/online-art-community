@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <Navbar :active-tab="4"></Navbar>
+    <Introduction></Introduction>
     <Card></Card>
     <Footer></Footer>
   </div>
@@ -9,13 +10,15 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
-import Card from '../components/home/card.vue'
+import Introduction from '../components/mySpace/introduction.vue'
+import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
 
 export default defineComponent({
   name: 'MySpace',
   components: {
     Navbar,
+    Introduction,
     Card,
     Footer,
   },

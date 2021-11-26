@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="header">
+    <div class="menu">
       <div class="logo" @click="goHome">
         <img src="../assets/img/logo.svg" />
         <div class="logo_text">Human ByeBye</div>
@@ -12,18 +12,32 @@
           <li :class="{ active: activeTab === 3 }" @click="goContact">Contact</li>
           <li v-if="!isSign" @click="goLogin">Sign in</li>
           <li v-else :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
+          <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
     </div>
+  </div>
+  <div class="search_dialog">
+    <el-dialog v-model="isOpen" fullscreen="true">
+      <el-input v-model="input" placeholder="Search...">
+        <template #append>
+          <el-icon class="icon" @click="goSearch"><search /></el-icon>
+        </template>
+      </el-input>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/runtime-core'
+import { Search } from '@element-plus/icons'
 import router from '../router'
 
 export default defineComponent({
   name: 'Navbar',
+  components: {
+    Search,
+  },
   props: {
     activeTab: {
       type: Number,
@@ -31,7 +45,9 @@ export default defineComponent({
     },
   },
   setup() {
-    const isSign = ref(false)
+    const isSign = ref(true)
+    const isOpen = ref(false)
+    const input = ref('')
     const goHome = () => {
       router.push({ name: 'Home' })
     }
@@ -50,25 +66,32 @@ export default defineComponent({
     const goSpace = () => {
       router.push({ name: 'MySpace' })
     }
+    const goSearch = () => {
+      console.log('search')
+    }
     return {
       isSign,
+      isOpen,
+      input,
       goHome,
       goAbout,
       goBlogPage,
       goContact,
       goLogin,
       goSpace,
+      goSearch,
+      Search,
     }
   },
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .main {
   width: 100%;
   height: 60px;
   color: #fcfcfc;
-  .header {
+  .menu {
     display: flex;
     width: 80%;
     font-size: 18px;
@@ -104,7 +127,51 @@ export default defineComponent({
       ul .active {
         text-decoration: underline;
       }
+      ul .icon {
+        font-size: 20px;
+        padding-top: 4px;
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+          font-weight: 800;
+        }
+      }
     }
+  }
+}
+.search_dialog {
+  .el-dialog {
+    background-color: rgba(#121212, 0.8);
+  }
+  .el-dialog__body {
+    padding-top: 40vh;
+  }
+  .el-input__inner {
+    font-size: 35px;
+    font-family: 'Coda';
+    letter-spacing: 4px;
+    // margin: 0 100px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    color: #fff;
+    background-color: rgba(#121212, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #fff;
+  }
+  .el-input-group {
+    width: 95%;
+    margin: 0 50px;
+  }
+  .el-input-group__append {
+    background-color: rgba(#121212, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #fff;
+  }
+  .el-icon {
+    font-size: 30px;
+    color: rgba(#fff, 0.8);
   }
 }
 </style>

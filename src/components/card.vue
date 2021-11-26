@@ -3,7 +3,7 @@
     <el-col v-for="(o, index) in 10" :key="o" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }" @click="openBlog">
         <div class="pic">
-          <img src="../../assets/img/ld.jpg" alt="" />
+          <img src="../assets/img/ld.jpg" alt="" />
         </div>
         <div class="title">Hello World</div>
         <div class="content">
@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
-import router from '../../router'
+import router from '../router'
 
 export default defineComponent({
   name: 'Card',

@@ -16,27 +16,27 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/about.vue'),
+    component: () => import(/* webpackChunkName: "About" */ '../views/about.vue'),
   },
   {
     path: '/blogPage',
     name: 'BlogPage',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/blogPage.vue'),
+    component: () => import(/* webpackChunkName: "BlogPage" */ '../views/blogPage.vue'),
   },
   {
     path: '/contact',
     name: 'Contact',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/contact.vue'),
+    component: () => import(/* webpackChunkName: "Contact" */ '../views/contact.vue'),
   },
   {
     path: '/mySpace',
     name: 'MySpace',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/mySpace.vue'),
+    component: () => import(/* webpackChunkName: "MySpace" */ '../views/mySpace.vue'),
   },
   {
     path: '/blogContent',
     name: 'BlogContent',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/blogContent.vue'),
+    component: () => import(/* webpackChunkName: "BlogContent" */ '../views/blogContent.vue'),
   },
 ]
 

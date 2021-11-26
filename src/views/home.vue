@@ -11,7 +11,7 @@
 import { defineComponent } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
 import Carousel from '../components/home/carousel.vue'
-import Card from '../components/home/card.vue'
+import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
 
 export default defineComponent({

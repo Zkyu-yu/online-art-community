@@ -88,9 +88,13 @@ export default defineComponent({
 
 <style lang="scss">
 .main {
+  position: fixed;
+  top: 0px;
   width: 100%;
   height: 60px;
   color: #fcfcfc;
+  background-color: #121212;
+  z-index: 200;
   .menu {
     display: flex;
     width: 80%;

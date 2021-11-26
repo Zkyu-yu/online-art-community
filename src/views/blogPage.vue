@@ -28,6 +28,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .container {
   width: 100%;
+  margin-top: 60px;
   background-color: #121212;
 }
 </style>

@@ -91,4 +91,16 @@
     list-style: none;
   }
   
-  
+  ::-webkit-scrollbar {
+    display: none;
+}
+ 
+::-webkit-scrollbar-track {
+    background: #121212;
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #aaa;
+}

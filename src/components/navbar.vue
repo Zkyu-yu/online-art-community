@@ -154,7 +154,6 @@ export default defineComponent({
     font-size: 35px;
     font-family: 'Coda';
     letter-spacing: 4px;
-    // margin: 0 100px;
     padding-left: 20px;
     padding-bottom: 10px;
     color: #fff;

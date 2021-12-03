@@ -10,6 +10,7 @@
     "@element-plus/icons": "^0.0.11",
     "@fontsource/aldrich": "^4.5.0",
     "@fontsource/coda": "^4.5.0",
+    "axios": "^0.24.0",
     "element-plus": "^1.2.0-beta.3",
     "nprogress": "^0.2.0",
     "unplugin-vue-components": "^0.17.2",

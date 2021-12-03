@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="search_dialog">
-    <el-dialog v-model="isOpen" fullscreen="true">
+    <el-dialog v-model="isOpen" fullscreen>
       <el-input v-model="input" placeholder="Search...">
         <template #append>
           <el-icon class="icon" @click="goSearch"><search /></el-icon>

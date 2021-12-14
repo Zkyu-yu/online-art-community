@@ -1,4 +1,4 @@
-import request from '../../../scripts/request'
+import request from '../scripts/request'
 import { onMounted, reactive } from 'vue'
 
 export interface userInfoItem {
@@ -10,7 +10,7 @@ export interface userInfoItem {
   profile: string
 }
 
-export default function userInfo(_id: string) {
+export default function userInfo(userName: string) {
   const userInfoList = reactive<userInfoItem>({
     userName: '',
     userPwd: '',
@@ -21,17 +21,17 @@ export default function userInfo(_id: string) {
   })
   // 查询用户信息
   const getUserInfo = async () => {
-    const res: userInfoItem = await request.get(`/user/findOneUser/${_id}`)
-    userInfoList.userName = res.userName
-    userInfoList.userPwd = res.userPwd
-    userInfoList.sex = res.sex
-    userInfoList.phone = res.phone
-    userInfoList.email = res.email
-    userInfoList.profile = res.profile
+    const res: { data: userInfoItem } = await request.get(`/user/findOneUserByName/${userName}`)
+    userInfoList.userName = res.data.userName
+    userInfoList.userPwd = res.data.userPwd
+    userInfoList.sex = res.data.sex
+    userInfoList.phone = res.data.phone
+    userInfoList.email = res.data.email
+    userInfoList.profile = res.data.profile
   }
   // 修改用户信息
   const editUserInfo = async (params: userInfoItem) => {
-    await request.put(`/user/editUser/${_id}`, params)
+    await request.post(`/user/editUser`, params)
     getUserInfo()
   }
 

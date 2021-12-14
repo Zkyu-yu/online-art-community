@@ -16,13 +16,26 @@
   </div>
   <el-drawer v-model="drawer" title="I have a nested form inside!">
     <el-form :model="form" label-width="100px" label-position="left" style="margin-left: 30px">
+      <el-form-item label="HeadImg">
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+
       <el-form-item label="Name">
-        <el-input v-model="userInfoList.userName" style="width: 300px"></el-input>
+        <el-input v-model="userInfoList.userName" style="width: 300px" disabled></el-input>
       </el-form-item>
       <el-form-item label="Sex">
         <el-select v-model="userInfoList.sex" placeholder="Please select your sex" style="width: 300px">
-          <el-option label="男" value="male"></el-option>
-          <el-option label="女" value="female"></el-option>
+          <el-option label="男" value="男"></el-option>
+          <el-option label="女" value="女"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="Phone">
@@ -42,13 +55,17 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/runtime-core'
-import userInfo from './hook/userInfo'
+import userInfo from '../../hook/userInfo'
 import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons'
 
 export default defineComponent({
   name: 'Introduction',
+  components: {
+    Plus,
+  },
   setup() {
-    const { userInfoList, editUserInfo } = userInfo('1')
+    const { userInfoList, editUserInfo } = userInfo('黑泽宇')
     const drawer = ref(false)
     const form = reactive({
       headImg: '',
@@ -56,6 +73,24 @@ export default defineComponent({
       sex: '',
       profile: '',
     })
+    const imageUrl = ref('')
+    const handleAvatarSuccess = (file: { url: string }) => {
+      console.log(file.url)
+
+      imageUrl.value = URL.createObjectURL(file.url)
+    }
+    const beforeAvatarUpload = (file: { type: string; size: number }) => {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        ElMessage.error('Avatar picture must be JPG format!')
+      }
+      if (!isLt2M) {
+        ElMessage.error('Avatar picture size can not exceed 2MB!')
+      }
+      return isJPG && isLt2M
+    }
     const onCancel = () => {
       drawer.value = false
     }
@@ -69,15 +104,15 @@ export default defineComponent({
         profile: userInfoList.profile,
       })
       drawer.value = false
-      ElMessage({
-        message: 'Congrats, this is a success message.',
-        type: 'success',
-      })
+      ElMessage.success('Your information has been changed :)')
     }
 
     return {
       drawer,
       form,
+      imageUrl,
+      handleAvatarSuccess,
+      beforeAvatarUpload,
       onCancel,
       onSubmit,
       userInfoList,
@@ -86,7 +121,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .in_container {
   background-color: #fcfcfc;
   .header {
@@ -131,5 +166,30 @@ export default defineComponent({
       overflow: hidden;
     }
   }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+.avatar-uploader-icon svg {
+  margin-top: 74px; /* (178px - 28px) / 2 - 1px */
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Navbar></Navbar>
+    <Navbar :sign="isSign"></Navbar>
     <Carousel></Carousel>
     <Card></Card>
     <Footer></Footer>
@@ -13,6 +13,7 @@ import Navbar from '../components/navbar.vue'
 import Carousel from '../components/home/carousel.vue'
 import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'Home',
@@ -23,7 +24,9 @@ export default defineComponent({
     Footer,
   },
   setup() {
-    return {}
+    let route = useRoute()
+    let isSign = Number(route.params.isSign)
+    return { isSign }
   },
 })
 </script>

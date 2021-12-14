@@ -16,7 +16,7 @@
             <el-form ref="loginFormData" :model="loginUser" :rules="loginRules">
               <div class="title">Login</div>
               <el-form-item prop="userName">
-                <el-input v-model="loginUser.userName" type="text" :prefix-icon="User" placeholder="Name / Phone / Email" />
+                <el-input v-model="loginUser.userName" type="text" :prefix-icon="User" placeholder="Name" />
               </el-form-item>
               <el-form-item prop="userPwd">
                 <el-input v-model="loginUser.userPwd" type="password" :prefix-icon="View" placeholder="Password" />
@@ -32,7 +32,7 @@
             <el-form ref="registerFormData" :model="registerUser" :rules="registerRules">
               <div class="title">Create Account</div>
               <el-form-item prop="userName">
-                <el-input v-model="registerUser.userName" type="text" :prefix-icon="User" placeholder="Name / Phone / Email" />
+                <el-input v-model="registerUser.userName" type="text" :prefix-icon="User" placeholder="Name" />
               </el-form-item>
               <el-form-item prop="userPwd">
                 <el-input v-model="registerUser.userPwd" type="password" :prefix-icon="View" placeholder="Password" />
@@ -40,8 +40,8 @@
               <el-form-item prop="email">
                 <el-input v-model="registerUser.email" type="text" :prefix-icon="Message" placeholder="Email Address" />
               </el-form-item>
-              <el-form-item prop="mobile">
-                <el-input v-model="registerUser.mobile" type="text" :prefix-icon="Phone" placeholder="Phone Number" />
+              <el-form-item prop="phone">
+                <el-input v-model="registerUser.phone" type="text" :prefix-icon="Phone" placeholder="Phone Number" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" class="btn-login" @click="register">Create Account</el-button>
@@ -57,15 +57,18 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/runtime-core'
 import { User, Message, Phone, View } from '@element-plus/icons'
+import loginRegister from '../hook/loginRegister'
 
 export default defineComponent({
   name: 'Login',
   setup() {
+    const { userLogin, userRegister } = loginRegister()
+
     const type = ref('login')
     const loginFormData = ref()
     const registerFormData = ref()
     const loginUser = ref({ userName: '', userPwd: '' })
-    const registerUser = ref({ userName: '', userPwd: '', email: '', mobile: '' })
+    const registerUser = ref({ userName: '', userPwd: '', email: '', phone: '' })
     const loginRules = ref({
       userName: [{ required: true, message: 'Please input your name.', trigger: 'blur' }],
       userPwd: [{ required: true, message: 'Please input your password.', trigger: 'blur' }],
@@ -74,8 +77,9 @@ export default defineComponent({
       userName: [{ required: true, message: 'Please input your name.', trigger: 'blur' }],
       userPwd: [{ required: true, message: 'Please input your password.', trigger: 'blur' }],
       email: [{ required: true, message: 'Please input email address.', trigger: 'blur' }],
-      mobile: [{ required: true, message: 'Please input phone number.', trigger: 'blur' }],
+      phone: [{ required: true, message: 'Please input phone number.', trigger: 'blur' }],
     })
+
     // 切换 & 重置表单
     const changeAndReset = () => {
       if (type.value === 'register') {
@@ -88,22 +92,14 @@ export default defineComponent({
     }
     const login = () => {
       loginFormData.value.validate((valid: boolean) => {
-        if (valid) {
-          console.log('submit')
-        } else {
-          console.log('error submit')
-          return false
-        }
+        if (!valid) return
+        userLogin(loginUser.value)
       })
     }
     const register = () => {
       registerFormData.value.validate((valid: boolean) => {
-        if (valid) {
-          console.log('submit')
-        } else {
-          console.log('error submit')
-          return false
-        }
+        if (!valid) return
+        userRegister(registerUser.value)
       })
     }
     const forgetPwd = () => {

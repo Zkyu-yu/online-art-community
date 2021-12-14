@@ -8,7 +8,7 @@ const request = axios.create({
   timeout: 20000, // 请求超时 20s
 })
 
-// 前置拦截器（发起请求之前的拦截）
+// 请求拦截器
 request.interceptors.request.use(
   config => {
     return config
@@ -19,12 +19,13 @@ request.interceptors.request.use(
   }
 )
 
-// 后置拦截器（获取到响应时的拦截）
+// 响应拦截器
 request.interceptors.response.use(
   response => {
     const { data } = response
     const { code } = data
-    if (code === 200) return Promise.resolve(data.data)
+    if (code === 200) return Promise.resolve(data)
+    else ElMessage.error(data.message)
     return Promise.reject(data)
   },
   error => {

@@ -10,7 +10,7 @@
           <li :class="{ active: activeTab === 1 }" @click="goAbout">About us</li>
           <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
           <li :class="{ active: activeTab === 3 }" @click="goContact">Contact</li>
-          <li v-if="!isSign" @click="goLogin">Sign in</li>
+          <li v-if="!sign" @click="goLogin">Sign in</li>
           <li v-else :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
@@ -43,9 +43,12 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    sign: {
+      type: Number,
+      default: 0,
+    },
   },
   setup() {
-    const isSign = ref(true)
     const isOpen = ref(false)
     const input = ref('')
     const goHome = () => {
@@ -70,7 +73,6 @@ export default defineComponent({
       console.log('search')
     }
     return {
-      isSign,
       isOpen,
       input,
       goHome,

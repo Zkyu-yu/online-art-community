@@ -9,11 +9,14 @@
       </div>
       <div class="name">{{ userInfoList.userName }}</div>
       <div class="setting">
-        <el-button size="mini" @click="drawer = true">个人设置</el-button>
+        <el-icon class="inIcon" @click="drawer = true"><edit /></el-icon>
+        <el-icon class="inIcon" @click="logout"><switch-button /></el-icon>
       </div>
       <div class="profile">{{ userInfoList.profile }}</div>
     </div>
   </div>
+
+  <!-- 个人设置 -->
   <el-drawer v-model="drawer" title="I have a nested form inside!">
     <el-form :model="form" label-width="100px" label-position="left" style="margin-left: 30px">
       <el-form-item label="HeadImg">
@@ -57,15 +60,18 @@
 import { defineComponent, reactive, ref } from '@vue/runtime-core'
 import userInfo from '../../hook/userInfo'
 import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons'
+import { Plus, Edit, SwitchButton } from '@element-plus/icons'
+import router from '../../router'
 
 export default defineComponent({
   name: 'Introduction',
   components: {
     Plus,
+    Edit,
+    SwitchButton,
   },
   setup() {
-    const { userInfoList, editUserInfo } = userInfo('黑泽宇')
+    const { userInfoList, editUserInfo } = userInfo(window.sessionStorage.getItem('userName') as string)
     const drawer = ref(false)
     const form = reactive({
       headImg: '',
@@ -74,6 +80,10 @@ export default defineComponent({
       profile: '',
     })
     const imageUrl = ref('')
+    const logout = () => {
+      window.sessionStorage.clear()
+      router.push({ name: 'Home' })
+    }
     const handleAvatarSuccess = (file: { url: string }) => {
       console.log(file.url)
 
@@ -111,6 +121,7 @@ export default defineComponent({
       drawer,
       form,
       imageUrl,
+      logout,
       handleAvatarSuccess,
       beforeAvatarUpload,
       onCancel,
@@ -160,6 +171,11 @@ export default defineComponent({
       float: left;
       margin-top: 15px;
       margin-left: 25px;
+      .inIcon {
+        font-size: 20px;
+        cursor: pointer;
+        margin-right: 20px;
+      }
     }
     .profile {
       margin-top: 75px;

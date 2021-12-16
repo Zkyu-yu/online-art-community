@@ -54,8 +54,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .carousel_container {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: calc(100vh - 60px);
   color: #e2e8f2;
   cursor: default;
   .el-carousel {
@@ -72,7 +72,7 @@ export default defineComponent({
     top: 80%;
     left: 50%;
     transform: translate(-50%, -80%);
-    font-size: 35px;
+    font-size: 25px;
     font-family: 'Aldrich';
   }
   .emo {

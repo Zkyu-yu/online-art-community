@@ -108,3 +108,6 @@
 .el-input__prefix-inner {
   display: inline-block !important;
 }
+.el-input__icon {
+  display: inline-block !important;
+}

@@ -2,7 +2,6 @@ import router from '../router'
 import request from '../scripts/request'
 import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
-// import { ref } from 'vue'
 
 export interface loginItem {
   userName: string

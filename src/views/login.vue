@@ -4,8 +4,16 @@
       <!-- 按钮栏 -->
       <div class="switch-wrapper">
         <div class="btn-wrapper">
-          <el-button v-if="type === 'login'" type="primary" class="btn-login" @click="changeAndReset">Create Account</el-button>
-          <el-button v-else type="primary" class="btn-login" @click="changeAndReset">Login</el-button>
+          <div v-if="type === 'login'">
+            <div class="welcomeTitle">Welcome back!</div>
+            <div class="words">To keep connected with us, please login with your personal info.</div>
+            <el-button type="primary" class="btn-login" @click="changeAndReset">Create Account</el-button>
+          </div>
+          <div v-else>
+            <div class="welcomeTitle">Hello friend!</div>
+            <div class="words">Enter your personal details and start journey with us.</div>
+            <el-button type="primary" class="btn-login" @click="changeAndReset">Login</el-button>
+          </div>
         </div>
       </div>
       <!-- 表单栏 -->
@@ -167,6 +175,19 @@ export default defineComponent({
       }
       .btn-wrapper {
         position: absolute;
+        text-align: center;
+        line-height: 1.5;
+        .welcomeTitle {
+          color: #fcfcfc;
+          font-size: 36px;
+          font-family: 'Coda';
+          margin-bottom: 30px;
+        }
+        .words {
+          color: rgba(#eee, 0.9);
+          font-size: 16px;
+          margin-bottom: 30px;
+        }
       }
     }
     .outerBox {

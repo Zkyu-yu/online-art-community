@@ -26,9 +26,9 @@ export default function loginRegister() {
   const userLogin = async (params: loginItem) => {
     const res: { message: message } = await request.post('/auth/login', params)
     if (res.message.token) {
-      sessionStorage.setItem('token', res.message.token)
-      sessionStorage.setItem('userid', res.message.userid)
-      sessionStorage.setItem('userName', params.userName)
+      localStorage.setItem('token', res.message.token)
+      localStorage.setItem('userid', res.message.userid)
+      localStorage.setItem('userName', params.userName)
       ElMessage.success('Welcome to the Human Community!')
       router.push({ name: 'Home' })
     }

@@ -71,7 +71,7 @@ export default defineComponent({
     SwitchButton,
   },
   setup() {
-    const { userInfoList, editUserInfo } = userInfo(window.sessionStorage.getItem('userName') as string)
+    const { userInfoList, editUserInfo } = userInfo(window.localStorage.getItem('userName') as string)
     const drawer = ref(false)
     const form = reactive({
       headImg: '',
@@ -81,7 +81,7 @@ export default defineComponent({
     })
     const imageUrl = ref('')
     const logout = () => {
-      window.sessionStorage.clear()
+      window.localStorage.clear()
       router.push({ name: 'Home' })
     }
     const handleAvatarSuccess = (file: { url: string }) => {

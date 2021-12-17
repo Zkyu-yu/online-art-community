@@ -37,7 +37,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const { blogInfoList, actorBlogList } = blogInfo(window.sessionStorage.getItem('userName') as string)
+    const { blogInfoList, actorBlogList } = blogInfo(window.localStorage.getItem('userName') as string)
     const openBlog = () => {
       router.push({ name: 'BlogContent' })
     }

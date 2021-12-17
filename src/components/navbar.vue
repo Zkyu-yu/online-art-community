@@ -47,7 +47,7 @@ export default defineComponent({
   setup() {
     const isOpen = ref(false)
     const input = ref('')
-    const isSign = sessionStorage.getItem('userName') !== null ? 1 : 0
+    const isSign = localStorage.getItem('userName') !== null ? 1 : 0
     const goHome = () => {
       router.push({ name: 'Home' })
     }

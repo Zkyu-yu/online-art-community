@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar :active-tab="4"></Navbar>
     <Introduction></Introduction>
-    <Card></Card>
+    <Card :is-actor="1"></Card>
     <Footer></Footer>
   </div>
 </template>

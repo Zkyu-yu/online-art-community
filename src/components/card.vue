@@ -1,17 +1,21 @@
 <template>
   <el-row class="card_container">
-    <el-col v-for="(o, index) in 10" :key="o" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
+    <el-col
+      v-for="(item, index) in isActor ? actorBlogList : blogInfoList"
+      :key="index"
+      :span="6"
+      :offset="index % 3 === 0 ? 2 : 1"
+      style="margin-top: 30px"
+    >
       <el-card :body-style="{ padding: '0px' }" @click="openBlog">
         <div class="pic">
           <img src="../assets/img/ld.jpg" alt="" />
         </div>
-        <div class="title">Hello World</div>
-        <div class="content">
-          1111 0000 1101 0010 1001 0110 1011 0100 1111 0000 1101 0010 1001 0110 1011 0100 1111 0000 1101 0010 1001 0110 1011 0100
-        </div>
+        <div class="title">{{ item.title }}</div>
+        <div class="content">{{ item.content }}</div>
         <div class="personal">
-          <div class="actor">zkyu</div>
-          <div class="date">Oct 24,2018</div>
+          <div class="actor">{{ item.actor }}</div>
+          <div class="date">{{ item.date }}</div>
         </div>
       </el-card>
     </el-col>
@@ -20,15 +24,24 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
+import blogInfo from '../hook/blogInfo'
 import router from '../router'
 
 export default defineComponent({
   name: 'Card',
+  props: {
+    // 判断是否在mySpace
+    isActor: {
+      type: Number,
+      default: 0,
+    },
+  },
   setup() {
+    const { blogInfoList, actorBlogList } = blogInfo(window.sessionStorage.getItem('userName') as string)
     const openBlog = () => {
       router.push({ name: 'BlogContent' })
     }
-    return { openBlog }
+    return { openBlog, blogInfoList, actorBlogList }
   },
 })
 </script>

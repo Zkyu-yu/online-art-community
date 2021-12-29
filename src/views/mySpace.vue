@@ -2,7 +2,17 @@
   <div class="container">
     <Navbar :active-tab="4"></Navbar>
     <Introduction></Introduction>
-    <Card :is-actor="1"></Card>
+    <div class="tabs">
+      <ul>
+        <li :class="{ active: activeTab === 1 }" @click="activeTab = 1">Blog</li>
+        <li :class="{ active: activeTab === 2 }" @click="activeTab = 2">Like</li>
+        <li :class="{ active: activeTab === 3 }" @click="activeTab = 3">Collect</li>
+        <li :class="{ active: activeTab === 4 }" @click="activeTab = 4">Chart</li>
+      </ul>
+    </div>
+    <div class="mainContent">
+      <Card v-if="activeTab === 1" :is-actor="1"></Card>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -13,6 +23,7 @@ import Navbar from '../components/navbar.vue'
 import Introduction from '../components/mySpace/introduction.vue'
 import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
+import { ref } from 'vue'
 
 export default defineComponent({
   name: 'MySpace',
@@ -23,7 +34,8 @@ export default defineComponent({
     Footer,
   },
   setup() {
-    return {}
+    const activeTab = ref(1)
+    return { activeTab }
   },
 })
 </script>
@@ -33,5 +45,32 @@ export default defineComponent({
   width: 100%;
   margin-top: 60px;
   background-color: #121212;
+  .tabs {
+    position: absolute;
+    width: 600px;
+    top: 275px;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    color: #fcfcfc;
+    ul li {
+      float: left;
+      list-style: none;
+      cursor: pointer;
+      height: 30px;
+      line-height: 30px;
+      margin-right: 100px;
+      margin-bottom: 5px;
+      font-size: 18px;
+      font-family: 'Coda';
+      &:hover {
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+    ul .active {
+      text-decoration: underline;
+    }
+  }
 }
 </style>

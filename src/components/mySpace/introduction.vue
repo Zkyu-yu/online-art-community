@@ -10,7 +10,11 @@
       <div class="name">{{ userInfoList.userName }}</div>
       <div class="setting">
         <el-icon class="inIcon" @click="drawer = true"><edit /></el-icon>
-        <el-icon class="inIcon" @click="logout"><switch-button /></el-icon>
+        <el-popconfirm title="Are you sure to logout?" icon-color="#A52A2A" @confirm="logout">
+          <template #reference>
+            <el-icon class="inIcon"><switch-button /></el-icon>
+          </template>
+        </el-popconfirm>
       </div>
       <div class="profile">{{ userInfoList.profile }}</div>
     </div>
@@ -207,5 +211,20 @@ export default defineComponent({
   width: 178px;
   height: 178px;
   display: block;
+}
+.el-popover.el-popper {
+  background-color: #000;
+  border: none;
+  color: #eee;
+}
+.el-popper.is-light .el-popper__arrow::before {
+  background-color: #000;
+}
+.el-button--text {
+  color: #eee;
+}
+.el-button + .el-button {
+  background-color: #000;
+  border: 1px solid #eee;
 }
 </style>

@@ -219,6 +219,7 @@ export default defineComponent({
 }
 .el-popper.is-light .el-popper__arrow::before {
   background-color: #000;
+  border: none;
 }
 .el-button--text {
   color: #eee;

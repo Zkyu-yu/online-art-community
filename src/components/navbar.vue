@@ -11,7 +11,15 @@
           <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
           <li :class="{ active: activeTab === 3 }" @click="goContact">Contact</li>
           <li v-if="!isSign" @click="goLogin">Sign in</li>
-          <li v-else :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
+          <el-dropdown v-else class="mySpace">
+            <li :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>Post Blog</el-dropdown-item>
+                <el-dropdown-item>Message</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
@@ -140,8 +148,44 @@ export default defineComponent({
           font-weight: 800;
         }
       }
+      .mySpace li {
+        font-size: 18px;
+        color: #fcfcfc;
+        margin-top: -19px;
+      }
     }
   }
+}
+// 下拉框样式
+.el-dropdown__popper.el-popper[role='tooltip'] {
+  border: none;
+  top: 60px !important;
+  margin-left: -35px !important;
+}
+.el-dropdown-menu {
+  background-color: #121212;
+  border-radius: 0%;
+}
+.el-dropdown-menu__item {
+  color: #fcfcfc;
+  padding-bottom: 5px;
+  margin: 0 5px;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-family: 'Coda';
+  &:first-child {
+    border-bottom: 1px solid rgba(#fff, 0.5);
+  }
+}
+.el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: #121212;
+  color: #fff;
+  font-weight: 800;
+}
+.el-dropdown__popper.el-popper[role='tooltip'] .el-popper__arrow::before {
+  background-color: #121212;
+  border: none;
 }
 .search_dialog {
   .el-dialog {

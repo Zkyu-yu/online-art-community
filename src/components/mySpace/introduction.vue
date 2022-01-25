@@ -55,8 +55,8 @@
         <el-input v-model="userInfoList.profile" type="textarea"></el-input>
       </el-form-item>
     </el-form>
-    <el-button style="margin-left: 50px" @click="onCancel">取消</el-button>
-    <el-button type="primary" @click="onSubmit">修改</el-button>
+    <el-button style="margin-left: 50px" @click="onCancel">Cancel</el-button>
+    <el-button type="primary" @click="onSubmit">Update</el-button>
   </el-drawer>
 </template>
 

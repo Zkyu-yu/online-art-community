@@ -15,7 +15,7 @@
             <li :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="postBlog">Post Blog</el-dropdown-item>
+                <el-dropdown-item @click="isPost = true">Post Blog</el-dropdown-item>
                 <el-dropdown-item>Message</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -32,6 +32,17 @@
           <el-icon class="icon" @click="goSearch"><search /></el-icon>
         </template>
       </el-input>
+    </el-dialog>
+  </div>
+  <div class="post_dialog">
+    <el-dialog v-model="isPost" fullscreen>
+      <el-input v-model="blogTitle" placeholder="blog title" />
+      <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
+      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+      </el-upload>
+      <el-button style="margin-right: 19vw" @click="onSubmit">Submit</el-button>
+      <el-button @click="onCancel">Cancel</el-button>
     </el-dialog>
   </div>
 </template>
@@ -55,6 +66,9 @@ export default defineComponent({
   setup() {
     const isOpen = ref(false)
     const input = ref('')
+    const isPost = ref(false)
+    const blogTitle = ref('')
+    const blogContent = ref('')
     const isSign = localStorage.getItem('userName') !== null ? 1 : 0
     const goHome = () => {
       router.push({ name: 'Home' })
@@ -77,12 +91,12 @@ export default defineComponent({
     const goSearch = () => {
       console.log('search')
     }
-    const postBlog = () => {
-      console.log(111)
-    }
     return {
       isOpen,
       input,
+      isPost,
+      blogTitle,
+      blogContent,
       isSign,
       goHome,
       goAbout,
@@ -91,7 +105,6 @@ export default defineComponent({
       goLogin,
       goSpace,
       goSearch,
-      postBlog,
       Search,
     }
   },
@@ -223,6 +236,82 @@ export default defineComponent({
   .el-icon {
     font-size: 30px;
     color: rgba(#fff, 0.8);
+  }
+}
+.post_dialog {
+  .el-dialog {
+    background-color: rgba(#121212, 0.8);
+  }
+  .el-dialog__body {
+    padding-top: 40px;
+    padding-left: 20vw;
+  }
+  .el-input {
+    width: 20vw;
+  }
+  .el-input__inner {
+    font-size: 30px;
+    font-family: 'Coda';
+    letter-spacing: 4px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    color: #fff;
+    background-color: rgba(#121212, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #fff;
+  }
+  .el-textarea {
+    display: flex;
+    width: 60vw;
+    margin: 30px 0;
+  }
+  .el-textarea__inner {
+    min-height: 12vw !important;
+    font-size: 20px;
+    font-family: 'Coda';
+    letter-spacing: 4px;
+    padding-top: 10px;
+    color: #fff;
+    background-color: rgba(#121212, 0);
+  }
+  .el-input__count {
+    font-size: 12px;
+    font-family: 'Coda';
+    letter-spacing: 4px;
+    color: #fff;
+    background-color: rgba(#121212, 0);
+  }
+  .el-upload-dragger {
+    color: #fff;
+    width: 60vw;
+    height: 20vw;
+    background-color: rgba(#121212, 0);
+    &:hover {
+      border: 1px solid #fff;
+    }
+  }
+  .el-upload__text {
+    margin-top: 17vw;
+    font-size: 15px;
+    font-family: 'Coda';
+    letter-spacing: 2px;
+    em {
+      color: #fff;
+    }
+  }
+  .el-button {
+    float: right;
+    margin-top: 30px;
+    margin-right: 2vw;
+    font-family: 'Coda';
+    background-color: rgba(#121212, 0);
+    color: #fff;
+  }
+  .el-button + .el-button {
+    background-color: #eee;
+    color: #121212;
+    border: 2px solid #121212;
   }
 }
 </style>

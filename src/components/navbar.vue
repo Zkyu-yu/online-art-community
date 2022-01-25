@@ -50,7 +50,10 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/runtime-core'
 import { Search } from '@element-plus/icons'
+import { ElMessage } from 'element-plus'
+import { formatDateTime } from '../hook/util'
 import router from '../router'
+import userInfo from '../hook/blogInfo'
 
 export default defineComponent({
   name: 'Navbar',
@@ -64,6 +67,7 @@ export default defineComponent({
     },
   },
   setup() {
+    const { postBlog } = userInfo(window.localStorage.getItem('userName') as string)
     const isOpen = ref(false)
     const input = ref('')
     const isPost = ref(false)
@@ -91,6 +95,20 @@ export default defineComponent({
     const goSearch = () => {
       console.log('search')
     }
+    const onCancel = () => {
+      isPost.value = false
+    }
+    const onSubmit = () => {
+      postBlog({
+        title: blogTitle.value,
+        actor: localStorage.getItem('userName') as unknown as string,
+        date: formatDateTime(new Date()),
+        content: blogContent.value,
+        picture: '111',
+      })
+      isPost.value = false
+      ElMessage.success('Sumbit Success :)')
+    }
     return {
       isOpen,
       input,
@@ -105,6 +123,8 @@ export default defineComponent({
       goLogin,
       goSpace,
       goSearch,
+      onCancel,
+      onSubmit,
       Search,
     }
   },
@@ -243,7 +263,7 @@ export default defineComponent({
     background-color: rgba(#121212, 0.8);
   }
   .el-dialog__body {
-    padding-top: 40px;
+    padding-top: 60px;
     padding-left: 20vw;
   }
   .el-input {
@@ -312,6 +332,10 @@ export default defineComponent({
     background-color: #eee;
     color: #121212;
     border: 2px solid #121212;
+  }
+  .el-icon {
+    font-size: 30px;
+    color: rgba(#fff, 0.8);
   }
 }
 </style>

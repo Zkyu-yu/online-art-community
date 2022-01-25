@@ -15,7 +15,7 @@
             <li :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>Post Blog</el-dropdown-item>
+                <el-dropdown-item @click="postBlog">Post Blog</el-dropdown-item>
                 <el-dropdown-item>Message</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -77,6 +77,9 @@ export default defineComponent({
     const goSearch = () => {
       console.log('search')
     }
+    const postBlog = () => {
+      console.log(111)
+    }
     return {
       isOpen,
       input,
@@ -88,6 +91,7 @@ export default defineComponent({
       goLogin,
       goSpace,
       goSearch,
+      postBlog,
       Search,
     }
   },

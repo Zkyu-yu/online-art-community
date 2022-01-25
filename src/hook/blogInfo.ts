@@ -23,10 +23,18 @@ export default function blogInfo(actor?: string) {
     actorBlogList.push(...res.data)
     console.log(actorBlogList)
   }
+  // 发布blog
+  const postBlog = async (params: blogInfoItem) => {
+    const res: { code: number; message: string } = await request.post('/blog/postBlog', params)
+    if (res.code === 200) {
+      getBlogsByName()
+      getAllBlogsInfo()
+    }
+  }
   onMounted(() => {
     getAllBlogsInfo()
     getBlogsByName()
   })
 
-  return { blogInfoList, actorBlogList }
+  return { blogInfoList, actorBlogList, postBlog }
 }

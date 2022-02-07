@@ -111,3 +111,20 @@
 .el-input__icon {
   display: inline-block !important;
 }
+/* 气泡确认框样式 */
+.el-popover.el-popper {
+  background-color: #000;
+  border: none;
+  color: #eee;
+}
+.el-popper.is-light .el-popper__arrow::before {
+  background-color: #000;
+  border: none;
+}
+.el-button--text {
+  color: #eee;
+}
+.el-button + .el-button {
+  background-color: #000;
+  border: 1px solid #eee;
+}

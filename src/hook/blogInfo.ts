@@ -1,6 +1,7 @@
 import request from '../scripts/request'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import router from '../router'
 
 export interface blogInfoItem {
   title: string
@@ -11,6 +12,7 @@ export interface blogInfoItem {
 }
 
 export default function blogInfo(_id?: string) {
+  const showSetting = ref(0)
   const blogInfoList = reactive<blogInfoItem[]>([])
   const BlogDetail = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: '' })
   // 查询所有blog
@@ -21,13 +23,13 @@ export default function blogInfo(_id?: string) {
   // 查看blog详情
   const getBlogDetail = async () => {
     const res: { data: blogInfoItem } = await request.get(`/blog/getBlogDetail/${_id}`)
-    console.log(111)
-
     BlogDetail.title = res.data.title
     BlogDetail.actor = res.data.actor
     BlogDetail.date = res.data.date
     BlogDetail.content = res.data.content
     BlogDetail.picture = res.data.picture
+    // 判断当前登录用户是否是发贴者，如果是，则显示setting图标
+    showSetting.value = res.data.actor === window.localStorage.getItem('userName') ? 1 : 0
   }
   // 发布blog
   const postBlog = async (params: blogInfoItem) => {
@@ -47,15 +49,16 @@ export default function blogInfo(_id?: string) {
   }
   // 删除blog
   const deleteBlog = async () => {
-    const res: { code: number; message: string } = await request.delete(`/blog/editBlog/${_id}`)
+    const res: { code: number; message: string } = await request.delete(`/blog/deleteBlog/${_id}`)
     if (res.code === 200) {
       ElMessage.success('Success!')
       getAllBlogsInfo()
+      router.back()
     }
   }
   onMounted(() => {
     getAllBlogsInfo()
   })
 
-  return { blogInfoList, BlogDetail, getBlogDetail, postBlog, editBlog, deleteBlog }
+  return { blogInfoList, BlogDetail, showSetting, getBlogDetail, postBlog, editBlog, deleteBlog }
 }

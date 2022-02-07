@@ -4,7 +4,18 @@
       <div class="img_blur"></div>
     </div>
     <div class="top">
-      <div class="title">{{ BlogDetail.title }}</div>
+      <div class="mainSetting">
+        <div class="title">{{ BlogDetail.title }}</div>
+        <div v-if="showSetting" class="setting">
+          <el-icon class="inIcon" @click="drawer = true"><brush /></el-icon>
+          <el-popconfirm title="Are you sure to delete this blog?" icon-color="#A52A2A" @confirm="deleteThisBlog">
+            <template #reference>
+              <el-icon class="inIcon"><delete /></el-icon>
+            </template>
+          </el-popconfirm>
+        </div>
+      </div>
+
       <div class="actor">作者：</div>
       <div class="actor_name">{{ BlogDetail.actor }}</div>
       <div class="date">{{ BlogDetail.date }}</div>
@@ -28,18 +39,28 @@
 <script lang="ts">
 import { defineComponent, inject, onMounted } from '@vue/runtime-core'
 import blogInfo from '../../hook/blogInfo'
+import { Brush, Delete } from '@element-plus/icons'
 
 export default defineComponent({
   name: 'Content',
+  components: {
+    Brush,
+    Delete,
+  },
   setup() {
     // 接收父组件传来的Id
     const blogId = inject('blogId')
-    const { BlogDetail, getBlogDetail } = blogInfo(blogId as unknown as string)
+    const { BlogDetail, showSetting, getBlogDetail, deleteBlog } = blogInfo(blogId as unknown as string)
+    // 删除blog
+    const deleteThisBlog = () => {
+      deleteBlog()
+    }
+
     onMounted(() => {
       getBlogDetail()
     })
 
-    return { blogId, BlogDetail }
+    return { blogId, showSetting, BlogDetail, deleteThisBlog }
   },
 })
 </script>
@@ -69,9 +90,25 @@ export default defineComponent({
     left: 25%;
     width: 50%;
     color: #eee;
-    .title {
-      font-size: 40px;
+    .mainSetting {
+      float: left;
+      width: 100%;
+      .title {
+        float: left;
+        font-size: 40px;
+      }
+      .setting {
+        float: left;
+        margin-top: 15px;
+        margin-left: 25px;
+        .inIcon {
+          font-size: 20px;
+          cursor: pointer;
+          margin-right: 20px;
+        }
+      }
     }
+
     .actor {
       float: left;
       font-size: 16px;

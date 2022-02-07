@@ -7,7 +7,7 @@
       <div class="mainSetting">
         <div class="title">{{ BlogDetail.title }}</div>
         <div v-if="showSetting" class="setting">
-          <el-icon class="inIcon" @click="drawer = true"><brush /></el-icon>
+          <el-icon class="inIcon" @click="isEdit = 1"><brush /></el-icon>
           <el-popconfirm title="Are you sure to delete this blog?" icon-color="#A52A2A" @confirm="deleteThisBlog">
             <template #reference>
               <el-icon class="inIcon"><delete /></el-icon>
@@ -34,12 +34,25 @@
       <img src="../../assets/img/5.jpg" />
     </div>
   </div>
+  <div class="post_dialog">
+    <el-dialog v-model="isEdit" fullscreen>
+      <el-input v-model="BlogDetail.title" placeholder="blog title" />
+      <el-input v-model="BlogDetail.content" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
+      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+      </el-upload>
+      <el-button style="margin-right: 19vw" @click="editThisBlog">Update</el-button>
+      <el-button @click="onCancel">Cancel</el-button>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject, onMounted } from '@vue/runtime-core'
 import blogInfo from '../../hook/blogInfo'
 import { Brush, Delete } from '@element-plus/icons'
+import { ref } from 'vue'
+import { formatDateTime } from '../../hook/util'
 
 export default defineComponent({
   name: 'Content',
@@ -50,7 +63,19 @@ export default defineComponent({
   setup() {
     // 接收父组件传来的Id
     const blogId = inject('blogId')
-    const { BlogDetail, showSetting, getBlogDetail, deleteBlog } = blogInfo(blogId as unknown as string)
+    const { BlogDetail, showSetting, getBlogDetail, editBlog, deleteBlog } = blogInfo(blogId as unknown as string)
+    const isEdit = ref(0)
+    // 修改blog
+    const editThisBlog = () => {
+      editBlog({
+        title: BlogDetail.title,
+        actor: BlogDetail.actor,
+        date: formatDateTime(new Date()),
+        content: BlogDetail.content,
+        picture: BlogDetail.picture,
+      })
+      isEdit.value = 0
+    }
     // 删除blog
     const deleteThisBlog = () => {
       deleteBlog()
@@ -60,7 +85,7 @@ export default defineComponent({
       getBlogDetail()
     })
 
-    return { blogId, showSetting, BlogDetail, deleteThisBlog }
+    return { blogId, showSetting, BlogDetail, editThisBlog, deleteThisBlog, isEdit }
   },
 })
 </script>

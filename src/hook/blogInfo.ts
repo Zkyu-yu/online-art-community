@@ -44,6 +44,7 @@ export default function blogInfo(_id?: string) {
     const res: { code: number; message: string } = await request.post(`/blog/editBlog/${_id}`, params)
     if (res.code === 200) {
       ElMessage.success('Success!')
+      getBlogDetail()
       getAllBlogsInfo()
     }
   }

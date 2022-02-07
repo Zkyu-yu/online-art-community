@@ -4,20 +4,18 @@
       <div class="img_blur"></div>
     </div>
     <div class="top">
-      <div class="title">梦境窃贼</div>
+      <div class="title">{{ BlogDetail.title }}</div>
       <div class="actor">作者：</div>
-      <div class="actor_name">黑泽宇</div>
-      <div class="date">Oct 24,2018</div>
+      <div class="actor_name">{{ BlogDetail.actor }}</div>
+      <div class="date">{{ BlogDetail.date }}</div>
       <div class="right">
         <div class="agree">推荐：2600</div>
         <div class="watch">阅读：102400</div>
       </div>
     </div>
-    <div class="article">
-      This is balabal abalabalab alabalabalab alabalabalabal abalabal abalabala balabalab alabala balabalaba labal abala balabalab alabala
-      balabalaba labal abala
-    </div>
+    <div class="article">{{ BlogDetail.content }}</div>
     <div class="picture">
+      <!-- {{ BlogDetail.picture }} -->
       <img src="../../assets/img/1.jpg" />
       <img src="../../assets/img/2.jpg" />
       <img src="../../assets/img/3.jpg" />
@@ -28,12 +26,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, inject, onMounted } from '@vue/runtime-core'
+import blogInfo from '../../hook/blogInfo'
 
 export default defineComponent({
   name: 'Content',
   setup() {
-    return {}
+    // 接收父组件传来的Id
+    const blogId = inject('blogId')
+    const { BlogDetail, getBlogDetail } = blogInfo(blogId as unknown as string)
+    onMounted(() => {
+      getBlogDetail()
+    })
+
+    return { blogId, BlogDetail }
   },
 })
 </script>

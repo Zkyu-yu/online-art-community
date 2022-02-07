@@ -7,7 +7,7 @@
       :offset="index % 3 === 0 ? 2 : 1"
       style="margin-top: 30px"
     >
-      <el-card :body-style="{ padding: '0px' }" @click="openBlog">
+      <el-card :body-style="{ padding: '0px' }" @click="openBlog(item)">
         <div class="pic">
           <img src="../assets/img/ld.jpg" alt="" />
         </div>
@@ -25,7 +25,17 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import blogInfo from '../hook/blogInfo'
+import blogByName from '../hook/blogByName'
 import router from '../router'
+
+export interface blogInfoItem {
+  _id: string
+  title: string
+  actor: string
+  date: string
+  content: string
+  picture: string
+}
 
 export default defineComponent({
   name: 'Card',
@@ -37,9 +47,10 @@ export default defineComponent({
     },
   },
   setup() {
-    const { blogInfoList, actorBlogList } = blogInfo(window.localStorage.getItem('userName') as string)
-    const openBlog = () => {
-      router.push({ name: 'BlogContent' })
+    const { blogInfoList } = blogInfo()
+    const { actorBlogList } = blogByName(window.localStorage.getItem('userName') as string)
+    const openBlog = (item: blogInfoItem) => {
+      router.push({ name: 'BlogContent', params: { _id: item._id } })
     }
     return { openBlog, blogInfoList, actorBlogList }
   },

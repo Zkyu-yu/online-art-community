@@ -50,7 +50,7 @@ export default defineComponent({
     const { blogInfoList } = blogInfo()
     const { actorBlogList } = blogByName(window.localStorage.getItem('userName') as string)
     const openBlog = (item: blogInfoItem) => {
-      router.push({ name: 'BlogContent', params: { _id: item._id } })
+      router.push({ name: 'BlogDetails', params: { _id: item._id } })
     }
     return { openBlog, blogInfoList, actorBlogList }
   },

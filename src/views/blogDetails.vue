@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Navbar></Navbar>
-    <Content></Content>
+    <Details></Details>
     <Footer></Footer>
   </div>
 </template>
@@ -9,15 +9,15 @@
 <script lang="ts">
 import { defineComponent, provide } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
-import Content from '../components/blog/content.vue'
+import Details from '../components/blog/details.vue'
 import Footer from '../components/footer.vue'
 import router from '../router'
 
 export default defineComponent({
-  name: 'BlogContent',
+  name: 'BlogDetails',
   components: {
     Navbar,
-    Content,
+    Details,
     Footer,
   },
   setup() {

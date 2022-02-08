@@ -25,15 +25,27 @@
       </div>
     </div>
   </div>
+  <!-- 搜索 -->
   <div class="search_dialog">
     <el-dialog v-model="isOpen" fullscreen>
-      <el-input v-model="input" placeholder="Search...">
+      <el-input v-model="searchInput" placeholder="Search...">
         <template #append>
           <el-icon class="icon" @click="goSearch"><search /></el-icon>
         </template>
       </el-input>
+      <!-- 根据标题查找 -->
+      <div class="atTitle" @click="atTitle">
+        <div class="button" :style="{ background: onAtTitle ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">title</div>
+      </div>
+      <!-- 根据用户查找 -->
+      <div class="atActor" @click="atActor">
+        <div class="button" :style="{ background: onAtActor ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">actor</div>
+      </div>
     </el-dialog>
   </div>
+  <!-- 发布 -->
   <div class="post_dialog">
     <el-dialog v-model="isPost" fullscreen>
       <el-input v-model="blogTitle" placeholder="blog title" />
@@ -54,6 +66,7 @@ import { ElMessage } from 'element-plus'
 import { formatDateTime } from '../hook/util'
 import router from '../router'
 import userInfo from '../hook/blogInfo'
+// import blogByName from '../hook/blogByName'
 
 export default defineComponent({
   name: 'Navbar',
@@ -69,11 +82,46 @@ export default defineComponent({
   setup() {
     const { postBlog } = userInfo(window.localStorage.getItem('userName') as string)
     const isOpen = ref(false)
-    const input = ref('')
+    const searchInput = ref('')
     const isPost = ref(false)
     const blogTitle = ref('')
     const blogContent = ref('')
     const isSign = localStorage.getItem('userName') !== null ? 1 : 0
+    const onAtTitle = ref(false)
+    const onAtActor = ref(false)
+    // 根据标题查找
+    const atTitle = () => {
+      if (!onAtTitle.value) {
+        onAtTitle.value = true
+        onAtActor.value = false
+      } else {
+        onAtTitle.value = false
+      }
+    }
+    // 根据用户查找
+    const atActor = () => {
+      if (!onAtActor.value) {
+        onAtActor.value = true
+        onAtTitle.value = false
+      } else {
+        onAtActor.value = false
+      }
+    }
+    // 查找
+    const goSearch = () => {
+      if (onAtTitle.value) {
+        isOpen.value = false
+        router.push({ name: 'SearchResult', params: { title: searchInput.value } })
+      } else if (onAtActor.value) {
+        // const { getBlogsByName, actorBlogList } = blogByName(searchInput.value)
+        // getBlogsByName()
+        isOpen.value = false
+        router.push({ name: 'SearchResult', params: { actor: searchInput.value } })
+      } else {
+        ElMessage.error('Please select at least one!')
+      }
+    }
+    // nav跳转
     const goHome = () => {
       router.push({ name: 'Home' })
     }
@@ -92,12 +140,11 @@ export default defineComponent({
     const goSpace = () => {
       router.push({ name: 'MySpace' })
     }
-    const goSearch = () => {
-      console.log('search')
-    }
+    // 取消发布blog
     const onCancel = () => {
       isPost.value = false
     }
+    // 发布blog
     const onSubmit = () => {
       postBlog({
         title: blogTitle.value,
@@ -111,11 +158,15 @@ export default defineComponent({
     }
     return {
       isOpen,
-      input,
+      searchInput,
       isPost,
       blogTitle,
       blogContent,
       isSign,
+      onAtTitle,
+      onAtActor,
+      atTitle,
+      atActor,
       goHome,
       goAbout,
       goBlogPage,
@@ -225,6 +276,33 @@ export default defineComponent({
   border: none;
 }
 .search_dialog {
+  .atTitle,
+  .atActor {
+    float: left;
+    margin-top: 30px;
+    margin-left: 70px;
+    color: rgba(#fcfcfc, 0.5);
+    font-size: 25px;
+    font-family: 'Coda';
+    cursor: pointer;
+    .button {
+      float: left;
+      width: 15px;
+      height: 15px;
+      margin-top: 11px;
+      border: 2px solid rgba(#fcfcfc, 0.5);
+    }
+    .word {
+      float: left;
+      margin-left: 10px;
+    }
+    &:hover {
+      color: #fff;
+      .button {
+        border: 2px solid #fff;
+      }
+    }
+  }
   .el-dialog {
     background-color: rgba(#121212, 0.8);
   }
@@ -254,6 +332,7 @@ export default defineComponent({
     border-bottom: 1px solid #fff;
   }
   .el-icon {
+    cursor: pointer;
     font-size: 30px;
     color: rgba(#fff, 0.8);
   }

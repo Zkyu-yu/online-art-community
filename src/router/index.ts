@@ -34,9 +34,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "MySpace" */ '../views/mySpace.vue'),
   },
   {
-    path: '/blogContent',
-    name: 'BlogContent',
-    component: () => import(/* webpackChunkName: "BlogContent" */ '../views/blogContent.vue'),
+    path: '/blogDetails',
+    name: 'BlogDetails',
+    component: () => import(/* webpackChunkName: "BlogDetails" */ '../views/blogDetails.vue'),
+  },
+  {
+    path: '/searchResult',
+    name: 'SearchResult',
+    component: () => import(/* webpackChunkName: "SearchResult" */ '../views/searchResult.vue'),
   },
 ]
 

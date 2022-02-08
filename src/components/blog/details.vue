@@ -55,7 +55,7 @@ import { ref } from 'vue'
 import { formatDateTime } from '../../hook/util'
 
 export default defineComponent({
-  name: 'Content',
+  name: 'Details',
   components: {
     Brush,
     Delete,

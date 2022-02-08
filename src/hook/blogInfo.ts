@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 import router from '../router'
 
 export interface blogInfoItem {
+  _id?: string
   title: string
   actor: string
   date: string

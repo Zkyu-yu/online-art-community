@@ -66,7 +66,6 @@ import { ElMessage } from 'element-plus'
 import { formatDateTime } from '../hook/util'
 import router from '../router'
 import userInfo from '../hook/blogInfo'
-// import blogByName from '../hook/blogByName'
 
 export default defineComponent({
   name: 'Navbar',
@@ -111,12 +110,10 @@ export default defineComponent({
     const goSearch = () => {
       if (onAtTitle.value) {
         isOpen.value = false
-        router.push({ name: 'SearchResult', params: { title: searchInput.value } })
+        router.push({ name: 'SearchResult', query: { title: searchInput.value } })
       } else if (onAtActor.value) {
-        // const { getBlogsByName, actorBlogList } = blogByName(searchInput.value)
-        // getBlogsByName()
         isOpen.value = false
-        router.push({ name: 'SearchResult', params: { actor: searchInput.value } })
+        router.push({ name: 'SearchResult', query: { actor: searchInput.value } })
       } else {
         ElMessage.error('Please select at least one!')
       }

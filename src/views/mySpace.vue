@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="mainContent">
-      <Card v-if="activeTab === 1" :is-actor="1"></Card>
+      <Card v-if="activeTab === 1" :card-state="1"></Card>
     </div>
     <Footer></Footer>
   </div>

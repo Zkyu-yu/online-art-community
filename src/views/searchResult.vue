@@ -6,13 +6,14 @@
       <strong v-if="searchTitle">{{ searchTitle }}</strong>
       <strong v-else>{{ searchActor }}</strong>
     </div>
-    <Card></Card>
+    <Card v-if="searchTitle" :card-state="2"></Card>
+    <Card v-else :card-state="3"></Card>
     <Footer></Footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, provide } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
 import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
@@ -26,8 +27,10 @@ export default defineComponent({
     Footer,
   },
   setup() {
-    const searchTitle = router.currentRoute.value.params.title
-    const searchActor = router.currentRoute.value.params.actor
+    const searchTitle = router.currentRoute.value.query.title
+    const searchActor = router.currentRoute.value.query.actor
+    provide('searchTitle', searchTitle)
+    provide('searchActor', searchActor)
     return { searchTitle, searchActor }
   },
 })

@@ -1,12 +1,6 @@
 <template>
   <el-row class="card_container">
-    <el-col
-      v-for="(item, index) in isActor ? actorBlogList : blogInfoList"
-      :key="index"
-      :span="6"
-      :offset="index % 3 === 0 ? 2 : 1"
-      style="margin-top: 30px"
-    >
+    <el-col v-for="(item, index) in cardList" :key="index" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }" @click="openBlog(item)">
         <div class="pic">
           <img src="../assets/img/ld.jpg" alt="" />
@@ -23,13 +17,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, inject } from '@vue/runtime-core'
 import blogInfo from '../hook/blogInfo'
 import blogByName from '../hook/blogByName'
+import blogByTitle from '../hook/blogByTitle'
 import router from '../router'
+import { ref } from 'vue'
 
 export interface blogInfoItem {
-  _id: string
+  _id?: string
   title: string
   actor: string
   date: string
@@ -40,19 +36,39 @@ export interface blogInfoItem {
 export default defineComponent({
   name: 'Card',
   props: {
-    // 判断是否在mySpace
-    isActor: {
+    // 判断展示card的情况（0：全部，1：当前用户，2：搜索title，3：搜索actor)
+    cardState: {
       type: Number,
       default: 0,
     },
   },
-  setup() {
-    const { blogInfoList } = blogInfo()
-    const { actorBlogList } = blogByName(window.localStorage.getItem('userName') as string)
+  setup(props) {
+    // reactive无法获取proxy中数据
+    const cardList = ref<blogInfoItem[]>([])
+    // 展示全部blog
+    if (props.cardState === 0) {
+      const { blogInfoList } = blogInfo()
+      cardList.value = blogInfoList
+      // 展示当前用户blog
+    } else if (props.cardState === 1) {
+      const { actorBlogList } = blogByName(window.localStorage.getItem('userName') as string)
+      cardList.value = actorBlogList
+      // 展示搜索title blog
+    } else if (props.cardState === 2) {
+      const searchTitle = inject('searchTitle')
+      const { titleBlogList } = blogByTitle(searchTitle as string)
+      cardList.value = titleBlogList
+      // 展示搜索actor title
+    } else if (props.cardState === 3) {
+      const searchActor = inject('searchActor')
+      const { actorBlogList } = blogByName(searchActor as string)
+      cardList.value = actorBlogList
+    }
+    // 展示blog内容
     const openBlog = (item: blogInfoItem) => {
       router.push({ name: 'BlogDetails', params: { _id: item._id } })
     }
-    return { openBlog, blogInfoList, actorBlogList }
+    return { cardList, openBlog }
   },
 })
 </script>

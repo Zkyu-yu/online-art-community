@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Navbar :active-tab="2"></Navbar>
-    <Card></Card>
+    <Card :card-state="0"></Card>
     <Footer></Footer>
   </div>
 </template>

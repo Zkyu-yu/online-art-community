@@ -2,6 +2,7 @@ import request from '../scripts/request'
 import { onMounted, reactive } from 'vue'
 
 export interface blogInfoItem {
+  _id?: string
   title: string
   actor: string
   date: string

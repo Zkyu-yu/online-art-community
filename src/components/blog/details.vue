@@ -53,7 +53,7 @@
   </div>
   <!-- 评论 -->
   <div class="comment_dialog">
-    <el-drawer v-model="drawer" title="Just say say :)">
+    <el-drawer v-model="drawer" title="Just say what you like :)">
       <!-- 展示评论 -->
       <div class="commentShow">
         <div v-for="(item, index) in commentList" :key="index" class="commentContainer">
@@ -291,23 +291,24 @@ export default defineComponent({
   .commentShow {
     height: 70%;
     overflow: auto;
-    border-top: 1px dashed #dcdfe6;
+    border-top: 1px dashed rgba(#dcdfe6, 0.6);
     .commentContainer {
       padding: 10px;
-      border: 1px dashed #dcdfe6;
+      border: 1px dashed rgba(#dcdfe6, 0.6);
       border-top: none;
       font-family: 'Coda';
-      color: rgba(#121212, 0.8);
+      color: rgba(#fcfcfc, 0.8);
       .commentName {
         float: left;
         font-size: 20px;
+        color: #fcfcfc;
       }
       .commentTime {
         float: left;
         margin-top: 9px;
         padding-left: 10px;
         font-size: 10px;
-        color: rgba(#121212, 0.6);
+        color: rgba(#fcfcfc, 0.6);
       }
       .commentDelete {
         float: right;
@@ -332,10 +333,34 @@ export default defineComponent({
       display: flex;
       height: 120px;
       margin-bottom: 20px;
+      .el-textarea__inner {
+        color: rgba(#fcfcfc, 0.6);
+        background-color: rgba(#121212, 0.9);
+        border: 1px solid rgba(#dcdfe6, 0.6);
+      }
+      .el-input__count {
+        color: rgba(#fcfcfc, 0.6);
+        background-color: rgba(#121212, 0.9);
+      }
     }
   }
 }
+.el-drawer.rtl {
+  background-color: rgba(#121212, 0.9);
+}
+.el-drawer__header {
+  color: #fcfcfc;
+}
+.el-popover.el-popper {
+  background-color: #000;
+  border: none;
+  color: #eee;
+}
+.el-popper.is-light .el-popper__arrow::before {
+  background-color: #000;
+  border: none;
+}
 .el-button--text {
-  color: #606266;
+  color: #eee;
 }
 </style>

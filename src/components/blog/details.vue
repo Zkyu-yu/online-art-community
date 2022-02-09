@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="actor">actor：</div>
-      <div class="actor_name">{{ BlogDetail.actor }}</div>
+      <div class="actor_name" @click="goSpace(BlogDetail.actor)">{{ BlogDetail.actor }}</div>
       <div class="postdate">{{ BlogDetail.date }}</div>
       <div class="right">
         <div class="like" @click="letStar">
@@ -88,6 +88,7 @@ import { Brush, Delete, Star, StarFilled, ChatDotRound } from '@element-plus/ico
 import { ref } from 'vue'
 import { formatDate, formatDateTime } from '../../hook/util'
 import { ElMessage } from 'element-plus'
+import router from '../../router'
 
 export default defineComponent({
   name: 'Details',
@@ -149,9 +150,11 @@ export default defineComponent({
     }
     // 删除评论
     const onDelete = (index: number) => {
-      console.log(commentList[index]._id)
-
       deleteComment(commentList[index]._id as unknown as string)
+    }
+    // 去作者主页
+    const goSpace = (actor: string) => {
+      router.push({ name: 'MySpace', query: { actor: actor } })
     }
     onMounted(() => {
       getBlogDetail()
@@ -172,6 +175,7 @@ export default defineComponent({
       onClear,
       onSubmit,
       onDelete,
+      goSpace,
     }
   },
 })
@@ -233,6 +237,7 @@ export default defineComponent({
       font-weight: 600;
       margin-top: 30px;
       text-decoration: underline;
+      cursor: pointer;
     }
     .postdate {
       float: left;
@@ -291,13 +296,15 @@ export default defineComponent({
   .commentShow {
     height: 70%;
     overflow: auto;
-    border-top: 1px dashed rgba(#dcdfe6, 0.6);
     .commentContainer {
       padding: 10px;
       border: 1px dashed rgba(#dcdfe6, 0.6);
       border-top: none;
       font-family: 'Coda';
       color: rgba(#fcfcfc, 0.8);
+      &:first-child {
+        border-top: 1px dashed rgba(#dcdfe6, 0.6);
+      }
       .commentName {
         float: left;
         font-size: 20px;

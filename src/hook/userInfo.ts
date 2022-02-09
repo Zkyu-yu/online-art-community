@@ -19,6 +19,14 @@ export default function userInfo(userName: string) {
     email: '',
     profile: '',
   })
+  const actorInfoList = reactive<userInfoItem>({
+    userName: '',
+    userPwd: '',
+    sex: '',
+    phone: '',
+    email: '',
+    profile: '',
+  })
   // 查询用户信息
   const getUserInfo = async () => {
     const res: { data: userInfoItem } = await request.get(`/user/findOneUserByName/${userName}`)
@@ -28,6 +36,14 @@ export default function userInfo(userName: string) {
     userInfoList.phone = res.data.phone
     userInfoList.email = res.data.email
     userInfoList.profile = res.data.profile
+    if (res.data.userName !== window.localStorage.getItem('userName')) {
+      actorInfoList.userName = res.data.userName
+      actorInfoList.userPwd = res.data.userPwd
+      actorInfoList.sex = res.data.sex
+      actorInfoList.phone = res.data.phone
+      actorInfoList.email = res.data.email
+      actorInfoList.profile = res.data.profile
+    }
   }
   // 修改用户信息
   const editUserInfo = async (params: userInfoItem) => {
@@ -39,5 +55,5 @@ export default function userInfo(userName: string) {
     getUserInfo()
   })
 
-  return { userInfoList, editUserInfo }
+  return { userInfoList, actorInfoList, editUserInfo }
 }

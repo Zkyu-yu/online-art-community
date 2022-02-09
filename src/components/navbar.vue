@@ -135,7 +135,7 @@ export default defineComponent({
       router.push({ name: 'Login' })
     }
     const goSpace = () => {
-      router.push({ name: 'MySpace' })
+      router.push({ name: 'MySpace', query: { actor: window.localStorage.getItem('userName') } })
     }
     // 取消发布blog
     const onCancel = () => {

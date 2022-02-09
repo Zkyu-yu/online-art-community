@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar :active-tab="4"></Navbar>
     <Introduction></Introduction>
-    <div class="tabs">
+    <div v-if="showSetting" class="tabs">
       <ul>
         <li :class="{ active: activeTab === 1 }" @click="activeTab = 1">Blog</li>
         <li :class="{ active: activeTab === 2 }" @click="activeTab = 2">Like</li>
@@ -17,12 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, provide } from '@vue/runtime-core'
 import Navbar from '../components/navbar.vue'
 import Introduction from '../components/mySpace/introduction.vue'
 import Card from '../components/card.vue'
 import Footer from '../components/footer.vue'
 import { ref } from 'vue'
+import router from '../router'
 
 export default defineComponent({
   name: 'MySpace',
@@ -34,7 +35,12 @@ export default defineComponent({
   },
   setup() {
     const activeTab = ref(1)
-    return { activeTab }
+    const actor = router.currentRoute.value.query.actor
+    // 不是当前用户不显示tab
+    const showTab = ref(false)
+    showTab.value = actor === window.localStorage.getItem('userName') ? true : false
+    provide('actor', actor)
+    return { activeTab, actor, showTab }
   },
 })
 </script>

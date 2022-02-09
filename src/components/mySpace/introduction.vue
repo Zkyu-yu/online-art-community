@@ -7,8 +7,8 @@
       <div class="headImg">
         <img src="../../assets/img/headImg.jpg" alt="" />
       </div>
-      <div class="name">{{ userInfoList.userName }}</div>
-      <div class="setting">
+      <div class="name">{{ isMaster ? userInfoList.userName : actorInfoList.userName }}</div>
+      <div v-if="showSetting" class="setting">
         <el-icon class="inIcon" @click="drawer = true"><edit /></el-icon>
         <el-popconfirm title="Are you sure to logout?" icon-color="#A52A2A" @confirm="logout">
           <template #reference>
@@ -16,7 +16,7 @@
           </template>
         </el-popconfirm>
       </div>
-      <div class="profile">{{ userInfoList.profile }}</div>
+      <div class="profile">{{ isMaster ? userInfoList.profile : actorInfoList.profile }}</div>
     </div>
   </div>
 
@@ -61,11 +61,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/runtime-core'
+import { defineComponent, reactive, ref, inject } from '@vue/runtime-core'
 import userInfo from '../../hook/userInfo'
 import { ElMessage } from 'element-plus'
 import { Plus, Edit, SwitchButton } from '@element-plus/icons'
 import router from '../../router'
+
+export interface userInfoItem {
+  userName: string
+  userPwd: string
+  sex: string
+  phone: string
+  email: string
+  profile: string
+}
 
 export default defineComponent({
   name: 'Introduction',
@@ -75,12 +84,21 @@ export default defineComponent({
     SwitchButton,
   },
   setup() {
-    const { userInfoList, editUserInfo } = userInfo(window.localStorage.getItem('userName') as string)
+    const actor = inject('actor')
+    // 是否是当前用户
+    const isMaster = actor === window.localStorage.getItem('userName') ? 1 : 0
+    // 是否显示设置按钮
+    const showSetting = ref(false)
+    showSetting.value = isMaster ? true : false
+    const { userInfoList, actorInfoList, editUserInfo } = userInfo(actor as string)
+    // 设置模块控件
     const drawer = ref(false)
     const form = reactive({
       headImg: '',
       name: '',
       sex: '',
+      phone: '',
+      email: '',
       profile: '',
     })
     const imageUrl = ref('')
@@ -122,6 +140,11 @@ export default defineComponent({
     }
 
     return {
+      actor,
+      isMaster,
+      showSetting,
+      userInfoList,
+      actorInfoList,
       drawer,
       form,
       imageUrl,
@@ -130,7 +153,6 @@ export default defineComponent({
       beforeAvatarUpload,
       onCancel,
       onSubmit,
-      userInfoList,
     }
   },
 })

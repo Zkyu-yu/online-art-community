@@ -63,7 +63,7 @@
 import { defineComponent, ref } from '@vue/runtime-core'
 import { Search } from '@element-plus/icons'
 import { ElMessage } from 'element-plus'
-import { formatDateTime } from '../hook/util'
+import { formatDate } from '../hook/util'
 import router from '../router'
 import userInfo from '../hook/blogInfo'
 
@@ -149,7 +149,7 @@ export default defineComponent({
         postBlog({
           title: blogTitle.value,
           actor: localStorage.getItem('userName') as unknown as string,
-          date: formatDateTime(new Date()),
+          date: formatDate(new Date()),
           content: blogContent.value,
           picture: '111',
         })

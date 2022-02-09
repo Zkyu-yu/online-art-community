@@ -7,7 +7,7 @@
       <div class="mainSetting">
         <div class="title">{{ BlogDetail.title }}</div>
         <div v-if="showSetting" class="setting">
-          <el-icon class="inIcon" @click="isEdit = 1"><brush /></el-icon>
+          <el-icon class="inIcon" @click="isEdit = true"><brush /></el-icon>
           <el-popconfirm title="Are you sure to delete this blog?" icon-color="#A52A2A" @confirm="deleteThisBlog">
             <template #reference>
               <el-icon class="inIcon"><delete /></el-icon>
@@ -19,13 +19,13 @@
       <div class="actor_name">{{ BlogDetail.actor }}</div>
       <div class="postdate">{{ BlogDetail.date }}</div>
       <div class="right">
-        <div class="like">
-          <el-icon class="inIcon" @click="letStar"><star v-if="!isStar" /><star-filled v-if="isStar" /></el-icon>
+        <div class="like" @click="letStar">
+          <el-icon class="inIcon"><star v-if="!isStar" /><star-filled v-if="isStar" /></el-icon>
           <div class="rightWords">like：2600</div>
         </div>
         <div class="comment" @click="drawer = true">
           <el-icon class="inIcon"><chat-dot-round /></el-icon>
-          <div class="rightWords">comment：102400</div>
+          <div class="rightWords">comment：{{ commentList.length }}</div>
         </div>
       </div>
     </div>
@@ -59,6 +59,13 @@
         <div v-for="(item, index) in commentList" :key="index" class="commentContainer">
           <div class="commentName">{{ item.commentName }}</div>
           <div class="commentTime">{{ item.commentTime }}</div>
+          <div v-if="showSetting" class="commentDelete">
+            <el-popconfirm title="Are you sure to delete this blog?" icon-color="#A52A2A" @confirm="onDelete(index)">
+              <template #reference>
+                <el-icon class="inIcon"><delete /></el-icon>
+              </template>
+            </el-popconfirm>
+          </div>
           <div class="commentContent">{{ item.commentContent }}</div>
         </div>
       </div>
@@ -76,9 +83,10 @@
 <script lang="ts">
 import { defineComponent, inject, onMounted } from '@vue/runtime-core'
 import blogInfo from '../../hook/blogInfo'
+import commentInfo from '../../hook/commentInfo'
 import { Brush, Delete, Star, StarFilled, ChatDotRound } from '@element-plus/icons'
 import { ref } from 'vue'
-import { formatDateTime } from '../../hook/util'
+import { formatDate, formatDateTime } from '../../hook/util'
 import { ElMessage } from 'element-plus'
 
 export default defineComponent({
@@ -91,96 +99,10 @@ export default defineComponent({
     ChatDotRound,
   },
   setup() {
-    const commentList = [
-      {
-        commentName: 'zkyu',
-        commentTime: '2022-2-8 18:11',
-        commentContent: 'lalalala',
-      },
-      {
-        commentName: '444',
-        commentTime: '2022-2-9 10:27',
-        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
-      },
-      {
-        commentName: 'test',
-        commentTime: '2022-2-8 18:11',
-        commentContent: '4444',
-      },
-      {
-        commentName: '111',
-        commentTime: '2022-2-8 18:11',
-        commentContent:
-          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
-      },
-      {
-        commentName: 'zkyu',
-        commentTime: '2022-2-8 18:11',
-        commentContent: 'lalalala',
-      },
-      {
-        commentName: '444',
-        commentTime: '2022-2-9 10:27',
-        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
-      },
-      {
-        commentName: 'test',
-        commentTime: '2022-2-8 18:11',
-        commentContent: '4444',
-      },
-      {
-        commentName: '111',
-        commentTime: '2022-2-8 18:11',
-        commentContent:
-          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
-      },
-      {
-        commentName: 'zkyu',
-        commentTime: '2022-2-8 18:11',
-        commentContent: 'lalalala',
-      },
-      {
-        commentName: '444',
-        commentTime: '2022-2-9 10:27',
-        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
-      },
-      {
-        commentName: 'test',
-        commentTime: '2022-2-8 18:11',
-        commentContent: '4444',
-      },
-      {
-        commentName: '111',
-        commentTime: '2022-2-8 18:11',
-        commentContent:
-          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
-      },
-      {
-        commentName: 'zkyu',
-        commentTime: '2022-2-8 18:11',
-        commentContent: 'lalalala',
-      },
-      {
-        commentName: '444',
-        commentTime: '2022-2-9 10:27',
-        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
-      },
-      {
-        commentName: 'test',
-        commentTime: '2022-2-8 18:11',
-        commentContent: '4444',
-      },
-      {
-        commentName: '111',
-        commentTime: '2022-2-8 18:11',
-        commentContent:
-          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
-      },
-    ]
     // 点赞
     const isStar = ref(false)
     // 修改blog弹框
-    const isEdit = ref(0)
+    const isEdit = ref(false)
     // 评论弹框
     const drawer = ref(false)
     // 发布评论内容
@@ -188,16 +110,17 @@ export default defineComponent({
     // 接收父组件传来的Id
     const blogId = inject('blogId')
     const { BlogDetail, showSetting, getBlogDetail, editBlog, deleteBlog } = blogInfo(blogId as unknown as string)
+    const { commentList, postComment, deleteComment } = commentInfo(blogId as unknown as string)
     // 修改blog
     const editThisBlog = () => {
       editBlog({
         title: BlogDetail.title,
         actor: BlogDetail.actor,
-        date: formatDateTime(new Date()),
+        date: formatDate(new Date()),
         content: BlogDetail.content,
         picture: BlogDetail.picture,
       })
-      isEdit.value = 0
+      isEdit.value = false
     }
     // 删除blog
     const deleteThisBlog = () => {
@@ -211,10 +134,24 @@ export default defineComponent({
     const onClear = () => {
       commentPost.value = ''
     }
+    // 发布评论
     const onSubmit = () => {
       if (!commentPost.value) {
         ElMessage.error('You cannot say nothing!')
+      } else {
+        postComment({
+          blogId: blogId as unknown as string,
+          commentName: localStorage.getItem('userName') as unknown as string,
+          commentTime: formatDateTime(new Date()),
+          commentContent: commentPost.value,
+        })
       }
+    }
+    // 删除评论
+    const onDelete = (index: number) => {
+      console.log(commentList[index]._id)
+
+      deleteComment(commentList[index]._id as unknown as string)
     }
     onMounted(() => {
       getBlogDetail()
@@ -234,6 +171,7 @@ export default defineComponent({
       letStar,
       onClear,
       onSubmit,
+      onDelete,
     }
   },
 })
@@ -354,28 +292,30 @@ export default defineComponent({
     height: 70%;
     overflow: auto;
     border-top: 1px dashed #dcdfe6;
-    border-bottom: 1px dashed #dcdfe6;
     .commentContainer {
       padding: 10px;
       border: 1px dashed #dcdfe6;
-      border-bottom: none;
+      border-top: none;
       font-family: 'Coda';
       color: rgba(#121212, 0.8);
-      &:first-child {
-        border-top: none;
-      }
       .commentName {
         float: left;
         font-size: 20px;
       }
       .commentTime {
+        float: left;
         margin-top: 9px;
-        padding-left: 50px;
+        padding-left: 10px;
         font-size: 10px;
         color: rgba(#121212, 0.6);
       }
+      .commentDelete {
+        float: right;
+        margin-top: 5px;
+        cursor: pointer;
+      }
       .commentContent {
-        margin-top: 10px;
+        margin-top: 35px;
         font-size: 17px;
         word-break: break-word;
       }
@@ -394,5 +334,8 @@ export default defineComponent({
       margin-bottom: 20px;
     }
   }
+}
+.el-button--text {
+  color: #606266;
 }
 </style>

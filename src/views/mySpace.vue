@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar :active-tab="4"></Navbar>
     <Introduction></Introduction>
-    <div v-if="showSetting" class="tabs">
+    <div v-if="showTab" class="tabs">
       <ul>
         <li :class="{ active: activeTab === 1 }" @click="activeTab = 1">Blog</li>
         <li :class="{ active: activeTab === 2 }" @click="activeTab = 2">Like</li>

@@ -21,7 +21,7 @@
   </div>
 
   <!-- 个人设置 -->
-  <el-drawer v-model="drawer" title="I have a nested form inside!">
+  <el-drawer v-model="drawer" title="Human Modification">
     <el-form :model="form" label-width="100px" label-position="left" style="margin-left: 30px">
       <el-form-item label="HeadImg">
         <el-upload

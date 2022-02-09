@@ -66,7 +66,7 @@ export default defineComponent({
     }
     // 展示blog内容
     const openBlog = (item: blogInfoItem) => {
-      router.push({ name: 'BlogDetails', params: { _id: item._id } })
+      router.push({ name: 'BlogDetails', query: { _id: item._id } })
     }
     return { cardList, openBlog }
   },

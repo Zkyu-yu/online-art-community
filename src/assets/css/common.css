@@ -128,3 +128,11 @@
   background-color: #000;
   border: 1px solid #eee;
 }
+.el-button + .el-button:hover {
+  border-color: #eee;
+  background-color: #000;
+}
+.el-button + .el-button:focus {
+  border-color: #eee;
+  background-color: #000;
+}

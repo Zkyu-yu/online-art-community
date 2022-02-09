@@ -21,7 +21,7 @@ export default defineComponent({
     Footer,
   },
   setup() {
-    const blogId = router.currentRoute.value.params._id
+    const blogId = router.currentRoute.value.query._id
     // 父传子
     provide('blogId', blogId)
     return { blogId }

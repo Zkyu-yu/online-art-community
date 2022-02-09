@@ -6,8 +6,7 @@
       <ul>
         <li :class="{ active: activeTab === 1 }" @click="activeTab = 1">Blog</li>
         <li :class="{ active: activeTab === 2 }" @click="activeTab = 2">Like</li>
-        <li :class="{ active: activeTab === 3 }" @click="activeTab = 3">Collect</li>
-        <li :class="{ active: activeTab === 4 }" @click="activeTab = 4">Chart</li>
+        <li :class="{ active: activeTab === 3 }" @click="activeTab = 3">Chart</li>
       </ul>
     </div>
     <div class="mainContent">
@@ -47,11 +46,9 @@ export default defineComponent({
   background-color: #121212;
   .tabs {
     position: absolute;
-    width: 600px;
     top: 275px;
     left: 50%;
-    transform: translate(-50%);
-    text-align: center;
+    transform: translate(-36%);
     color: #fcfcfc;
     ul li {
       float: left;
@@ -59,7 +56,7 @@ export default defineComponent({
       cursor: pointer;
       height: 30px;
       line-height: 30px;
-      margin-right: 100px;
+      margin-right: 150px;
       margin-bottom: 5px;
       font-size: 18px;
       font-family: 'Coda';

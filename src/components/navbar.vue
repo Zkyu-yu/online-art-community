@@ -143,15 +143,19 @@ export default defineComponent({
     }
     // 发布blog
     const onSubmit = () => {
-      postBlog({
-        title: blogTitle.value,
-        actor: localStorage.getItem('userName') as unknown as string,
-        date: formatDateTime(new Date()),
-        content: blogContent.value,
-        picture: '111',
-      })
-      isPost.value = false
-      ElMessage.success('Sumbit Success :)')
+      if (!blogTitle.value) {
+        ElMessage.error('You cannot say nothing!')
+      } else {
+        postBlog({
+          title: blogTitle.value,
+          actor: localStorage.getItem('userName') as unknown as string,
+          date: formatDateTime(new Date()),
+          content: blogContent.value,
+          picture: '111',
+        })
+        isPost.value = false
+        ElMessage.success('Sumbit Success :)')
+      }
     }
     return {
       isOpen,

@@ -15,13 +15,18 @@
           </el-popconfirm>
         </div>
       </div>
-
-      <div class="actor">作者：</div>
+      <div class="actor">actor：</div>
       <div class="actor_name">{{ BlogDetail.actor }}</div>
-      <div class="date">{{ BlogDetail.date }}</div>
+      <div class="postdate">{{ BlogDetail.date }}</div>
       <div class="right">
-        <div class="agree">推荐：2600</div>
-        <div class="watch">阅读：102400</div>
+        <div class="like">
+          <el-icon class="inIcon" @click="letStar"><star v-if="!isStar" /><star-filled v-if="isStar" /></el-icon>
+          <div class="rightWords">like：2600</div>
+        </div>
+        <div class="comment" @click="drawer = true">
+          <el-icon class="inIcon"><chat-dot-round /></el-icon>
+          <div class="rightWords">comment：102400</div>
+        </div>
       </div>
     </div>
     <div class="article">{{ BlogDetail.content }}</div>
@@ -34,6 +39,7 @@
       <img src="../../assets/img/5.jpg" />
     </div>
   </div>
+  <!-- 修改blog -->
   <div class="post_dialog">
     <el-dialog v-model="isEdit" fullscreen>
       <el-input v-model="BlogDetail.title" placeholder="blog title" />
@@ -45,26 +51,143 @@
       <el-button @click="onCancel">Cancel</el-button>
     </el-dialog>
   </div>
+  <!-- 评论 -->
+  <div class="comment_dialog">
+    <el-drawer v-model="drawer" title="Just say say :)">
+      <!-- 展示评论 -->
+      <div class="commentShow">
+        <div v-for="(item, index) in commentList" :key="index" class="commentContainer">
+          <div class="commentName">{{ item.commentName }}</div>
+          <div class="commentTime">{{ item.commentTime }}</div>
+          <div class="commentContent">{{ item.commentContent }}</div>
+        </div>
+      </div>
+      <!-- 发布评论 -->
+      <div class="commentPost">
+        <div class="postTitle">You can say anything here:</div>
+        <el-input v-model="commentPost" maxlength="100" placeholder="watch your mouth :)" show-word-limit type="textarea" resize="none" />
+        <el-button style="margin-left: 65%" @click="onClear">Clear</el-button>
+        <el-button type="primary" @click="onSubmit">Submit</el-button>
+      </div>
+    </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject, onMounted } from '@vue/runtime-core'
 import blogInfo from '../../hook/blogInfo'
-import { Brush, Delete } from '@element-plus/icons'
+import { Brush, Delete, Star, StarFilled, ChatDotRound } from '@element-plus/icons'
 import { ref } from 'vue'
 import { formatDateTime } from '../../hook/util'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Details',
   components: {
     Brush,
     Delete,
+    Star,
+    StarFilled,
+    ChatDotRound,
   },
   setup() {
+    const commentList = [
+      {
+        commentName: 'zkyu',
+        commentTime: '2022-2-8 18:11',
+        commentContent: 'lalalala',
+      },
+      {
+        commentName: '444',
+        commentTime: '2022-2-9 10:27',
+        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
+      },
+      {
+        commentName: 'test',
+        commentTime: '2022-2-8 18:11',
+        commentContent: '4444',
+      },
+      {
+        commentName: '111',
+        commentTime: '2022-2-8 18:11',
+        commentContent:
+          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
+      },
+      {
+        commentName: 'zkyu',
+        commentTime: '2022-2-8 18:11',
+        commentContent: 'lalalala',
+      },
+      {
+        commentName: '444',
+        commentTime: '2022-2-9 10:27',
+        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
+      },
+      {
+        commentName: 'test',
+        commentTime: '2022-2-8 18:11',
+        commentContent: '4444',
+      },
+      {
+        commentName: '111',
+        commentTime: '2022-2-8 18:11',
+        commentContent:
+          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
+      },
+      {
+        commentName: 'zkyu',
+        commentTime: '2022-2-8 18:11',
+        commentContent: 'lalalala',
+      },
+      {
+        commentName: '444',
+        commentTime: '2022-2-9 10:27',
+        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
+      },
+      {
+        commentName: 'test',
+        commentTime: '2022-2-8 18:11',
+        commentContent: '4444',
+      },
+      {
+        commentName: '111',
+        commentTime: '2022-2-8 18:11',
+        commentContent:
+          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
+      },
+      {
+        commentName: 'zkyu',
+        commentTime: '2022-2-8 18:11',
+        commentContent: 'lalalala',
+      },
+      {
+        commentName: '444',
+        commentTime: '2022-2-9 10:27',
+        commentContent: 'babarfrvfharhfdvadbhdgggggggggggggggggggggggg',
+      },
+      {
+        commentName: 'test',
+        commentTime: '2022-2-8 18:11',
+        commentContent: '4444',
+      },
+      {
+        commentName: '111',
+        commentTime: '2022-2-8 18:11',
+        commentContent:
+          '我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的我是有折有遥的',
+      },
+    ]
+    // 点赞
+    const isStar = ref(false)
+    // 修改blog弹框
+    const isEdit = ref(0)
+    // 评论弹框
+    const drawer = ref(false)
+    // 发布评论内容
+    const commentPost = ref('')
     // 接收父组件传来的Id
     const blogId = inject('blogId')
     const { BlogDetail, showSetting, getBlogDetail, editBlog, deleteBlog } = blogInfo(blogId as unknown as string)
-    const isEdit = ref(0)
     // 修改blog
     const editThisBlog = () => {
       editBlog({
@@ -80,17 +203,43 @@ export default defineComponent({
     const deleteThisBlog = () => {
       deleteBlog()
     }
-
+    // 点赞
+    const letStar = () => {
+      isStar.value = !isStar.value
+    }
+    // 清空评论
+    const onClear = () => {
+      commentPost.value = ''
+    }
+    const onSubmit = () => {
+      if (!commentPost.value) {
+        ElMessage.error('You cannot say nothing!')
+      }
+    }
     onMounted(() => {
       getBlogDetail()
     })
 
-    return { blogId, showSetting, BlogDetail, editThisBlog, deleteThisBlog, isEdit }
+    return {
+      commentList,
+      isStar,
+      isEdit,
+      drawer,
+      commentPost,
+      blogId,
+      showSetting,
+      BlogDetail,
+      editThisBlog,
+      deleteThisBlog,
+      letStar,
+      onClear,
+      onSubmit,
+    }
   },
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .blog_container {
   background-color: #fcfcfc;
   padding-bottom: 30px;
@@ -112,9 +261,10 @@ export default defineComponent({
   .top {
     position: absolute;
     top: 28%;
-    left: 25%;
-    width: 50%;
+    left: 20%;
+    width: 60%;
     color: #eee;
+    font-family: 'Coda';
     .mainSetting {
       float: left;
       width: 100%;
@@ -124,7 +274,7 @@ export default defineComponent({
       }
       .setting {
         float: left;
-        margin-top: 15px;
+        margin-top: 20px;
         margin-left: 25px;
         .inIcon {
           font-size: 20px;
@@ -146,23 +296,37 @@ export default defineComponent({
       margin-top: 30px;
       text-decoration: underline;
     }
-    .date {
+    .postdate {
       float: left;
       font-size: 14px;
       color: rgba(#eee, 0.8);
-      margin: 34px 0 0 30px;
+      margin: 32px 0 0 30px;
     }
     .right {
       float: right;
-      margin-top: 30px;
+      margin-top: 35px;
       font-size: 14px;
       color: rgba(#eee, 0.8);
-      .agree {
+      .like,
+      .comment {
         float: left;
+        cursor: pointer;
+        .rightWords {
+          float: left;
+          margin-left: 8px;
+        }
+        .inIcon {
+          float: left;
+          font-size: 17px;
+          margin-top: 2px;
+          margin-left: 25px;
+        }
+        &:hover {
+          color: #eee;
+        }
       }
-      .watch {
-        float: left;
-        margin-left: 20px;
+      .like {
+        margin-top: 1px;
       }
     }
   }
@@ -179,6 +343,55 @@ export default defineComponent({
     > img {
       width: 100%;
       margin-top: 10px;
+    }
+  }
+}
+.comment_dialog {
+  .el-drawer__body {
+    overflow: auto !important;
+  }
+  .commentShow {
+    height: 70%;
+    overflow: auto;
+    border-top: 1px dashed #dcdfe6;
+    border-bottom: 1px dashed #dcdfe6;
+    .commentContainer {
+      padding: 10px;
+      border: 1px dashed #dcdfe6;
+      border-bottom: none;
+      font-family: 'Coda';
+      color: rgba(#121212, 0.8);
+      &:first-child {
+        border-top: none;
+      }
+      .commentName {
+        float: left;
+        font-size: 20px;
+      }
+      .commentTime {
+        margin-top: 9px;
+        padding-left: 50px;
+        font-size: 10px;
+        color: rgba(#121212, 0.6);
+      }
+      .commentContent {
+        margin-top: 10px;
+        font-size: 17px;
+        word-break: break-word;
+      }
+    }
+  }
+  .commentPost {
+    font-family: 'Coda';
+    color: rgba(#121212, 0.9);
+    .postTitle {
+      margin: 20px 0;
+      font-size: 17px;
+    }
+    .el-textarea {
+      display: flex;
+      height: 120px;
+      margin-bottom: 20px;
     }
   }
 }

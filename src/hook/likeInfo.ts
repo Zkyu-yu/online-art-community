@@ -6,6 +6,11 @@ import router from '../router'
 export interface likeInfoItem {
   _id?: string
   blogId: string
+  title: string
+  actor: string
+  date: string
+  content: string
+  picture: string
   likeName: string
   likeTime: string
 }
@@ -14,6 +19,7 @@ export default function likeInfo(blogId?: string) {
   // 用户是否点赞
   const isLiked = ref(false)
   const likeList = reactive<likeInfoItem[]>([])
+  const userLikeList = reactive<likeInfoItem[]>([])
   // 查找单个blog的所有赞
   const findLikeByBlog = async () => {
     const res: { data: likeInfoItem[] } = await request.get(`/like/findLikeByBlog/${blogId}`)
@@ -23,6 +29,11 @@ export default function likeInfo(blogId?: string) {
         isLiked.value = true
       }
     }
+  }
+  // 查找用户点赞列表
+  const findLikeByUser = async (likeName: string) => {
+    const res: { data: likeInfoItem[] } = await request.get(`/like/findLikeByUser/${likeName}`)
+    userLikeList.push(...res.data)
   }
   // 点赞
   const postLike = async (params: likeInfoItem) => {
@@ -44,6 +55,7 @@ export default function likeInfo(blogId?: string) {
   }
   onMounted(() => {
     findLikeByBlog()
+    findLikeByUser(localStorage.getItem('userName') as unknown as string)
   })
-  return { likeList, isLiked, postLike, deleteLike }
+  return { likeList, userLikeList, isLiked, postLike, deleteLike }
 }

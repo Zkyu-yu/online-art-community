@@ -17,15 +17,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from '@vue/runtime-core'
+import { defineComponent, inject, ref } from '@vue/runtime-core'
 import blogInfo from '../hook/blogInfo'
 import blogByName from '../hook/blogByName'
 import blogByTitle from '../hook/blogByTitle'
+import likeInfo from '../hook/likeInfo'
 import router from '../router'
-import { ref } from 'vue'
 
 export interface blogInfoItem {
   _id?: string
+  blogId?: string
   title: string
   actor: string
   date: string
@@ -36,13 +37,15 @@ export interface blogInfoItem {
 export default defineComponent({
   name: 'Card',
   props: {
-    // 判断展示card的情况（0：全部，1：当前用户，2：搜索title，3：搜索actor)
+    // 判断展示card的情况（0：全部，1：当前用户，2：搜索title，3：搜索actor, 4：点赞列表)
     cardState: {
       type: Number,
       default: 0,
     },
   },
   setup(props) {
+    // 判断是否是从like界面进入
+    const isLike = ref(false)
     // reactive无法获取proxy中数据
     const cardList = ref<blogInfoItem[]>([])
     // 展示全部blog
@@ -63,12 +66,21 @@ export default defineComponent({
       const searchActor = inject('searchActor')
       const { actorBlogList } = blogByName(searchActor as string)
       cardList.value = actorBlogList
+      // 展示用户点赞列表
+    } else if (props.cardState === 4) {
+      const { userLikeList } = likeInfo(window.localStorage.getItem('userName') as string)
+      cardList.value = userLikeList
+      isLike.value = true
     }
     // 展示blog内容
     const openBlog = (item: blogInfoItem) => {
-      router.push({ name: 'BlogDetails', query: { _id: item._id } })
+      if (!isLike.value) {
+        router.push({ name: 'BlogDetails', query: { _id: item._id } })
+      } else {
+        router.push({ name: 'BlogDetails', query: { _id: item.blogId } })
+      }
     }
-    return { cardList, openBlog }
+    return { isLike, cardList, openBlog }
   },
 })
 </script>

@@ -132,6 +132,11 @@ export default defineComponent({
       if (!isLiked.value) {
         postLike({
           blogId: blogId as unknown as string,
+          title: BlogDetail.title,
+          actor: BlogDetail.actor,
+          date: BlogDetail.date,
+          content: BlogDetail.content,
+          picture: BlogDetail.picture,
           likeName: localStorage.getItem('userName') as unknown as string,
           likeTime: formatDateTime(new Date()),
         })

@@ -11,6 +11,7 @@
     </div>
     <div class="mainContent">
       <Card v-if="activeTab === 1" :card-state="1"></Card>
+      <Card v-if="activeTab === 2" :card-state="4"></Card>
     </div>
     <Footer></Footer>
   </div>
@@ -36,10 +37,11 @@ export default defineComponent({
   setup() {
     const activeTab = ref(1)
     const actor = router.currentRoute.value.query.actor
+    provide('actor', actor)
     // 不是当前用户不显示tab
     const showTab = ref(false)
     showTab.value = actor === window.localStorage.getItem('userName') ? true : false
-    provide('actor', actor)
+
     return { activeTab, actor, showTab }
   },
 })

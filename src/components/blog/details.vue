@@ -20,8 +20,8 @@
       <div class="postdate">{{ BlogDetail.date }}</div>
       <div class="right">
         <div class="like" @click="letStar">
-          <el-icon class="inIcon"><star v-if="!isStar" /><star-filled v-if="isStar" /></el-icon>
-          <div class="rightWords">like：2600</div>
+          <el-icon class="inIcon"><star v-if="!isLiked" /><star-filled v-if="isLiked" /></el-icon>
+          <div class="rightWords">like：{{ likeList.length }}</div>
         </div>
         <div class="comment" @click="drawer = true">
           <el-icon class="inIcon"><chat-dot-round /></el-icon>
@@ -81,14 +81,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted } from '@vue/runtime-core'
+import { defineComponent, inject, onMounted, ref } from '@vue/runtime-core'
+import { Brush, Delete, Star, StarFilled, ChatDotRound } from '@element-plus/icons'
+import { ElMessage } from 'element-plus'
+import { formatDate, formatDateTime } from '../../hook/util'
+import router from '../../router'
 import blogInfo from '../../hook/blogInfo'
 import commentInfo from '../../hook/commentInfo'
-import { Brush, Delete, Star, StarFilled, ChatDotRound } from '@element-plus/icons'
-import { ref } from 'vue'
-import { formatDate, formatDateTime } from '../../hook/util'
-import { ElMessage } from 'element-plus'
-import router from '../../router'
+import likeInfo from '../../hook/likeInfo'
 
 export default defineComponent({
   name: 'Details',
@@ -100,8 +100,6 @@ export default defineComponent({
     ChatDotRound,
   },
   setup() {
-    // 点赞
-    const isStar = ref(false)
     // 修改blog弹框
     const isEdit = ref(false)
     // 评论弹框
@@ -112,6 +110,8 @@ export default defineComponent({
     const blogId = inject('blogId')
     const { BlogDetail, showSetting, getBlogDetail, editBlog, deleteBlog } = blogInfo(blogId as unknown as string)
     const { commentList, postComment, deleteComment } = commentInfo(blogId as unknown as string)
+    const { likeList, isLiked, postLike, deleteLike } = likeInfo(blogId as unknown as string)
+
     // 修改blog
     const editThisBlog = () => {
       editBlog({
@@ -127,9 +127,18 @@ export default defineComponent({
     const deleteThisBlog = () => {
       deleteBlog()
     }
-    // 点赞
+    // 点赞和取消
     const letStar = () => {
-      isStar.value = !isStar.value
+      if (!isLiked.value) {
+        postLike({
+          blogId: blogId as unknown as string,
+          likeName: localStorage.getItem('userName') as unknown as string,
+          likeTime: formatDateTime(new Date()),
+        })
+        isLiked.value = !isLiked.value
+      } else {
+        deleteLike(localStorage.getItem('userName') as unknown as string)
+      }
     }
     // 清空评论
     const onClear = () => {
@@ -162,7 +171,8 @@ export default defineComponent({
 
     return {
       commentList,
-      isStar,
+      likeList,
+      isLiked,
       isEdit,
       drawer,
       commentPost,

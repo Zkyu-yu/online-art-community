@@ -123,6 +123,10 @@ export default defineComponent({
       })
       isEdit.value = false
     }
+    // 取消修改
+    const onCancel = () => {
+      isEdit.value = false
+    }
     // 删除blog
     const deleteThisBlog = () => {
       deleteBlog()
@@ -185,6 +189,7 @@ export default defineComponent({
       showSetting,
       BlogDetail,
       editThisBlog,
+      onCancel,
       deleteThisBlog,
       letStar,
       onClear,

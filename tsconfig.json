@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true, // 跳过自由检查
     "target": "esnext",  // 指定编译之后的版本目标
     "useDefineForClassFields": true,  // 迁移到即将推出的类字段标准版本的一部分
     "module": "esnext",  // 指定要使用的模块标准

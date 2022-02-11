@@ -14,6 +14,10 @@ export interface likeInfoItem {
   likeName: string
   likeTime: string
 }
+export interface deleteInfoItem {
+  blogId: string
+  likeName: string
+}
 
 export default function likeInfo(blogId?: string) {
   // 用户是否点赞
@@ -45,8 +49,8 @@ export default function likeInfo(blogId?: string) {
     }
   }
   // 取消点赞
-  const deleteLike = async (deleteName: string) => {
-    const res: { code: number; message: string } = await request.delete(`/like/deleteLike/${deleteName}`)
+  const deleteLike = async (params: deleteInfoItem) => {
+    const res: { code: number; message: string } = await request.delete('/like/deleteLike', { data: params })
     if (res.code === 200) {
       ElMessage.success('Success!')
       findLikeByBlog()

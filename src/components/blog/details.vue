@@ -146,7 +146,10 @@ export default defineComponent({
         })
         isLiked.value = !isLiked.value
       } else {
-        deleteLike(localStorage.getItem('userName') as unknown as string)
+        deleteLike({
+          blogId: blogId as unknown as string,
+          likeName: localStorage.getItem('userName') as unknown as string,
+        })
       }
     }
     // 清空评论

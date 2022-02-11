@@ -44,6 +44,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const actor = inject('actor')
     // 判断是否是从like界面进入
     const isLike = ref(false)
     // reactive无法获取proxy中数据
@@ -54,7 +55,7 @@ export default defineComponent({
       cardList.value = blogInfoList
       // 展示当前用户blog
     } else if (props.cardState === 1) {
-      const { actorBlogList } = blogByName(window.localStorage.getItem('userName') as string)
+      const { actorBlogList } = blogByName(actor as string)
       cardList.value = actorBlogList
       // 展示搜索title blog
     } else if (props.cardState === 2) {
@@ -80,7 +81,7 @@ export default defineComponent({
         router.push({ name: 'BlogDetails', query: { _id: item.blogId } })
       }
     }
-    return { isLike, cardList, openBlog }
+    return { actor, isLike, cardList, openBlog }
   },
 })
 </script>

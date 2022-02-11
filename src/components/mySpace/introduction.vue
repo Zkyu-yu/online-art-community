@@ -8,6 +8,7 @@
         <img src="../../assets/img/headImg.jpg" alt="" />
       </div>
       <div class="name">{{ isMaster ? userInfoList.userName : actorInfoList.userName }}</div>
+      <!-- 个人设置 -->
       <div v-if="showSetting" class="setting">
         <el-icon class="inIcon" @click="drawer = true"><edit /></el-icon>
         <el-popconfirm title="Are you sure to logout?" icon-color="#A52A2A" @confirm="logout">
@@ -15,6 +16,11 @@
             <el-icon class="inIcon"><switch-button /></el-icon>
           </template>
         </el-popconfirm>
+      </div>
+      <!-- 关注按钮 -->
+      <div v-if="!showSetting" class="follow" @click="letFollow">
+        <el-button v-if="!isFollowed" class="nofollow" size="small">follow</el-button>
+        <el-button v-else class="isfollow" size="small">followed</el-button>
       </div>
       <div class="profile">{{ isMaster ? userInfoList.profile : actorInfoList.profile }}</div>
     </div>
@@ -63,9 +69,11 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, inject } from '@vue/runtime-core'
 import userInfo from '../../hook/userInfo'
+import followInfo from '../../hook/followInfo'
 import { ElMessage } from 'element-plus'
 import { Plus, Edit, SwitchButton } from '@element-plus/icons'
 import router from '../../router'
+import { formatDateTime } from '../../hook/util'
 
 export interface userInfoItem {
   userName: string
@@ -91,6 +99,9 @@ export default defineComponent({
     const showSetting = ref(false)
     showSetting.value = isMaster ? true : false
     const { userInfoList, actorInfoList, editUserInfo } = userInfo(actor as string)
+    const { isFollowed, postFollow, deleteFollow } = followInfo()
+    // 是否关注
+    // const isFollow = ref(false)
     // 设置模块控件
     const drawer = ref(false)
     const form = reactive({
@@ -102,9 +113,27 @@ export default defineComponent({
       profile: '',
     })
     const imageUrl = ref('')
+    // 退登
     const logout = () => {
       window.localStorage.clear()
       router.push({ name: 'Home' })
+    }
+    // 关注用户
+    const letFollow = () => {
+      if (!isFollowed.value) {
+        postFollow({
+          followName: actor as string,
+          fansName: localStorage.getItem('userName') as unknown as string,
+          followTime: formatDateTime(new Date()),
+        })
+        isFollowed.value = !isFollowed.value
+      } else {
+        deleteFollow({
+          followName: actor as string,
+          fansName: localStorage.getItem('userName') as unknown as string,
+        })
+        isFollowed.value = !isFollowed.value
+      }
     }
     const handleAvatarSuccess = (file: { url: string }) => {
       console.log(file.url)
@@ -143,12 +172,14 @@ export default defineComponent({
       actor,
       isMaster,
       showSetting,
+      isFollowed,
       userInfoList,
       actorInfoList,
       drawer,
       form,
       imageUrl,
       logout,
+      letFollow,
       handleAvatarSuccess,
       beforeAvatarUpload,
       onCancel,
@@ -201,6 +232,21 @@ export default defineComponent({
         font-size: 20px;
         cursor: pointer;
         margin-right: 20px;
+      }
+    }
+    .follow {
+      float: left;
+      margin-left: 20px;
+      margin-top: 10px;
+      .nofollow {
+        color: rgba(#fcfcfc, 0.8);
+        background-color: rgba(#000, 0.5);
+        border-color: rgba(#fcfcfc, 0.8);
+      }
+      .isfollow {
+        color: rgba(#fcfcfc, 0.8);
+        background-color: rgba(pink, 0.5);
+        border-color: rgba(#fcfcfc, 0.8);
       }
     }
     .profile {

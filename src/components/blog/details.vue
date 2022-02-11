@@ -150,6 +150,7 @@ export default defineComponent({
           blogId: blogId as unknown as string,
           likeName: localStorage.getItem('userName') as unknown as string,
         })
+        isLiked.value = !isLiked.value
       }
     }
     // 清空评论

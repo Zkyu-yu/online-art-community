@@ -14,14 +14,14 @@ export interface deleteInfoItem {
   fansName: string
 }
 
-export default function followInfo() {
+export default function followInfo(name: string) {
   // 用户是否关注
   const isFollowed = ref(false)
   const followsList = reactive<followInfoItem[]>([])
   const fansList = reactive<followInfoItem[]>([])
   // 查看用户关注列表
-  const findFollowsList = async (fansName: string) => {
-    const res: { data: followInfoItem[] } = await request.get(`/follow/findFollowsList/${fansName}`)
+  const findFollowsList = async () => {
+    const res: { data: followInfoItem[] } = await request.get(`/follow/findFollowsList/${name}`)
     followsList.push(...res.data)
     for (const i in followsList) {
       if (followsList[i].followName === router.currentRoute.value.query.actor) {
@@ -30,9 +30,14 @@ export default function followInfo() {
     }
   }
   // 查看用户粉丝列表
-  const findFansList = async (followName: string) => {
-    const res: { data: followInfoItem[] } = await request.get(`/follow/findFansList/${followName}`)
+  const findFansList = async () => {
+    const res: { data: followInfoItem[] } = await request.get(`/follow/findFansList/${name}`)
     fansList.push(...res.data)
+    for (const i in fansList) {
+      if (fansList[i].fansName === localStorage.getItem('userName')) {
+        isFollowed.value = true
+      }
+    }
   }
   // 新增关注
   const postFollow = async (params: followInfoItem) => {
@@ -51,8 +56,8 @@ export default function followInfo() {
     }
   }
   onMounted(() => {
-    findFollowsList(localStorage.getItem('userName') as unknown as string)
-    findFansList(localStorage.getItem('userName') as unknown as string)
+    findFollowsList()
+    findFansList()
   })
   return { followsList, fansList, isFollowed, postFollow, deleteFollow }
 }

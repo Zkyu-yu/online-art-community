@@ -18,9 +18,18 @@
         </el-popconfirm>
       </div>
       <!-- 关注按钮 -->
-      <div v-if="!showSetting" class="follow" @click="letFollow">
+      <div v-if="!showSetting" class="followButton" @click="letFollow">
         <el-button v-if="!isFollowed" class="nofollow" size="small">follow</el-button>
         <el-button v-else class="isfollow" size="small">followed</el-button>
+      </div>
+
+      <div class="followList">
+        <div class="follows">
+          Follows: <strong @click="openFollowList(0)">{{ followsList.length }}</strong>
+        </div>
+        <div class="fans">
+          Fans: <strong @click="openFollowList(1)">{{ fansList.length }}</strong>
+        </div>
       </div>
       <div class="profile">{{ isMaster ? userInfoList.profile : actorInfoList.profile }}</div>
     </div>
@@ -64,6 +73,27 @@
     <el-button style="margin-left: 50px" @click="onCancel">Cancel</el-button>
     <el-button type="primary" @click="onSubmit">Update</el-button>
   </el-drawer>
+
+  <!-- 关注粉丝 -->
+  <div class="follow_dialog">
+    <el-drawer v-model="followDrawer" :title="isFollowList ? 'Your Follows' : 'Your Fans'">
+      <div class="followShow">
+        <div v-for="(item, index) in isFollowList ? followsList : fansList" :key="index" class="followContainer">
+          <div v-if="isFollowList" class="followName" @click="goSpace(item.followName)">{{ item.followName }}</div>
+          <div v-else class="followName" @click="goSpace(item.fansName)">{{ item.fansName }}</div>
+          <div class="followTime">{{ item.followTime }}</div>
+          <div v-if="isFollowList && isMaster" class="followDelete">
+            <el-popconfirm title="Are you sure to leave him/her?" icon-color="#A52A2A" @confirm="onUnfollow(index)">
+              <template #reference>
+                <el-icon class="inIcon"><delete /></el-icon>
+              </template>
+            </el-popconfirm>
+          </div>
+          <div class="followContent">{{ item.followContent }}</div>
+        </div>
+      </div>
+    </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -71,7 +101,7 @@ import { defineComponent, reactive, ref, inject } from '@vue/runtime-core'
 import userInfo from '../../hook/userInfo'
 import followInfo from '../../hook/followInfo'
 import { ElMessage } from 'element-plus'
-import { Plus, Edit, SwitchButton } from '@element-plus/icons'
+import { Plus, Edit, SwitchButton, Delete } from '@element-plus/icons'
 import router from '../../router'
 import { formatDateTime } from '../../hook/util'
 
@@ -90,6 +120,7 @@ export default defineComponent({
     Plus,
     Edit,
     SwitchButton,
+    Delete,
   },
   setup() {
     const actor = inject('actor')
@@ -99,11 +130,13 @@ export default defineComponent({
     const showSetting = ref(false)
     showSetting.value = isMaster ? true : false
     const { userInfoList, actorInfoList, editUserInfo } = userInfo(actor as string)
-    const { isFollowed, postFollow, deleteFollow } = followInfo()
-    // 是否关注
-    // const isFollow = ref(false)
-    // 设置模块控件
+    const { followsList, fansList, isFollowed, postFollow, deleteFollow } = followInfo(actor as string)
+    // 设置弹框
     const drawer = ref(false)
+    // 关注粉丝弹框
+    const followDrawer = ref(false)
+    // 展示关注列表(true，false则展示粉丝列表)
+    const isFollowList = ref(true)
     const form = reactive({
       headImg: '',
       name: '',
@@ -135,10 +168,30 @@ export default defineComponent({
         isFollowed.value = !isFollowed.value
       }
     }
+    // 打开关注粉丝弹框
+    const openFollowList = (type: number) => {
+      followDrawer.value = true
+      if (type) {
+        isFollowList.value = false
+      } else {
+        isFollowList.value = true
+      }
+    }
+    // 在关注列表取关
+    const onUnfollow = (index: number) => {
+      deleteFollow({
+        followName: followsList[index].followName as string,
+        fansName: localStorage.getItem('userName') as unknown as string,
+      })
+    }
     const handleAvatarSuccess = (file: { url: string }) => {
       console.log(file.url)
 
       imageUrl.value = URL.createObjectURL(file.url)
+    }
+    // 在关注列表打开用户主页
+    const goSpace = (actor: string) => {
+      router.push({ name: 'MySpace', query: { actor: actor } })
     }
     const beforeAvatarUpload = (file: { type: string; size: number }) => {
       const isJPG = file.type === 'image/jpeg'
@@ -173,13 +226,20 @@ export default defineComponent({
       isMaster,
       showSetting,
       isFollowed,
+      isFollowList,
       userInfoList,
       actorInfoList,
       drawer,
+      followDrawer,
+      followsList,
+      fansList,
       form,
       imageUrl,
       logout,
       letFollow,
+      openFollowList,
+      onUnfollow,
+      goSpace,
       handleAvatarSuccess,
       beforeAvatarUpload,
       onCancel,
@@ -234,7 +294,7 @@ export default defineComponent({
         margin-right: 20px;
       }
     }
-    .follow {
+    .followButton {
       float: left;
       margin-left: 20px;
       margin-top: 10px;
@@ -249,9 +309,64 @@ export default defineComponent({
         border-color: rgba(#fcfcfc, 0.8);
       }
     }
+    .followList {
+      margin-top: 55px;
+      font-size: 15px;
+      color: rgba(#eee, 0.9);
+      .follows {
+        float: left;
+      }
+      .fans {
+        overflow: hidden;
+        padding-left: 30px;
+      }
+      strong {
+        padding: 0 5px;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: normal;
+      }
+    }
     .profile {
-      margin-top: 75px;
-      overflow: hidden;
+      width: 500px;
+      margin-top: 15px;
+      margin-left: 20px;
+    }
+  }
+}
+.follow_dialog {
+  .el-drawer__body {
+    overflow: auto !important;
+  }
+  .followShow {
+    height: 100%;
+    overflow: auto;
+    .followContainer {
+      height: 70px;
+      padding: 10px;
+      border: 1px dashed rgba(#dcdfe6, 0.6);
+      border-top: none;
+      font-family: 'Coda';
+      color: rgba(#fcfcfc, 0.8);
+      &:first-child {
+        border-top: 1px dashed rgba(#dcdfe6, 0.6);
+      }
+      .followName {
+        float: left;
+        font-size: 20px;
+        color: #fcfcfc;
+        cursor: pointer;
+      }
+      .followTime {
+        margin-top: 30px;
+        font-size: 10px;
+        color: rgba(#fcfcfc, 0.6);
+      }
+      .followDelete {
+        float: right;
+        margin-top: -42px;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -279,6 +394,9 @@ export default defineComponent({
   width: 178px;
   height: 178px;
   display: block;
+}
+.el-drawer.rtl {
+  background-color: rgba(#121212, 0.9);
 }
 .el-popover.el-popper {
   background-color: #000;

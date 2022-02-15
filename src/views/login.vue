@@ -151,6 +151,10 @@ export default defineComponent({
     .el-button {
       font-family: 'Coda';
     }
+    .el-button--primary {
+      background-color: #409eff;
+      border: none;
+    }
     .switch-wrapper {
       position: absolute;
       z-index: 99;

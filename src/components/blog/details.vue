@@ -303,6 +303,7 @@ export default defineComponent({
     margin: 50px auto;
     text-align: center;
     line-height: 30px;
+    white-space: pre;
   }
   .picture {
     margin: 0 auto;

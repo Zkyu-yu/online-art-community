@@ -21,7 +21,7 @@
         <div class="container">
           <!-- 登录From -->
           <div v-show="type === 'login'" class="login">
-            <el-form ref="loginFormData" :model="loginUser" :rules="loginRules">
+            <el-form ref="loginFormData" :model="loginUser" :rules="loginRules" @submit.prevent>
               <div class="title">Login</div>
               <el-form-item prop="userName">
                 <el-input v-model="loginUser.userName" type="text" :prefix-icon="User" placeholder="Name" />
@@ -30,14 +30,14 @@
                 <el-input v-model="loginUser.userPwd" type="password" :prefix-icon="View" placeholder="Password" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="btn-login" @click="login">Login</el-button>
+                <el-button native-type="submit" type="primary" class="btn-login" @click="login">Login</el-button>
               </el-form-item>
               <el-button type="text" @click="forgetPwd">Forget password?</el-button>
             </el-form>
           </div>
           <!-- 注册From -->
           <div v-show="type === 'register'" class="register">
-            <el-form ref="registerFormData" :model="registerUser" :rules="registerRules">
+            <el-form ref="registerFormData" :model="registerUser" :rules="registerRules" @submit.prevent>
               <div class="title">Create Account</div>
               <el-form-item prop="userName">
                 <el-input v-model="registerUser.userName" type="text" :prefix-icon="User" placeholder="Name" />
@@ -52,7 +52,7 @@
                 <el-input v-model="registerUser.phone" type="text" :prefix-icon="Phone" placeholder="Phone Number" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="btn-login" @click="register">Create Account</el-button>
+                <el-button native-type="submit" type="primary" class="btn-login" @click="register">Create Account</el-button>
               </el-form-item>
             </el-form>
           </div>

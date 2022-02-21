@@ -6,8 +6,7 @@
           <img src="../assets/img/ld.jpg" alt="" />
         </div>
         <div class="title">{{ item.title }}</div>
-        <div class="content">{{ cutContent(item.content) }}<div>...</div></div>
-        
+        <div class="content">{{ cutContent(item.content) }}</div>
         <div class="personal">
           <div class="actor">{{ item.actor }}</div>
           <div class="date">{{ item.date }}</div>
@@ -84,8 +83,7 @@ export default defineComponent({
     }
     // 截取展示内容第一段
     const cutContent = (content: string) => {
-      return content.split("\n")[0]
-      
+      return content.split('\n')[0]
     }
     return { actor, isLike, cardList, openBlog, cutContent }
   },
@@ -117,7 +115,7 @@ export default defineComponent({
     padding: 0 20px 20px;
     color: #505153;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
   .personal {

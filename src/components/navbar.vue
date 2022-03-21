@@ -50,7 +50,7 @@
     <el-dialog v-model="isPost" fullscreen>
       <el-input v-model="blogTitle" placeholder="blog title" />
       <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+      <el-upload class="upload-demo" drag action="http://upload.qiniup.com/" multiple>
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </el-upload>
       <el-button style="margin-right: 19vw" @click="onSubmit">Submit</el-button>
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/runtime-core'
+import { defineComponent, reactive, ref } from '@vue/runtime-core'
 import { Search } from '@element-plus/icons'
 import { ElMessage } from 'element-plus'
 import { formatDate } from '../hook/util'
@@ -88,6 +88,7 @@ export default defineComponent({
     const isSign = localStorage.getItem('userName') !== null ? 1 : 0
     const onAtTitle = ref(false)
     const onAtActor = ref(false)
+    const imageUrlList = reactive<string[]>([])
     // 根据标题查找
     const atTitle = () => {
       if (!onAtTitle.value) {
@@ -137,6 +138,10 @@ export default defineComponent({
     const goSpace = () => {
       router.push({ name: 'MySpace', query: { actor: window.localStorage.getItem('userName') } })
     }
+    const handleAvatarSuccess = (file: { url: string }) => {
+      ElMessage.success('Success！')
+      imageUrlList.push(file.url)
+    }
     // 取消发布blog
     const onCancel = () => {
       isPost.value = false
@@ -166,6 +171,7 @@ export default defineComponent({
       isSign,
       onAtTitle,
       onAtActor,
+      imageUrlList,
       atTitle,
       atActor,
       goHome,
@@ -175,6 +181,7 @@ export default defineComponent({
       goLogin,
       goSpace,
       goSearch,
+      handleAvatarSuccess,
       onCancel,
       onSubmit,
       Search,
@@ -374,6 +381,7 @@ export default defineComponent({
     padding-top: 10px;
     color: #fff;
     background-color: rgba(#121212, 0);
+    border: 1px solid #d9d9d9;
   }
   .el-input__count {
     font-size: 12px;

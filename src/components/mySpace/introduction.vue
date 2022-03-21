@@ -41,10 +41,11 @@
       <el-form-item label="HeadImg">
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://localhost:3001/upload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
+          :limit="1"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
@@ -146,6 +147,8 @@ export default defineComponent({
       profile: '',
     })
     const imageUrl = ref('')
+    // 上传凭证
+    const uploadToken = ref('')
     // 退登
     const logout = () => {
       window.localStorage.clear()
@@ -184,26 +187,45 @@ export default defineComponent({
         fansName: localStorage.getItem('userName') as unknown as string,
       })
     }
-    const handleAvatarSuccess = (file: { url: string }) => {
-      console.log(file.url)
-
-      imageUrl.value = URL.createObjectURL(file.url)
-    }
     // 在关注列表打开用户主页
     const goSpace = (actor: string) => {
       router.push({ name: 'MySpace', query: { actor: actor } })
     }
+
+    // 获取上传 token
+    const getUploadToken = () => {
+      // const resp = util.ajax.get('//cms.sojex.net/get/upload/token')
+      // uploadToken.value = resp.token
+    }
+    const handleAvatarSuccess = (file: { url: string }) => {
+      ElMessage.success('Success！')
+      imageUrl.value = file.url
+    }
     const beforeAvatarUpload = (file: { type: string; size: number }) => {
-      const isJPG = file.type === 'image/jpeg'
+      const fileType = file.type
+      // const current = new Date().getTime()
+      // const key = `image_${current}`
+      const isJPG = fileType === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
         ElMessage.error('Avatar picture must be JPG format!')
+        return isJPG
       }
       if (!isLt2M) {
         ElMessage.error('Avatar picture size can not exceed 2MB!')
+        return isLt2M
       }
-      return isJPG && isLt2M
+      // try {
+      //   const token = await this.getPicToken()
+      //   form = {
+      //     key,
+      //     token,
+      //   }
+      //   return true
+      // } catch (error) {
+      //   return error
+      // }
     }
     const onCancel = () => {
       drawer.value = false
@@ -235,11 +257,13 @@ export default defineComponent({
       fansList,
       form,
       imageUrl,
+      uploadToken,
       logout,
       letFollow,
       openFollowList,
       onUnfollow,
       goSpace,
+      getUploadToken,
       handleAvatarSuccess,
       beforeAvatarUpload,
       onCancel,
@@ -413,5 +437,19 @@ export default defineComponent({
 .el-button + .el-button {
   background-color: #000;
   border: 1px solid #eee;
+}
+.el-form-item__label {
+  color: rgba(#eee, 0.8);
+}
+.el-input.is-disabled .el-input__inner {
+  background-color: #606266;
+  border: none;
+  color: rgba(#eee, 0.7);
+}
+.el-input__inner,
+.el-textarea__inner {
+  background-color: #000;
+  border: none;
+  color: #eee;
 }
 </style>

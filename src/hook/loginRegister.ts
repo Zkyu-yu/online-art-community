@@ -12,6 +12,9 @@ export interface registerItem {
   userPwd: string
   phone: string
   email: string
+  sex?: string
+  profile?: string
+  headImg?: string
 }
 export interface message {
   token: string
@@ -38,7 +41,8 @@ export default function loginRegister() {
     const res: { code: number; message: string } = await request.post('/user/register', params)
     newPeople.userName = params.userName
     newPeople.userPwd = params.userPwd
-    if (res.code === 200) {
+    // 只有admin新增用户时会填sex，admin新增时不跳转登录
+    if (res.code === 200 && !params.sex) {
       userLogin(newPeople)
     }
   }

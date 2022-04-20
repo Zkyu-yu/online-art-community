@@ -10,8 +10,9 @@
           <li :class="{ active: activeTab === 1 }" @click="goAbout">About us</li>
           <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
           <li v-if="!isSign" @click="goLogin">Sign in</li>
-          <li v-else :class="{ active: activeTab === 3 }" @click="goSpace">My Space</li>
-          <li v-if="isSign" class="postBlog" @click="isPost = true">Post Blog</li>
+          <li v-if="isSign && !isAdmin" :class="{ active: activeTab === 3 }" @click="goSpace">My Space</li>
+          <li v-if="isSign && !isAdmin" class="postBlog" @click="isPost = true">Post Blog</li>
+          <li v-if="isSign && isAdmin" @click="goControl">Content Management</li>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
@@ -78,6 +79,7 @@ export default defineComponent({
     const blogTitle = ref('')
     const blogContent = ref('')
     const isSign = localStorage.getItem('userName') !== null ? 1 : 0
+    const isAdmin = localStorage.getItem('userName') === 'admin' ? 1 : 0
     const onAtTitle = ref(false)
     const onAtActor = ref(false)
     const imageUrlList = reactive<string[]>([])
@@ -127,6 +129,9 @@ export default defineComponent({
     const goSpace = () => {
       router.push({ name: 'MySpace', query: { actor: window.localStorage.getItem('userName') } })
     }
+    const goControl = () => {
+      router.push({ name: 'Control' })
+    }
     const handleAvatarSuccess = (file: { url: string }) => {
       imageUrlList.push(file.url)
     }
@@ -157,6 +162,7 @@ export default defineComponent({
       blogTitle,
       blogContent,
       isSign,
+      isAdmin,
       onAtTitle,
       onAtActor,
       imageUrlList,
@@ -167,6 +173,7 @@ export default defineComponent({
       goBlogPage,
       goLogin,
       goSpace,
+      goControl,
       goSearch,
       handleAvatarSuccess,
       onCancel,

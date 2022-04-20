@@ -53,25 +53,25 @@
       </el-form-item>
 
       <el-form-item label="Name">
-        <el-input v-model="userInfoList.userName" style="width: 300px" disabled></el-input>
+        <el-input v-model="userInfoList.userName" style="width: 240px" disabled></el-input>
       </el-form-item>
       <el-form-item label="Sex">
-        <el-select v-model="userInfoList.sex" placeholder="Please select your sex" style="width: 300px">
+        <el-select v-model="userInfoList.sex" placeholder="Please select your sex" style="width: 240px">
           <el-option label="男" value="男"></el-option>
           <el-option label="女" value="女"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="Phone">
-        <el-input v-model="userInfoList.phone" style="width: 300px"></el-input>
+        <el-input v-model="userInfoList.phone" style="width: 240px"></el-input>
       </el-form-item>
       <el-form-item label="Email">
-        <el-input v-model="userInfoList.email" style="width: 300px"></el-input>
+        <el-input v-model="userInfoList.email" style="width: 240px"></el-input>
       </el-form-item>
       <el-form-item label="Profile">
         <el-input v-model="userInfoList.profile" type="textarea"></el-input>
       </el-form-item>
     </el-form>
-    <el-button style="margin-left: 50px" @click="onCancel">Cancel</el-button>
+    <el-button style="margin-left: 185px" @click="onCancel">Cancel</el-button>
     <el-button type="primary" @click="onSubmit">Update</el-button>
   </el-drawer>
 
@@ -154,7 +154,7 @@ export default defineComponent({
       window.localStorage.clear()
       router.push({ name: 'Home' })
     }
-    // 关注用户
+    // 关注/取关用户
     const letFollow = () => {
       if (!isFollowed.value) {
         postFollow({
@@ -171,7 +171,7 @@ export default defineComponent({
         isFollowed.value = !isFollowed.value
       }
     }
-    // 打开关注粉丝弹框
+    // 打开关注列表
     const openFollowList = (type: number) => {
       followDrawer.value = true
       if (type) {
@@ -299,9 +299,10 @@ export default defineComponent({
     .headImg {
       float: left;
       > img {
-        width: 80%;
-        height: 80%;
+        width: 105px;
+        height: 105px;
       }
+      margin-right: 30px;
     }
     .name {
       float: left;

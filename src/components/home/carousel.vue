@@ -5,7 +5,7 @@
         <img class="img" :src="getImageUrl(img.img_name)" />
       </el-carousel-item>
     </el-carousel>
-    <div class="title">This is Earth Space, now here's Human Community.</div>
+    <div class="title">Welcome to Online Art Community.</div>
     <div class="emo">●ˍ●</div>
     <div class="start" @click="letsScroll">LET'S START ➩</div>
   </div>

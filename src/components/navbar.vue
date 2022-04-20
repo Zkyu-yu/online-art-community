@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="logo" @click="goHome">
         <img src="../assets/img/logo.svg" />
-        <div class="logo_text">Human ByeBye</div>
+        <div class="logo_text">OAC</div>
       </div>
       <div class="nav">
         <ul>

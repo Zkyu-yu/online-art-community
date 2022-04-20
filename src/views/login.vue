@@ -32,7 +32,7 @@
               <el-form-item>
                 <el-button native-type="submit" type="primary" class="btn-login" @click="login">Login</el-button>
               </el-form-item>
-              <el-button type="text" @click="forgetPwd">Forget password?</el-button>
+              <!-- <el-button type="text" @click="forgetPwd">Forget password?</el-button> -->
             </el-form>
           </div>
           <!-- 注册From -->

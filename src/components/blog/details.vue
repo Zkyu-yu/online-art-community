@@ -73,7 +73,7 @@
       <div class="commentPost">
         <div class="postTitle">You can say anything here:</div>
         <el-input v-model="commentPost" maxlength="100" placeholder="watch your mouth :)" show-word-limit type="textarea" resize="none" />
-        <el-button style="margin-left: 65%" @click="onClear">Clear</el-button>
+        <el-button style="margin-left: 53%" @click="onClear">Clear</el-button>
         <el-button type="primary" @click="onSubmit">Submit</el-button>
       </div>
     </el-drawer>
@@ -319,7 +319,7 @@ export default defineComponent({
     overflow: auto !important;
   }
   .commentShow {
-    height: 70%;
+    height: 65%;
     overflow: auto;
     .commentContainer {
       padding: 10px;
@@ -356,7 +356,7 @@ export default defineComponent({
   }
   .commentPost {
     font-family: 'Coda';
-    color: rgba(#121212, 0.9);
+    color: rgba(#fcfcfc, 0.9);
     .postTitle {
       margin: 20px 0;
       font-size: 17px;

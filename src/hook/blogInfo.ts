@@ -9,13 +9,13 @@ export interface blogInfoItem {
   actor: string
   date: string
   content: string
-  picture: string
+  picture: string[]
 }
 
 export default function blogInfo(_id?: string) {
   const showSetting = ref(0)
   const blogInfoList = reactive<blogInfoItem[]>([])
-  const BlogDetail = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: '' })
+  const BlogDetail = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: [] })
   // 查询所有blog
   const getAllBlogsInfo = async () => {
     const res: { data: blogInfoItem[] } = await request.get('/blog/findAllBlogs')

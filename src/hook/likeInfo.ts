@@ -10,7 +10,7 @@ export interface likeInfoItem {
   actor: string
   date: string
   content: string
-  picture: string
+  picture: string[]
   likeName: string
   likeTime: string
 }

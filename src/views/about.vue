@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <Navbar :active-tab="1"></Navbar>
-    <div>This is About me!</div>
+    <div class="about_container">
+      <div class="text">
+        <div>黑泽宇zkyu</div>
+        <div>business cooperation: zkyu1024@126.com</div>
+      </div>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -28,5 +33,21 @@ export default defineComponent({
   width: 100%;
   margin-top: 60px;
   background-color: #121212;
+  .about_container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../assets/img/zkyu.jpg');
+    background-size: 100% 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-family: 'Coda';
+    color: #e2e8f2;
+    .text {
+      display: block;
+      transform: translate(0, 250px);
+    }
+  }
 }
 </style>

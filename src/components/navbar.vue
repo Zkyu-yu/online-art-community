@@ -9,17 +9,9 @@
         <ul>
           <li :class="{ active: activeTab === 1 }" @click="goAbout">About us</li>
           <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
-          <li :class="{ active: activeTab === 3 }" @click="goContact">Contact</li>
           <li v-if="!isSign" @click="goLogin">Sign in</li>
-          <el-dropdown v-else class="mySpace">
-            <li :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="isPost = true">Post Blog</el-dropdown-item>
-                <el-dropdown-item>Message</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <li v-else :class="{ active: activeTab === 3 }" @click="goSpace">My Space</li>
+          <li v-if="isSign" class="postBlog" @click="isPost = true">Post Blog</li>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
@@ -129,9 +121,6 @@ export default defineComponent({
     const goBlogPage = () => {
       router.push({ name: 'BlogPage' })
     }
-    const goContact = () => {
-      router.push({ name: 'Contact' })
-    }
     const goLogin = () => {
       router.push({ name: 'Login' })
     }
@@ -139,7 +128,6 @@ export default defineComponent({
       router.push({ name: 'MySpace', query: { actor: window.localStorage.getItem('userName') } })
     }
     const handleAvatarSuccess = (file: { url: string }) => {
-      ElMessage.success('Success！')
       imageUrlList.push(file.url)
     }
     // 取消发布blog
@@ -177,7 +165,6 @@ export default defineComponent({
       goHome,
       goAbout,
       goBlogPage,
-      goContact,
       goLogin,
       goSpace,
       goSearch,
@@ -244,44 +231,13 @@ export default defineComponent({
           font-weight: 800;
         }
       }
-      .mySpace li {
-        font-size: 18px;
-        color: #fcfcfc;
-        margin-top: -19px;
+      .postBlog {
+        padding: 2px 10px;
+        border: 1px solid #e2e8f2;
+        margin-top: -3px;
       }
     }
   }
-}
-// 下拉框样式
-.el-dropdown__popper.el-popper[role='tooltip'] {
-  border: none;
-  top: 60px !important;
-  margin-left: -35px !important;
-}
-.el-dropdown-menu {
-  background-color: #121212;
-  border-radius: 0%;
-}
-.el-dropdown-menu__item {
-  color: #fcfcfc;
-  padding-bottom: 5px;
-  margin: 0 5px;
-  text-align: center;
-  font-size: 16px;
-  letter-spacing: 1px;
-  font-family: 'Coda';
-  &:first-child {
-    border-bottom: 1px solid rgba(#fff, 0.5);
-  }
-}
-.el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: #121212;
-  color: #fff;
-  font-weight: 800;
-}
-.el-dropdown__popper.el-popper[role='tooltip'] .el-popper__arrow::before {
-  background-color: #121212;
-  border: none;
 }
 .search_dialog {
   .atTitle,

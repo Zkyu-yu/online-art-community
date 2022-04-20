@@ -1,5 +1,5 @@
 <template>
-  <el-row class="card_container">
+  <el-row v-if="cardList.length" class="card_container">
     <el-col v-for="(item, index) in cardList" :key="index" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }" @click="openBlog(item)">
         <div class="pic">
@@ -15,6 +15,7 @@
       </el-card>
     </el-col>
   </el-row>
+  <div v-else class="empty">Nothing here :)</div>
 </template>
 
 <script lang="ts">
@@ -129,5 +130,14 @@ export default defineComponent({
       padding-top: 10px;
     }
   }
+}
+.empty {
+  display: flex;
+  background-color: #fcfcfc;
+  color: #505153;
+  width: 100%;
+  height: 380px;
+  align-items: center;
+  justify-content: center;
 }
 </style>

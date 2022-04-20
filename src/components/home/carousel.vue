@@ -29,7 +29,7 @@ export default defineComponent({
     }
     // 通过浏览器宽度(图片宽度)计算高度
     const setSize = () => {
-      bannerHeight.value = (2304 / 3840) * screenWidth.value * 0.8
+      bannerHeight.value = (2304 / 3840) * screenWidth.value * 0.9
     }
     // 点击滚动
     const letsScroll = () => {

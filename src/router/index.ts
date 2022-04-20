@@ -24,11 +24,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "BlogPage" */ '../views/blogPage.vue'),
   },
   {
-    path: '/contact',
-    name: 'Contact',
-    component: () => import(/* webpackChunkName: "Contact" */ '../views/contact.vue'),
-  },
-  {
     path: '/mySpace',
     name: 'MySpace',
     component: () => import(/* webpackChunkName: "MySpace" */ '../views/mySpace.vue'),

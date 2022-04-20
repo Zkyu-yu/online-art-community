@@ -1,7 +1,9 @@
 <template>
   <div class="blog_container">
     <div class="header">
-      <div class="img_blur"></div>
+      <div class="img_blur">
+        <img :src="BlogDetail.picture[0]" alt="" />
+      </div>
     </div>
     <div class="top">
       <div class="mainSetting">
@@ -30,13 +32,8 @@
       </div>
     </div>
     <div class="article">{{ BlogDetail.content }}</div>
-    <div class="picture">
-      <!-- {{ BlogDetail.picture }} -->
-      <img src="../../assets/img/1.jpg" />
-      <img src="../../assets/img/2.jpg" />
-      <img src="../../assets/img/3.jpg" />
-      <img src="../../assets/img/4.jpg" />
-      <img src="../../assets/img/5.jpg" />
+    <div v-for="(item, index) of BlogDetail.picture" :key="index" class="picture">
+      <img :src="item" alt="" />
     </div>
   </div>
   <!-- 修改blog -->
@@ -44,7 +41,7 @@
     <el-dialog v-model="isEdit" fullscreen>
       <el-input v-model="BlogDetail.title" placeholder="blog title" />
       <el-input v-model="BlogDetail.content" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+      <el-upload class="upload-demo" drag action="http://localhost:3001/upload" multiple>
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </el-upload>
       <el-button style="margin-right: 19vw" @click="editThisBlog">Update</el-button>
@@ -214,14 +211,14 @@ export default defineComponent({
     overflow: hidden; // 去除白边
     .img_blur {
       width: 100%;
-      height: 350px;
-      background-image: url(../../assets/img/5.jpg);
-      background-position: 0 -50px;
-      background-repeat: no-repeat;
-      background-size: cover;
-      transform: scale(1.2); // 去除白边
-      -webkit-filter: blur(5px) brightness(55%); // 浏览器兼容
-      filter: blur(5px) brightness(55%); // 变暗模糊
+      height: 400px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.2); // 去除白边
+        filter: blur(5px) brightness(55%); // 变暗模糊
+      }
     }
   }
   .top {

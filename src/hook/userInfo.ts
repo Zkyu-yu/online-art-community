@@ -8,6 +8,7 @@ export interface userInfoItem {
   phone: string
   email: string
   profile: string
+  headImg: string
 }
 
 export default function userInfo(userName: string) {
@@ -18,6 +19,7 @@ export default function userInfo(userName: string) {
     phone: '',
     email: '',
     profile: '',
+    headImg: '',
   })
   const actorInfoList = reactive<userInfoItem>({
     userName: '',
@@ -26,6 +28,7 @@ export default function userInfo(userName: string) {
     phone: '',
     email: '',
     profile: '',
+    headImg: '',
   })
   // 查询用户信息
   const getUserInfo = async () => {
@@ -36,6 +39,7 @@ export default function userInfo(userName: string) {
     userInfoList.phone = res.data.phone
     userInfoList.email = res.data.email
     userInfoList.profile = res.data.profile
+    userInfoList.headImg = res.data.headImg
     if (res.data.userName !== window.localStorage.getItem('userName')) {
       actorInfoList.userName = res.data.userName
       actorInfoList.userPwd = res.data.userPwd
@@ -43,7 +47,9 @@ export default function userInfo(userName: string) {
       actorInfoList.phone = res.data.phone
       actorInfoList.email = res.data.email
       actorInfoList.profile = res.data.profile
+      userInfoList.headImg = res.data.headImg
     }
+    console.log(userInfoList)
   }
   // 修改用户信息
   const editUserInfo = async (params: userInfoItem) => {

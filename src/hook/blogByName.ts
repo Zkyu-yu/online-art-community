@@ -7,7 +7,7 @@ export interface blogInfoItem {
   actor: string
   date: string
   content: string
-  picture: string
+  picture: string[]
 }
 
 export default function blogByName(actor: string) {

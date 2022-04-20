@@ -50,7 +50,7 @@
     <el-dialog v-model="isPost" fullscreen>
       <el-input v-model="blogTitle" placeholder="blog title" />
       <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
-      <el-upload class="upload-demo" drag action="http://upload.qiniup.com/" multiple>
+      <el-upload class="upload-pictureList" drag action="http://localhost:3001/upload" multiple :on-success="handleAvatarSuccess">
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </el-upload>
       <el-button style="margin-right: 19vw" @click="onSubmit">Submit</el-button>
@@ -156,7 +156,7 @@ export default defineComponent({
           actor: localStorage.getItem('userName') as unknown as string,
           date: formatDate(new Date()),
           content: blogContent.value,
-          picture: '111',
+          picture: imageUrlList,
         })
         isPost.value = false
         ElMessage.success('Sumbit Success :)')

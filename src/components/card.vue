@@ -3,7 +3,8 @@
     <el-col v-for="(item, index) in cardList" :key="index" :span="6" :offset="index % 3 === 0 ? 2 : 1" style="margin-top: 30px">
       <el-card :body-style="{ padding: '0px' }" @click="openBlog(item)">
         <div class="pic">
-          <img src="../assets/img/ld.jpg" alt="" />
+          <img v-if="item.picture[0]" :src="item.picture[0]" alt="" />
+          <img v-else src="../assets/img/ld.jpg" alt="" />
         </div>
         <div class="title">{{ item.title }}</div>
         <div class="content">{{ cutContent(item.content) }}</div>
@@ -31,7 +32,7 @@ export interface blogInfoItem {
   actor: string
   date: string
   content: string
-  picture: string
+  picture: string[]
 }
 
 export default defineComponent({
@@ -98,7 +99,8 @@ export default defineComponent({
   .pic {
     img {
       width: 100%;
-      height: 280px;
+      // height: 280px;
+      object-fit: cover;
     }
   }
   .title {

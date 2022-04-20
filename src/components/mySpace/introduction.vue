@@ -5,7 +5,8 @@
     </div>
     <div class="human">
       <div class="headImg">
-        <img src="../../assets/img/headImg.jpg" alt="" />
+        <img v-if="userInfoList.headImg" :src="userInfoList.headImg" alt="" />
+        <img v-else src="../../assets/img/emptyImg.jpg" alt="" />
       </div>
       <div class="name">{{ isMaster ? userInfoList.userName : actorInfoList.userName }}</div>
       <!-- 个人设置 -->
@@ -113,6 +114,7 @@ export interface userInfoItem {
   phone: string
   email: string
   profile: string
+  headImg: string
 }
 
 export default defineComponent({
@@ -139,12 +141,12 @@ export default defineComponent({
     // 展示关注列表(true，false则展示粉丝列表)
     const isFollowList = ref(true)
     const form = reactive({
-      headImg: '',
       name: '',
       sex: '',
       phone: '',
       email: '',
       profile: '',
+      headImg: '',
     })
     const imageUrl = ref('')
     // 上传凭证
@@ -192,13 +194,7 @@ export default defineComponent({
       router.push({ name: 'MySpace', query: { actor: actor } })
     }
 
-    // 获取上传 token
-    const getUploadToken = () => {
-      // const resp = util.ajax.get('//cms.sojex.net/get/upload/token')
-      // uploadToken.value = resp.token
-    }
     const handleAvatarSuccess = (file: { url: string }) => {
-      ElMessage.success('Success！')
       imageUrl.value = file.url
     }
     const beforeAvatarUpload = (file: { type: string; size: number }) => {
@@ -238,6 +234,7 @@ export default defineComponent({
         phone: userInfoList.phone,
         email: userInfoList.email,
         profile: userInfoList.profile,
+        headImg: imageUrl.value,
       })
       drawer.value = false
       ElMessage.success('Your information has been changed :)')
@@ -263,7 +260,6 @@ export default defineComponent({
       openFollowList,
       onUnfollow,
       goSpace,
-      getUploadToken,
       handleAvatarSuccess,
       beforeAvatarUpload,
       onCancel,
@@ -298,9 +294,10 @@ export default defineComponent({
     color: #eee;
     .headImg {
       float: left;
+      margin-right: 20px;
       > img {
-        width: 80%;
-        height: 80%;
+        width: 105px;
+        height: 105px;
       }
     }
     .name {

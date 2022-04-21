@@ -272,7 +272,7 @@ export default defineComponent({
         }
       }
       &:first-child {
-        background-color: rgba(#008080, 0.3);
+        background-color: #b6dddd;
       }
       &:not(:first-child):hover {
         cursor: pointer;

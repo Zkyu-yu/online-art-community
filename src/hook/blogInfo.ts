@@ -41,21 +41,27 @@ export default function blogInfo(_id?: string) {
     }
   }
   // 修改blog
-  const editBlog = async (params: blogInfoItem) => {
+  const editBlog = async (params: blogInfoItem, _id?: string) => {
     const res: { code: number; message: string } = await request.post(`/blog/editBlog/${_id}`, params)
     if (res.code === 200) {
       ElMessage.success('Success!')
-      getBlogDetail()
+      // 只有管理员会传_id,如果管理员操作就查看博客详情
+      if (!_id) {
+        getBlogDetail()
+      }
       getAllBlogsInfo()
     }
   }
   // 删除blog
-  const deleteBlog = async () => {
+  const deleteBlog = async (_id?: string) => {
     const res: { code: number; message: string } = await request.delete(`/blog/deleteBlog/${_id}`)
     if (res.code === 200) {
       ElMessage.success('Success!')
       getAllBlogsInfo()
-      router.back()
+      // 只有管理员会传_id,如果管理员操作就不退回主页
+      if (!_id) {
+        router.back()
+      }
     }
   }
   onMounted(() => {

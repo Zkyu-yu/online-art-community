@@ -13,8 +13,8 @@
       </div>
       <div class="control_body">
         <UserControl v-if="activeTab === 0"></UserControl>
-        <div v-if="activeTab === 1">博客管理</div>
-        <div v-if="activeTab === 2">评论管理</div>
+        <BlogControl v-if="activeTab === 1"></BlogControl>
+        <CommentControl v-if="activeTab === 2"></CommentControl>
       </div>
     </div>
   </div>
@@ -25,6 +25,8 @@ import { defineComponent, reactive, ref } from '@vue/runtime-core'
 import { House, SwitchButton } from '@element-plus/icons'
 import router from '../router'
 import UserControl from '../components/control/userControl.vue'
+import BlogControl from '../components/control/blogsControl.vue'
+import CommentControl from '../components/control/commentsControl.vue'
 
 export default defineComponent({
   name: 'Control',
@@ -32,6 +34,8 @@ export default defineComponent({
     House,
     SwitchButton,
     UserControl,
+    BlogControl,
+    CommentControl,
   },
   setup() {
     const activeTab = ref(0)

@@ -12,7 +12,13 @@ export interface commentInfoItem {
 }
 
 export default function commentInfo(blogId?: string) {
+  const allCommentList = reactive<commentInfoItem[]>([])
   const commentList = reactive<commentInfoItem[]>([])
+  // 查找单个blog的所有评论
+  const findAllComment = async () => {
+    const res: { data: commentInfoItem[] } = await request.get('/comment/findAllComment')
+    allCommentList.push(...res.data)
+  }
   // 查找单个blog的所有评论
   const findCommentByBlog = async () => {
     const res: { data: commentInfoItem[] } = await request.get(`/comment/findCommentByBlog/${blogId}`)
@@ -37,7 +43,8 @@ export default function commentInfo(blogId?: string) {
     }
   }
   onMounted(() => {
+    findAllComment()
     findCommentByBlog()
   })
-  return { commentList, postComment, deleteComment }
+  return { allCommentList, commentList, postComment, deleteComment }
 }

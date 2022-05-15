@@ -111,13 +111,16 @@ export default defineComponent({
 
     // 修改blog
     const editThisBlog = () => {
-      editBlog({
-        title: BlogDetail.title,
-        actor: BlogDetail.actor,
-        date: formatDate(new Date()),
-        content: BlogDetail.content,
-        picture: BlogDetail.picture,
-      })
+      editBlog(
+        {
+          title: BlogDetail.title,
+          actor: BlogDetail.actor,
+          date: formatDate(new Date()),
+          content: BlogDetail.content,
+          picture: BlogDetail.picture,
+        },
+        blogId as unknown as string
+      )
       isEdit.value = false
     }
     // 取消修改
@@ -126,7 +129,8 @@ export default defineComponent({
     }
     // 删除blog
     const deleteThisBlog = () => {
-      deleteBlog()
+      deleteBlog(blogId as unknown as string)
+      router.push({ name: 'Home' })
     }
     // 点赞和取消
     const letStar = () => {
@@ -157,7 +161,7 @@ export default defineComponent({
     // 发布评论
     const onSubmit = () => {
       if (!commentPost.value) {
-        ElMessage.error('You cannot say nothing!')
+        ElMessage.error('评论不能为空！')
       } else {
         postComment({
           blogId: blogId as unknown as string,

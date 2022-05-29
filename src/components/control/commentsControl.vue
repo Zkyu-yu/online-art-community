@@ -11,7 +11,7 @@
         <li>{{ item.commentTime }}</li>
         <li>{{ item.commentContent }}</li>
         <li>
-          <el-icon class="inIcon" @click="deleteOneComment(index)"><delete /></el-icon>
+          <el-button type="text" @click="deleteOneComment(index)">删除</el-button>
         </li>
       </ul>
     </div>
@@ -41,7 +41,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from '@vue/runtime-core'
-import { Delete } from '@element-plus/icons'
 import commentInfo from '../../hook/commentInfo'
 import { ElMessage } from 'element-plus'
 import { formatDateTime } from '../../hook/util'
@@ -55,9 +54,6 @@ export interface commentInfoItem {
 
 export default defineComponent({
   name: 'CommentControl',
-  components: {
-    Delete,
-  },
   setup() {
     const addCommentDialog = ref(false)
     const addList = reactive<commentInfoItem>({ blogId: '', commentName: '管理员', commentContent: '' })

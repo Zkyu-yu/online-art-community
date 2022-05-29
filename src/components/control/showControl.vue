@@ -1,6 +1,6 @@
 <template>
-  <div class="blog_container">
-    <div class="title">艺术作品管理</div>
+  <div class="show_container">
+    <div class="title">艺术展览管理</div>
     <div class="table">
       <ul>
         <li v-for="(item, index) of tableList" :key="index">{{ item }}</li>
@@ -9,16 +9,15 @@
         <li>{{ item.title }}</li>
         <li>{{ item.actor }}</li>
         <li>{{ item.date }}</li>
+        <li>111</li>
         <li>{{ item.content ? item.content : '--' }}</li>
-        <li>待审核</li>
         <li>
-          <el-button type="text">审核</el-button>
           <el-button type="text" @click="editBlogShow(index)">修改</el-button>
           <el-button type="text" @click="deleteOneBlog(index)">删除</el-button>
         </li>
       </ul>
     </div>
-    <el-button class="add" @click="addBlogDialog = true">Add User</el-button>
+    <el-button class="add" @click="addBlogDialog = true">Add Show</el-button>
 
     <el-dialog v-model="editBlogDialog" title="修改艺术作品" width="30%">
       <el-form :model="editList" label-width="100px" label-position="left" style="margin-left: 30px">
@@ -77,14 +76,14 @@ export interface blogInfoItem {
 }
 
 export default defineComponent({
-  name: 'BlogControl',
+  name: 'ShowControl',
   setup() {
     const editBlogDialog = ref(false)
     const addBlogDialog = ref(false)
     const editIndex = ref(0)
     const editList = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: [] })
     const addList = reactive<blogInfoItem>({ title: '', actor: '管理员', date: '', content: '', picture: [] })
-    const tableList = ['标题', '作者', '时间', '内容', '审核状态', '操作']
+    const tableList = ['主题', '海报', '时间', '地址', '介绍', '操作']
     const { blogInfoList, postBlog, editBlog, deleteBlog } = blogInfo()
 
     // 保存修改博客的原有信息
@@ -145,7 +144,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.blog_container {
+.show_container {
   .title {
     font-size: 18px;
     font-weight: bolder;

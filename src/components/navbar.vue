@@ -28,12 +28,12 @@
         </template>
       </el-input>
       <!-- 根据标题查找 -->
-      <div class="atTitle" @click="atTitle">
+      <div class="choose" @click="atTitle">
         <div class="button" :style="{ background: onAtTitle ? '#fff' : '' }"></div>
         <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">标题</div>
       </div>
       <!-- 根据用户查找 -->
-      <div class="atActor" @click="atActor">
+      <div class="choose" @click="atActor">
         <div class="button" :style="{ background: onAtActor ? '#fff' : '' }"></div>
         <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">作者</div>
       </div>
@@ -42,7 +42,26 @@
   <!-- 发布 -->
   <div class="post_dialog">
     <el-dialog v-model="isPost" fullscreen>
-      <el-input v-model="blogTitle" placeholder="blog title" />
+      <el-input v-model="blogTitle" placeholder="title" />
+      <!-- 选择所属栏目 -->
+      <div class="choose" style="color: #fff; margin-left: 0px">所属栏目：</div>
+      <div class="choose" @click="category = 'film'">
+        <div class="button" :style="{ background: category === 'film' ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: category === 'film' ? '#fff' : '' }">摄影</div>
+      </div>
+      <div class="choose" @click="category = 'art'">
+        <div class="button" :style="{ background: category === 'art' ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: category === 'art' ? '#fff' : '' }">插画</div>
+      </div>
+      <div class="choose" @click="category = 'poem'">
+        <div class="button" :style="{ background: category === 'poem' ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: category === 'poem' ? '#fff' : '' }">诗歌</div>
+      </div>
+      <div class="choose" @click="category = 'book'">
+        <div class="button" :style="{ background: category === 'book' ? '#fff' : '' }"></div>
+        <div class="word" :style="{ color: category === 'book' ? '#fff' : '' }">书评</div>
+      </div>
+
       <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
       <el-upload class="upload-pictureList" drag action="http://localhost:3003/upload" multiple :on-success="handleAvatarSuccess">
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
@@ -84,6 +103,7 @@ export default defineComponent({
     const onAtTitle = ref(false)
     const onAtActor = ref(false)
     const imageUrlList = reactive<string[]>([])
+    const category = ref('')
     // 根据标题查找
     const atTitle = () => {
       if (!onAtTitle.value) {
@@ -172,6 +192,7 @@ export default defineComponent({
       onAtTitle,
       onAtActor,
       imageUrlList,
+      category,
       atTitle,
       atActor,
       goHome,
@@ -253,9 +274,11 @@ export default defineComponent({
     }
   }
 }
-.search_dialog {
-  .atTitle,
-  .atActor {
+.search_dialog,
+.post_dialog {
+  .choose {
+    display: flex;
+    align-items: center;
     float: left;
     margin-top: 30px;
     margin-left: 70px;
@@ -267,7 +290,6 @@ export default defineComponent({
       float: left;
       width: 15px;
       height: 15px;
-      margin-top: 11px;
       border: 2px solid rgba(#fcfcfc, 0.5);
     }
     .word {
@@ -288,7 +310,7 @@ export default defineComponent({
     padding-top: 40vh;
   }
   .el-input__inner {
-    font-size: 35px;
+    font-size: 30px;
     font-family: 'Coda';
     letter-spacing: 4px;
     padding-left: 20px;
@@ -316,30 +338,19 @@ export default defineComponent({
   }
 }
 .post_dialog {
-  .el-dialog {
-    background-color: rgba(#121212, 0.8);
+  .choose {
+    font-size: 20px;
+    margin-left: 20px;
   }
   .el-dialog__body {
     padding-top: 60px;
     padding-left: 20vw;
   }
   .el-input {
-    width: 20vw;
-  }
-  .el-input__inner {
-    font-size: 30px;
-    font-family: 'Coda';
-    letter-spacing: 4px;
-    padding-left: 20px;
-    padding-bottom: 10px;
-    color: #fff;
-    background-color: rgba(#121212, 0);
-    border: none;
-    border-radius: 0;
-    border-bottom: 1px solid #fff;
+    display: flex;
+    width: 40vw;
   }
   .el-textarea {
-    display: flex;
     width: 60vw;
     margin: 30px 0;
   }
@@ -390,10 +401,6 @@ export default defineComponent({
     background-color: #eee;
     color: #121212;
     border: 2px solid #121212;
-  }
-  .el-icon {
-    font-size: 30px;
-    color: rgba(#fff, 0.8);
   }
 }
 </style>

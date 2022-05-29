@@ -12,8 +12,8 @@
         <li>{{ item.email ? item.email : '--' }}</li>
         <li>{{ item.profile ? item.profile : '--' }}</li>
         <li>
-          <el-icon class="inIcon" @click="editUserShow(index)"><brush /></el-icon>
-          <el-icon class="inIcon" @click="deleteUser(index)"><delete /></el-icon>
+          <el-button type="text" @click="editUserShow(index)">修改</el-button>
+          <el-button type="text" @click="deleteUser(index)">删除</el-button>
         </li>
       </ul>
     </div>
@@ -112,7 +112,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from '@vue/runtime-core'
-import { Brush, Delete } from '@element-plus/icons'
 import userInfo from '../../hook/userInfo'
 import loginRegister from '../../hook/loginRegister'
 import request from '../../scripts/request'
@@ -131,10 +130,6 @@ export interface userInfoItem {
 
 export default defineComponent({
   name: 'UserControl',
-  components: {
-    Brush,
-    Delete,
-  },
   setup() {
     const editUserDialog = ref(false)
     const addUserDialog = ref(false)
@@ -313,5 +308,9 @@ export default defineComponent({
     height: 178px;
     display: block;
   }
+}
+.el-button + .el-button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
 }
 </style>

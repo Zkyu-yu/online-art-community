@@ -14,7 +14,8 @@
       <div class="control_body">
         <UserControl v-if="activeTab === 0"></UserControl>
         <BlogControl v-if="activeTab === 1"></BlogControl>
-        <CommentControl v-if="activeTab === 2"></CommentControl>
+        <ShowControl v-if="activeTab === 2"></ShowControl>
+        <CommentControl v-if="activeTab === 3"></CommentControl>
       </div>
     </div>
   </div>
@@ -26,6 +27,7 @@ import { House, SwitchButton } from '@element-plus/icons'
 import router from '../router'
 import UserControl from '../components/control/userControl.vue'
 import BlogControl from '../components/control/blogsControl.vue'
+import ShowControl from '../components/control/showControl.vue'
 import CommentControl from '../components/control/commentsControl.vue'
 
 export default defineComponent({
@@ -35,11 +37,12 @@ export default defineComponent({
     SwitchButton,
     UserControl,
     BlogControl,
+    ShowControl,
     CommentControl,
   },
   setup() {
     const activeTab = ref(0)
-    const asideList = reactive(['用户管理', '博客管理', '评论管理'])
+    const asideList = reactive(['用户管理', '艺术作品管理', '艺术展览管理', '评论管理'])
     const loginOut = () => {
       window.localStorage.clear()
       router.push({ name: 'Home' })

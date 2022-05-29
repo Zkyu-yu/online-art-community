@@ -1,6 +1,6 @@
 <template>
   <div class="blog_container">
-    <div class="title">博客管理</div>
+    <div class="title">艺术作品管理</div>
     <div class="table">
       <ul>
         <li v-for="(item, index) of tableList" :key="index">{{ item }}</li>
@@ -18,7 +18,7 @@
     </div>
     <el-button class="add" @click="addBlogDialog = true">Add User</el-button>
 
-    <el-dialog v-model="editBlogDialog" title="修改博客" width="30%">
+    <el-dialog v-model="editBlogDialog" title="修改艺术作品" width="30%">
       <el-form :model="editList" label-width="100px" label-position="left" style="margin-left: 30px">
         <el-form-item label="Title">
           <el-input v-model="editList.title" style="width: 240px"></el-input>
@@ -38,7 +38,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="addBlogDialog" title="新增博客" width="30%">
+    <el-dialog v-model="addBlogDialog" title="新增艺术作品" width="30%">
       <el-form :model="addList" label-width="100px" label-position="left" style="margin-left: 30px">
         <el-form-item label="Title">
           <el-input v-model="addList.title" style="width: 240px"></el-input>

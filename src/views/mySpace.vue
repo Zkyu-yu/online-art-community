@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Navbar :active-tab="3"></Navbar>
+    <Navbar :active-tab="4"></Navbar>
     <Introduction></Introduction>
     <div v-if="showTab" class="tabs">
       <ul>

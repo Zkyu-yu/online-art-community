@@ -42,7 +42,7 @@
       <el-form-item label="HeadImg">
         <el-upload
           class="avatar-uploader"
-          action="http://localhost:3001/upload"
+          action="http://localhost:3003/upload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"

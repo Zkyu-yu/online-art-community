@@ -2,7 +2,8 @@
   <div class="blog_container">
     <div class="header">
       <div class="img_blur">
-        <img :src="BlogDetail.picture[0]" alt="" />
+        <img v-if="BlogDetail.picture[0]" :src="BlogDetail.picture[0]" alt="" />
+        <img v-else src="../../assets/img/ld.jpg" alt="" />
       </div>
     </div>
     <div class="top">
@@ -41,7 +42,7 @@
     <el-dialog v-model="isEdit" fullscreen>
       <el-input v-model="BlogDetail.title" placeholder="blog title" />
       <el-input v-model="BlogDetail.content" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
-      <el-upload class="upload-demo" drag action="http://localhost:3001/upload" multiple>
+      <el-upload class="upload-demo" drag action="http://localhost:3003/upload" multiple>
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </el-upload>
       <el-button style="margin-right: 19vw" @click="editThisBlog">Update</el-button>
@@ -299,12 +300,12 @@ export default defineComponent({
     }
   }
   .article {
-    width: 40%;
+    width: 90%;
     color: #aaa;
     margin: 50px auto;
     text-align: center;
     line-height: 30px;
-    white-space: pre;
+    white-space: pre-wrap;
   }
   .picture {
     margin: 0 auto;

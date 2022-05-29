@@ -31,6 +31,7 @@ export default function commentInfo(blogId?: string) {
     if (res.code === 200) {
       ElMessage.success('评论成功!')
       findCommentByBlog()
+      findAllComment()
     }
   }
   // 删除评论
@@ -39,6 +40,7 @@ export default function commentInfo(blogId?: string) {
     if (res.code === 200) {
       ElMessage.success('删除成功!')
       findCommentByBlog()
+      findAllComment()
     }
   }
   onMounted(() => {

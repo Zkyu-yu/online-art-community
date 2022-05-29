@@ -7,12 +7,13 @@
       </div>
       <div class="nav">
         <ul>
-          <li :class="{ active: activeTab === 1 }" @click="goAbout">About us</li>
-          <li :class="{ active: activeTab === 2 }" @click="goBlogPage">Blog</li>
-          <li v-if="!isSign" @click="goLogin">Sign in</li>
-          <li v-if="isSign && !isAdmin" :class="{ active: activeTab === 3 }" @click="goSpace">My Space</li>
-          <li v-if="isSign && !isAdmin" class="postBlog" @click="isPost = true">Post Blog</li>
-          <li v-if="isSign && isAdmin" @click="goControl">Content Management</li>
+          <li :class="{ active: activeTab === 1 }" @click="goAbout">关于我们</li>
+          <li :class="{ active: activeTab === 2 }" @click="goShow">艺术展览</li>
+          <li :class="{ active: activeTab === 3 }" @click="goBlogPage">艺术作品</li>
+          <li v-if="!isSign" @click="goLogin">登录</li>
+          <li v-if="isSign && !isAdmin" :class="{ active: activeTab === 4 }" @click="goSpace">我的空间</li>
+          <li v-if="isSign && !isAdmin" class="postBlog" @click="isPost = true">发布</li>
+          <li v-if="isSign && isAdmin" @click="goControl">后台管理</li>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
@@ -29,12 +30,12 @@
       <!-- 根据标题查找 -->
       <div class="atTitle" @click="atTitle">
         <div class="button" :style="{ background: onAtTitle ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">title</div>
+        <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">标题</div>
       </div>
       <!-- 根据用户查找 -->
       <div class="atActor" @click="atActor">
         <div class="button" :style="{ background: onAtActor ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">actor</div>
+        <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">作者</div>
       </div>
     </el-dialog>
   </div>
@@ -43,7 +44,7 @@
     <el-dialog v-model="isPost" fullscreen>
       <el-input v-model="blogTitle" placeholder="blog title" />
       <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />
-      <el-upload class="upload-pictureList" drag action="http://localhost:3001/upload" multiple :on-success="handleAvatarSuccess">
+      <el-upload class="upload-pictureList" drag action="http://localhost:3003/upload" multiple :on-success="handleAvatarSuccess">
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </el-upload>
       <el-button style="margin-right: 19vw" @click="onSubmit">Submit</el-button>
@@ -103,14 +104,16 @@ export default defineComponent({
     }
     // 查找
     const goSearch = () => {
-      if (onAtTitle.value) {
+      if (searchInput.value === '') {
+        ElMessage.error('请输入搜索内容!')
+      } else if (onAtTitle.value) {
         isOpen.value = false
         router.push({ name: 'SearchResult', query: { title: searchInput.value } })
       } else if (onAtActor.value) {
         isOpen.value = false
         router.push({ name: 'SearchResult', query: { actor: searchInput.value } })
       } else {
-        ElMessage.error('Please select at least one!')
+        ElMessage.error('至少选择一个!')
       }
     }
     // nav跳转
@@ -119,6 +122,9 @@ export default defineComponent({
     }
     const goAbout = () => {
       router.push({ name: 'About' })
+    }
+    const goShow = () => {
+      router.push({ name: 'Show' })
     }
     const goBlogPage = () => {
       router.push({ name: 'BlogPage' })
@@ -170,6 +176,7 @@ export default defineComponent({
       atActor,
       goHome,
       goAbout,
+      goShow,
       goBlogPage,
       goLogin,
       goSpace,

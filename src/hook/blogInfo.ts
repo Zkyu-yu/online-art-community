@@ -19,6 +19,7 @@ export default function blogInfo(_id?: string) {
   // 查询所有blog
   const getAllBlogsInfo = async () => {
     const res: { data: blogInfoItem[] } = await request.get('/blog/findAllBlogs')
+    blogInfoList.splice(0, blogInfoList.length)
     blogInfoList.push(...res.data)
   }
   // 查看blog详情
@@ -36,7 +37,7 @@ export default function blogInfo(_id?: string) {
   const postBlog = async (params: blogInfoItem) => {
     const res: { code: number; message: string } = await request.post('/blog/postBlog', params)
     if (res.code === 200) {
-      ElMessage.success('Success!')
+      // ElMessage.success('Success!')
       getAllBlogsInfo()
     }
   }

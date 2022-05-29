@@ -35,6 +35,7 @@ export default function userInfo(userName?: string) {
   // 查询所有用户
   const getAllUser = async () => {
     const res: { data: userInfoItem[] } = await request.get('/user/findAllUsers')
+    allUserList.splice(0, allUserList.length)
     allUserList.push(...res.data)
     console.log(allUserList)
   }
@@ -71,5 +72,5 @@ export default function userInfo(userName?: string) {
     getUserInfo()
   })
 
-  return { allUserList, userInfoList, actorInfoList, editUserInfo }
+  return { allUserList, userInfoList, actorInfoList, editUserInfo, getAllUser }
 }

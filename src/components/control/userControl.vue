@@ -24,7 +24,7 @@
         <el-form-item label="HeadImg">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:3001/upload"
+            action="http://localhost:3003/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -67,7 +67,7 @@
         <el-form-item label="HeadImg">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:3001/upload"
+            action="http://localhost:3003/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -141,7 +141,7 @@ export default defineComponent({
     const editList = reactive<userInfoItem>({ userName: '', userPwd: '', sex: '', phone: '', email: '', profile: '', headImg: '' })
     const addList = reactive<userInfoItem>({ userName: '', userPwd: '', sex: '', phone: '', email: '', profile: '', headImg: '' })
     const tableList = ['用户名', '性别', '手机号', '邮箱', '简介', '操作']
-    const { allUserList, editUserInfo } = userInfo()
+    const { allUserList, editUserInfo, getAllUser } = userInfo()
     const { userRegister } = loginRegister()
     const imageUrl = ref('')
 
@@ -175,6 +175,7 @@ export default defineComponent({
       const res: { code: number; message: string } = await request.delete(`/user/deleteUser/${allUserList[index]._id}`)
       if (res.code === 200) {
         ElMessage.success('删除成功')
+        getAllUser()
       }
     }
     // 新增用户
@@ -190,6 +191,7 @@ export default defineComponent({
       })
       addUserDialog.value = false
       ElMessage.success('新增成功')
+      getAllUser()
     }
     // 上传头像
     const handleAvatarSuccess = (file: { url: string }) => {
@@ -224,6 +226,7 @@ export default defineComponent({
       editUser,
       deleteUser,
       addUser,
+      getAllUser,
       handleAvatarSuccess,
       beforeAvatarUpload,
     }

@@ -100,7 +100,7 @@ export default defineComponent({
   .pic {
     img {
       width: 100%;
-      // height: 280px;
+      height: 250px;
       object-fit: cover;
     }
   }

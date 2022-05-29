@@ -9,6 +9,7 @@
         <li>{{ item.title }}</li>
         <li>{{ item.actor }}</li>
         <li>{{ item.date }}</li>
+        <li>{{ item.category }}</li>
         <li>{{ item.content ? item.content : '--' }}</li>
         <li>{{ item.status }}</li>
         <li>
@@ -80,7 +81,7 @@ export default defineComponent({
     const checkStatus = ref('')
     const editList = reactive<blogInfoItem>({ title: '', actor: '', category: '', date: '', content: '', picture: [] })
     const addList = reactive<blogInfoItem>({ title: '', actor: '管理员', category: '', date: '', content: '', picture: [] })
-    const tableList = ['标题', '作者', '时间', '内容', '审核状态', '操作']
+    const tableList = ['标题', '作者', '时间', '栏目', '内容', '审核状态', '操作']
     const { allBlogList, editBlog, deleteBlog, checkBlogOk, checkBlogError } = blogInfo()
 
     // 保存修改博客的原有信息
@@ -123,7 +124,6 @@ export default defineComponent({
       } else {
         checkBlogError(allBlogList[checkIndex.value]._id as unknown as string)
       }
-
       checkBlogDialog.value = false
     }
 
@@ -164,15 +164,15 @@ export default defineComponent({
     ul {
       li {
         display: inline-block;
-        width: 180px;
+        width: 155px;
         height: 50px;
         line-height: 50px;
         padding: 0 10px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        &:nth-child(4) {
-          width: 200px;
+        &:nth-child(5) {
+          width: 170px;
         }
         .inIcon {
           cursor: pointer;

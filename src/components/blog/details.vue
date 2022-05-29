@@ -116,6 +116,7 @@ export default defineComponent({
         {
           title: BlogDetail.title,
           actor: BlogDetail.actor,
+          category: BlogDetail.category,
           date: formatDate(new Date()),
           content: BlogDetail.content,
           picture: BlogDetail.picture,

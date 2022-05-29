@@ -8,6 +8,7 @@ export interface blogInfoItem {
   date: string
   content: string
   picture: string[]
+  status: string
 }
 
 export default function blogByTitle(title: string) {
@@ -15,7 +16,11 @@ export default function blogByTitle(title: string) {
   // 根据标题查询blog
   const getBlogsByTitle = async () => {
     const res: { data: blogInfoItem[] } = await request.get(`/blog/findBlogByTitle/${title}`)
-    titleBlogList.push(...res.data)
+    res.data.forEach(item => {
+      if (item.status === '已通过') {
+        titleBlogList.push(item)
+      }
+    })
   }
   onMounted(() => {
     getBlogsByTitle()

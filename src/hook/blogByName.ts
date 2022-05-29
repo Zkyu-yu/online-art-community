@@ -8,6 +8,7 @@ export interface blogInfoItem {
   date: string
   content: string
   picture: string[]
+  status: string
 }
 
 export default function blogByName(actor: string) {
@@ -15,7 +16,11 @@ export default function blogByName(actor: string) {
   // 根据名字查询blog
   const getBlogsByName = async () => {
     const res: { data: blogInfoItem[] } = await request.get(`/blog/findBlogByName/${actor}`)
-    actorBlogList.push(...res.data)
+    res.data.forEach(item => {
+      if (item.status === '已通过') {
+        actorBlogList.push(item)
+      }
+    })
   }
   onMounted(() => {
     getBlogsByName()

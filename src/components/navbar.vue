@@ -173,6 +173,7 @@ export default defineComponent({
         postBlog({
           title: blogTitle.value,
           actor: localStorage.getItem('userName') as unknown as string,
+          category: category.value,
           date: formatDate(new Date()),
           content: blogContent.value,
           picture: imageUrlList,

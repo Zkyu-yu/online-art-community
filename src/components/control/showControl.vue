@@ -64,7 +64,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from '@vue/runtime-core'
 import blogInfo from '../../hook/blogInfo'
-import { formatDateTime } from '../../hook/util'
 
 export interface blogInfoItem {
   _id?: string
@@ -84,7 +83,7 @@ export default defineComponent({
     const editList = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: [] })
     const addList = reactive<blogInfoItem>({ title: '', actor: '管理员', date: '', content: '', picture: [] })
     const tableList = ['主题', '海报', '时间', '地址', '介绍', '操作']
-    const { blogInfoList, postBlog, editBlog, deleteBlog } = blogInfo()
+    const { blogInfoList, deleteBlog } = blogInfo()
 
     // 保存修改博客的原有信息
     const editBlogShow = (index: number) => {
@@ -96,34 +95,9 @@ export default defineComponent({
       editIndex.value = index
       editBlogDialog.value = true
     }
-    // 修改博客
-    const editOneBlog = () => {
-      editBlog(
-        {
-          title: editList.title,
-          actor: editList.actor,
-          date: formatDateTime(new Date()),
-          content: editList.content,
-          picture: editList.picture,
-        },
-        blogInfoList[editIndex.value]._id as unknown as string
-      )
-      editBlogDialog.value = false
-    }
     // 删除博客
     const deleteOneBlog = (index: number) => {
       deleteBlog(blogInfoList[index]._id as unknown as string)
-    }
-    // 新增博客
-    const postOneBlog = () => {
-      postBlog({
-        title: addList.title,
-        actor: addList.actor,
-        date: formatDateTime(new Date()),
-        content: addList.content,
-        picture: addList.picture,
-      })
-      addBlogDialog.value = false
     }
 
     return {
@@ -135,9 +109,7 @@ export default defineComponent({
       tableList,
       blogInfoList,
       editBlogShow,
-      editOneBlog,
       deleteOneBlog,
-      postOneBlog,
     }
   },
 })
@@ -195,7 +167,7 @@ export default defineComponent({
     margin-top: 20px;
   }
 }
-.el-button + .el-button {
+.el-button--text {
   background-color: rgba(255, 255, 255, 0);
   border: none;
 }

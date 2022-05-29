@@ -309,7 +309,7 @@ export default defineComponent({
     display: block;
   }
 }
-.el-button + .el-button {
+.el-button--text {
   background-color: rgba(255, 255, 255, 0);
   border: none;
 }

@@ -3,10 +3,21 @@ import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import router from '../router'
 
+export interface blogItem {
+  _id?: string
+  title: string
+  actor: string
+  category: string
+  date: string
+  content: string
+  picture: string[]
+  status: string
+}
 export interface blogInfoItem {
   _id?: string
   title: string
   actor: string
+  category: string
   date: string
   content: string
   picture: string[]
@@ -14,13 +25,20 @@ export interface blogInfoItem {
 
 export default function blogInfo(_id?: string) {
   const showSetting = ref(0)
-  const blogInfoList = reactive<blogInfoItem[]>([])
-  const BlogDetail = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: [] })
+  const blogInfoList = reactive<blogItem[]>([])
+  const allBlogList = reactive<blogItem[]>([])
+  const BlogDetail = reactive<blogItem>({ title: '', actor: '', category: '', date: '', content: '', picture: [], status: '' })
   // 查询所有blog
   const getAllBlogsInfo = async () => {
-    const res: { data: blogInfoItem[] } = await request.get('/blog/findAllBlogs')
+    const res: { data: blogItem[] } = await request.get('/blog/findAllBlogs')
+    allBlogList.splice(0, allBlogList.length)
+    allBlogList.push(...res.data)
     blogInfoList.splice(0, blogInfoList.length)
-    blogInfoList.push(...res.data)
+    res.data.forEach(item => {
+      if (item.status === '已通过') {
+        blogInfoList.push(item)
+      }
+    })
   }
   // 查看blog详情
   const getBlogDetail = async () => {
@@ -65,9 +83,25 @@ export default function blogInfo(_id?: string) {
       }
     }
   }
+  // 审核blog通过
+  const checkBlogOk = async (_id: string) => {
+    const res: { code: number; message: string } = await request.post(`/blog/checkBlogOk/${_id}`)
+    if (res.code === 200) {
+      ElMessage.success('Success!')
+      getAllBlogsInfo()
+    }
+  }
+  // 审核blog未通过
+  const checkBlogError = async (_id: string) => {
+    const res: { code: number; message: string } = await request.post(`/blog/checkBlogError/${_id}`)
+    if (res.code === 200) {
+      ElMessage.success('Success!')
+      getAllBlogsInfo()
+    }
+  }
   onMounted(() => {
     getAllBlogsInfo()
   })
 
-  return { blogInfoList, BlogDetail, showSetting, getBlogDetail, postBlog, editBlog, deleteBlog }
+  return { blogInfoList, allBlogList, BlogDetail, showSetting, getBlogDetail, postBlog, editBlog, deleteBlog, checkBlogOk, checkBlogError }
 }

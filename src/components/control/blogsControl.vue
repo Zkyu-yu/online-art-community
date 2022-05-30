@@ -80,7 +80,6 @@ export default defineComponent({
     const checkIndex = ref(0)
     const checkStatus = ref('')
     const editList = reactive<blogInfoItem>({ title: '', actor: '', category: '', date: '', content: '', picture: [] })
-    const addList = reactive<blogInfoItem>({ title: '', actor: '管理员', category: '', date: '', content: '', picture: [] })
     const tableList = ['标题', '作者', '时间', '栏目', '内容', '审核状态', '操作']
     const { allBlogList, editBlog, deleteBlog, checkBlogOk, checkBlogError } = blogInfo()
 
@@ -134,7 +133,6 @@ export default defineComponent({
       editIndex,
       checkStatus,
       editList,
-      addList,
       tableList,
       allBlogList,
       editBlogShow,

@@ -5,56 +5,82 @@
       <ul>
         <li v-for="(item, index) of tableList" :key="index">{{ item }}</li>
       </ul>
-      <ul v-for="(item, index) of blogInfoList" :key="index">
-        <li>{{ item.title }}</li>
-        <li>{{ item.actor }}</li>
+      <ul v-for="(item, index) of showInfoList" :key="index">
+        <li>{{ item.theme }}</li>
+        <li>{{ item.poster }}</li>
         <li>{{ item.date }}</li>
-        <li>111</li>
-        <li>{{ item.content ? item.content : '--' }}</li>
+        <li>{{ item.address }}</li>
+        <li>{{ item.introduction }}</li>
         <li>
-          <el-button type="text" @click="editBlogShow(index)">修改</el-button>
-          <el-button type="text" @click="deleteOneBlog(index)">删除</el-button>
+          <el-button type="text" @click="isShowEidt(index)">修改</el-button>
+          <el-button type="text" @click="deleteOneShow(index)">删除</el-button>
         </li>
       </ul>
     </div>
-    <el-button class="add" @click="addBlogDialog = true">Add Show</el-button>
+    <el-button class="add" @click="addShowDialog = true">Add Show</el-button>
 
-    <el-dialog v-model="editBlogDialog" title="修改艺术作品" width="30%">
+    <el-dialog v-model="editShowDialog" title="修改艺术展览" width="30%">
       <el-form :model="editList" label-width="100px" label-position="left" style="margin-left: 30px">
-        <el-form-item label="Title">
-          <el-input v-model="editList.title" style="width: 240px"></el-input>
+        <el-form-item label="Theme">
+          <el-input v-model="editList.theme" style="width: 240px"></el-input>
         </el-form-item>
-        <el-form-item label="Actor">
-          <el-input v-model="editList.actor" style="width: 240px"></el-input>
+        <el-form-item label="Poster">
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:3003/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :limit="1"
+          >
+            <img v-if="editList.poster" :src="editList.poster" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
+          </el-upload>
         </el-form-item>
-        <el-form-item label="Content">
-          <el-input v-model="editList.content" type="textarea"></el-input>
+        <el-form-item label="Address">
+          <el-input v-model="editList.address" style="width: 240px"></el-input>
+        </el-form-item>
+        <el-form-item label="Introduction">
+          <el-input v-model="editList.introduction" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="editBlogDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="editOneBlog">Confirm</el-button>
+          <el-button @click="editShowDialog = false">Cancel</el-button>
+          <el-button type="primary" @click="editOneShow">Confirm</el-button>
         </span>
       </template>
     </el-dialog>
 
-    <el-dialog v-model="addBlogDialog" title="新增艺术作品" width="30%">
+    <el-dialog v-model="addShowDialog" title="新增艺术展览" width="30%">
       <el-form :model="addList" label-width="100px" label-position="left" style="margin-left: 30px">
-        <el-form-item label="Title">
-          <el-input v-model="addList.title" style="width: 240px"></el-input>
+        <el-form-item label="Theme">
+          <el-input v-model="editList.theme" style="width: 240px"></el-input>
         </el-form-item>
-        <el-form-item label="Actor">
-          <el-input v-model="addList.actor" style="width: 240px" disabled></el-input>
+        <el-form-item label="Poster">
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:3003/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :limit="1"
+          >
+            <img v-if="editList.poster" :src="editList.poster" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
+          </el-upload>
         </el-form-item>
-        <el-form-item label="Content">
-          <el-input v-model="addList.content" type="textarea"></el-input>
+        <el-form-item label="Address">
+          <el-input v-model="editList.address" style="width: 240px"></el-input>
+        </el-form-item>
+        <el-form-item label="Introduction">
+          <el-input v-model="editList.introduction" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="addBlogDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="postOneBlog">Confirm</el-button>
+          <el-button @click="addShowDialog = false">Cancel</el-button>
+          <el-button type="primary" @click="postOneShow">Confirm</el-button>
         </span>
       </template>
     </el-dialog>
@@ -63,53 +89,81 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from '@vue/runtime-core'
-import blogInfo from '../../hook/blogInfo'
+import showInfo from '../../hook/showInfo'
+import { formatDateTime } from '../../hook/util'
 
-export interface blogInfoItem {
+export interface showInfoItem {
   _id?: string
-  title: string
-  actor: string
+  theme: string
+  poster: string
   date: string
-  content: string
-  picture: string[]
+  address: string
+  introduction: string
 }
 
 export default defineComponent({
   name: 'ShowControl',
   setup() {
-    const editBlogDialog = ref(false)
-    const addBlogDialog = ref(false)
+    const editShowDialog = ref(false)
+    const addShowDialog = ref(false)
     const editIndex = ref(0)
-    const editList = reactive<blogInfoItem>({ title: '', actor: '', date: '', content: '', picture: [] })
-    const addList = reactive<blogInfoItem>({ title: '', actor: '管理员', date: '', content: '', picture: [] })
+    const editList = reactive<showInfoItem>({ theme: '', poster: '', date: '', address: '', introduction: '' })
+    const addList = reactive<showInfoItem>({ theme: '', poster: '', date: '', address: '', introduction: '' })
     const tableList = ['主题', '海报', '时间', '地址', '介绍', '操作']
-    const { blogInfoList, deleteBlog } = blogInfo()
+    const { showInfoList, postShow, editShow, deleteShow } = showInfo()
 
-    // 保存修改博客的原有信息
-    const editBlogShow = (index: number) => {
-      editList.title = blogInfoList[index].title
-      editList.actor = blogInfoList[index].actor
-      editList.date = blogInfoList[index].date
-      editList.content = blogInfoList[index].content
-      editList.picture.push(...blogInfoList[index].picture)
-      editIndex.value = index
-      editBlogDialog.value = true
+    // 发布展览
+    const postOneShow = () => {
+      postShow({
+        theme: addList.theme,
+        poster: addList.poster,
+        date: formatDateTime(new Date()),
+        address: addList.address,
+        introduction: addList.introduction,
+      })
+      addShowDialog.value = false
     }
-    // 删除博客
-    const deleteOneBlog = (index: number) => {
-      deleteBlog(blogInfoList[index]._id as unknown as string)
+    // 保存修改展览的原有信息
+    const isShowEidt = (index: number) => {
+      editList.theme = showInfoList[index].theme
+      editList.poster = showInfoList[index].poster
+      editList.date = showInfoList[index].date
+      editList.address = showInfoList[index].address
+      editList.introduction = showInfoList[index].introduction
+      editIndex.value = index
+      editShowDialog.value = true
+    }
+    // 修改展览
+    const editOneShow = () => {
+      editShow(
+        {
+          theme: editList.theme,
+          poster: editList.poster,
+          date: formatDateTime(new Date()),
+          address: editList.address,
+          introduction: editList.introduction,
+        },
+        showInfoList[editIndex.value]._id as unknown as string
+      )
+      editShowDialog.value = false
+    }
+    // 删除展览
+    const deleteOneShow = (index: number) => {
+      deleteShow(showInfoList[index]._id as unknown as string)
     }
 
     return {
-      editBlogDialog,
-      addBlogDialog,
+      editShowDialog,
+      addShowDialog,
       editIndex,
       editList,
       addList,
       tableList,
-      blogInfoList,
-      editBlogShow,
-      deleteOneBlog,
+      showInfoList,
+      postOneShow,
+      isShowEidt,
+      editOneShow,
+      deleteOneShow,
     }
   },
 })

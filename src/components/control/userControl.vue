@@ -116,6 +116,7 @@ import userInfo from '../../hook/userInfo'
 import loginRegister from '../../hook/loginRegister'
 import request from '../../scripts/request'
 import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons'
 
 export interface userInfoItem {
   userName: string
@@ -130,6 +131,9 @@ export interface userInfoItem {
 
 export default defineComponent({
   name: 'UserControl',
+  components: {
+    Plus,
+  },
   setup() {
     const editUserDialog = ref(false)
     const addUserDialog = ref(false)

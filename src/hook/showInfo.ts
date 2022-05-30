@@ -33,7 +33,6 @@ export default function showInfo(_id?: string) {
   const postShow = async (params: showInfoItem) => {
     const res: { code: number; message: string } = await request.post('/show/postShow', params)
     if (res.code === 200) {
-      // ElMessage.success('Success!')
       getAllShowsInfo()
     }
   }

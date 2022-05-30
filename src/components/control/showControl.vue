@@ -7,7 +7,9 @@
       </ul>
       <ul v-for="(item, index) of showInfoList" :key="index">
         <li>{{ item.theme }}</li>
-        <li>{{ item.poster }}</li>
+        <li>
+          <img :src="item.poster" style="width: 100%" />
+        </li>
         <li>{{ item.date }}</li>
         <li>{{ item.address }}</li>
         <li>{{ item.introduction }}</li>
@@ -37,6 +39,9 @@
             <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
           </el-upload>
         </el-form-item>
+        <el-form-item label="Date">
+          <el-input v-model="editList.date" style="width: 240px"></el-input>
+        </el-form-item>
         <el-form-item label="Address">
           <el-input v-model="editList.address" style="width: 240px"></el-input>
         </el-form-item>
@@ -55,7 +60,7 @@
     <el-dialog v-model="addShowDialog" title="新增艺术展览" width="30%">
       <el-form :model="addList" label-width="100px" label-position="left" style="margin-left: 30px">
         <el-form-item label="Theme">
-          <el-input v-model="editList.theme" style="width: 240px"></el-input>
+          <el-input v-model="addList.theme" style="width: 240px"></el-input>
         </el-form-item>
         <el-form-item label="Poster">
           <el-upload
@@ -66,15 +71,18 @@
             :before-upload="beforeAvatarUpload"
             :limit="1"
           >
-            <img v-if="editList.poster" :src="editList.poster" class="avatar" />
+            <img v-if="addList.poster" :src="addList.poster" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
           </el-upload>
         </el-form-item>
+        <el-form-item label="Date">
+          <el-input v-model="addList.date" style="width: 240px"></el-input>
+        </el-form-item>
         <el-form-item label="Address">
-          <el-input v-model="editList.address" style="width: 240px"></el-input>
+          <el-input v-model="addList.address" style="width: 240px"></el-input>
         </el-form-item>
         <el-form-item label="Introduction">
-          <el-input v-model="editList.introduction" type="textarea"></el-input>
+          <el-input v-model="addList.introduction" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -90,7 +98,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from '@vue/runtime-core'
 import showInfo from '../../hook/showInfo'
-import { formatDateTime } from '../../hook/util'
+import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons'
 
 export interface showInfoItem {
   _id?: string
@@ -103,6 +112,9 @@ export interface showInfoItem {
 
 export default defineComponent({
   name: 'ShowControl',
+  components: {
+    Plus,
+  },
   setup() {
     const editShowDialog = ref(false)
     const addShowDialog = ref(false)
@@ -112,16 +124,39 @@ export default defineComponent({
     const tableList = ['主题', '海报', '时间', '地址', '介绍', '操作']
     const { showInfoList, postShow, editShow, deleteShow } = showInfo()
 
+    // 上传海报
+    const handleAvatarSuccess = (file: { url: string }) => {
+      addList.poster = file.url
+    }
+    const beforeAvatarUpload = (file: { type: string; size: number }) => {
+      const fileType = file.type
+      const isJPG = fileType === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        ElMessage.error('Avatar picture must be JPG format!')
+        return isJPG
+      }
+      if (!isLt2M) {
+        ElMessage.error('Avatar picture size can not exceed 2MB!')
+        return isLt2M
+      }
+    }
     // 发布展览
     const postOneShow = () => {
       postShow({
         theme: addList.theme,
         poster: addList.poster,
-        date: formatDateTime(new Date()),
+        date: addList.date,
         address: addList.address,
         introduction: addList.introduction,
       })
       addShowDialog.value = false
+      addList.theme = ''
+      addList.poster = ''
+      addList.date = ''
+      addList.address = ''
+      addList.introduction = ''
     }
     // 保存修改展览的原有信息
     const isShowEidt = (index: number) => {
@@ -139,7 +174,7 @@ export default defineComponent({
         {
           theme: editList.theme,
           poster: editList.poster,
-          date: formatDateTime(new Date()),
+          date: editList.date,
           address: editList.address,
           introduction: editList.introduction,
         },
@@ -160,6 +195,8 @@ export default defineComponent({
       addList,
       tableList,
       showInfoList,
+      handleAvatarSuccess,
+      beforeAvatarUpload,
       postOneShow,
       isShowEidt,
       editOneShow,
@@ -187,13 +224,15 @@ export default defineComponent({
       li {
         display: inline-block;
         width: 180px;
-        height: 50px;
-        line-height: 50px;
+        // width: 275px;
+        height: 100px;
+        line-height: 100px;
         padding: 0 10px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        &:nth-child(4) {
+        &:nth-child(1) {
+          // width: 277px;
           width: 200px;
         }
         .inIcon {
@@ -207,8 +246,13 @@ export default defineComponent({
       &:first-child {
         position: fixed;
         background-color: #b6dddd;
+
         margin-top: -50px;
         z-index: 10;
+        li {
+          height: 50px;
+          line-height: 50px;
+        }
       }
       &:not(:first-child):hover {
         cursor: pointer;
@@ -219,6 +263,32 @@ export default defineComponent({
   .add {
     margin-left: 33px;
     margin-top: 20px;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    border: 1px dashed #d9d9d9;
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+  }
+  .avatar-uploader-icon svg {
+    margin-top: 74px; /* (178px - 28px) / 2 - 1px */
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 }
 .el-button--text {

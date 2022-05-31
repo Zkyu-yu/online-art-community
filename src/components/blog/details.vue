@@ -58,7 +58,7 @@
           <div class="commentName">{{ item.commentName }}</div>
           <div class="commentTime">{{ item.commentTime }}</div>
           <div v-if="showSetting" class="commentDelete">
-            <el-popconfirm title="Are you sure to delete this blog?" icon-color="#A52A2A" @confirm="onDelete(index)">
+            <el-popconfirm title="确定删除这条评论吗?" icon-color="#A52A2A" @confirm="onDelete(index)">
               <template #reference>
                 <el-icon class="inIcon"><delete /></el-icon>
               </template>

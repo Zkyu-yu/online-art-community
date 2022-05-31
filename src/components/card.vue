@@ -39,7 +39,7 @@ export interface blogInfoItem {
 export default defineComponent({
   name: 'Card',
   props: {
-    // 判断展示card的情况（0：全部，1：当前用户，2：搜索title，3：搜索actor, 4：点赞列表)
+    // 判断展示card的情况（0：全部，1：当前用户，2：搜索title，3：搜索actor, 4：点赞列表, 5: 摄影, 6: 插画, 7: 诗歌, 8:书评
     cardState: {
       type: Number,
       default: 0,
@@ -74,6 +74,18 @@ export default defineComponent({
       const { userLikeList } = likeInfo(window.localStorage.getItem('userName') as string)
       cardList.value = userLikeList
       isLike.value = true
+    } else if (props.cardState === 5) {
+      const { filmList } = blogInfo()
+      cardList.value = filmList
+    } else if (props.cardState === 6) {
+      const { artList } = blogInfo()
+      cardList.value = artList
+    } else if (props.cardState === 7) {
+      const { poemList } = blogInfo()
+      cardList.value = poemList
+    } else if (props.cardState === 8) {
+      const { bookList } = blogInfo()
+      cardList.value = bookList
     }
     // 展示blog内容
     const openBlog = (item: blogInfoItem) => {

@@ -27,6 +27,10 @@ export default function blogInfo(_id?: string) {
   const showSetting = ref(0)
   const blogInfoList = reactive<blogItem[]>([])
   const allBlogList = reactive<blogItem[]>([])
+  const filmList = reactive<blogItem[]>([])
+  const artList = reactive<blogItem[]>([])
+  const poemList = reactive<blogItem[]>([])
+  const bookList = reactive<blogItem[]>([])
   const BlogDetail = reactive<blogItem>({ title: '', actor: '', category: '', date: '', content: '', picture: [], status: '' })
   // 查询所有blog
   const getAllBlogsInfo = async () => {
@@ -37,6 +41,18 @@ export default function blogInfo(_id?: string) {
     res.data.forEach(item => {
       if (item.status === '已通过') {
         blogInfoList.push(item)
+        if (item.category === 'film') {
+          filmList.push(item)
+        }
+        if (item.category === 'art') {
+          artList.push(item)
+        }
+        if (item.category === 'poem') {
+          poemList.push(item)
+        }
+        if (item.category === 'book') {
+          bookList.push(item)
+        }
       }
     })
   }
@@ -103,5 +119,20 @@ export default function blogInfo(_id?: string) {
     getAllBlogsInfo()
   })
 
-  return { blogInfoList, allBlogList, BlogDetail, showSetting, getBlogDetail, postBlog, editBlog, deleteBlog, checkBlogOk, checkBlogError }
+  return {
+    blogInfoList,
+    allBlogList,
+    filmList,
+    artList,
+    poemList,
+    bookList,
+    BlogDetail,
+    showSetting,
+    getBlogDetail,
+    postBlog,
+    editBlog,
+    deleteBlog,
+    checkBlogOk,
+    checkBlogError,
+  }
 }

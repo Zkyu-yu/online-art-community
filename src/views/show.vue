@@ -9,7 +9,7 @@
         <div class="content">
           <div class="theme">{{ item.theme }}</div>
           <div class="date">{{ item.date }}</div>
-          <div>{{ item.address }}</div>
+          <div class="address">{{ item.address }}</div>
           <div>{{ item.introduction }}</div>
         </div>
       </div>
@@ -58,7 +58,8 @@ export default defineComponent({
           font-size: 25px;
           line-height: 50px;
         }
-        .date {
+        .date,
+        .address {
           font-size: 16px;
           line-height: 30px;
           color: rgba(#e2e8f2, 0.6);

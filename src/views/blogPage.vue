@@ -1,7 +1,14 @@
 <template>
   <div class="container">
     <Navbar :active-tab="3"></Navbar>
-    <Card :card-state="0"></Card>
+    <div class="title">| 书评 |</div>
+    <Card :card-state="8"></Card>
+    <div class="title">| 插画 |</div>
+    <Card :card-state="6"></Card>
+    <div class="title">| 诗歌 |</div>
+    <Card :card-state="7"></Card>
+    <div class="title">| 摄影 |</div>
+    <Card :card-state="5"></Card>
     <Footer></Footer>
   </div>
 </template>
@@ -30,5 +37,13 @@ export default defineComponent({
   width: 100%;
   margin-top: 60px;
   background-color: #121212;
+  .title {
+    color: #121212;
+    background-color: #fff;
+    padding-left: 120px;
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
 </style>

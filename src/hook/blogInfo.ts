@@ -99,17 +99,9 @@ export default function blogInfo(_id?: string) {
       }
     }
   }
-  // 审核blog通过
-  const checkBlogOk = async (_id: string) => {
-    const res: { code: number; message: string } = await request.post(`/blog/checkBlogOk/${_id}`)
-    if (res.code === 200) {
-      ElMessage.success('Success!')
-      getAllBlogsInfo()
-    }
-  }
-  // 审核blog未通过
-  const checkBlogError = async (_id: string) => {
-    const res: { code: number; message: string } = await request.post(`/blog/checkBlogError/${_id}`)
+  // 审核blog
+  const checkBlog = async (_id: string, status: string) => {
+    const res: { code: number; message: string } = await request.patch(`/blog/checkBlog?_id=${_id}&status=${status}`)
     if (res.code === 200) {
       ElMessage.success('Success!')
       getAllBlogsInfo()
@@ -132,7 +124,6 @@ export default function blogInfo(_id?: string) {
     postBlog,
     editBlog,
     deleteBlog,
-    checkBlogOk,
-    checkBlogError,
+    checkBlog,
   }
 }

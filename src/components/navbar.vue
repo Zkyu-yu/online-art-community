@@ -7,13 +7,13 @@
       </div>
       <div class="nav">
         <ul>
-          <li :class="{ active: activeTab === 1 }" @click="goAbout">关于我们</li>
-          <li :class="{ active: activeTab === 2 }" @click="goShow">艺术展览</li>
-          <li :class="{ active: activeTab === 3 }" @click="goBlogPage">艺术作品</li>
-          <li v-if="!isSign" @click="goLogin">登录</li>
-          <li v-if="isSign && !isAdmin" :class="{ active: activeTab === 4 }" @click="goSpace">我的空间</li>
-          <li v-if="isSign && !isAdmin" class="postBlog" @click="isPost = true">发布</li>
-          <li v-if="isSign && isAdmin" @click="goControl">后台管理</li>
+          <li :class="{ active: activeTab === 1 }" @click="goAbout">About zkyu</li>
+          <li :class="{ active: activeTab === 2 }" @click="goShow">Art Exhibition</li>
+          <li :class="{ active: activeTab === 3 }" @click="goBlogPage">Artistic Works</li>
+          <li v-if="!isSign" @click="goLogin">Sign in</li>
+          <li v-if="isSign && !isAdmin" :class="{ active: activeTab === 4 }" @click="goSpace">My Space</li>
+          <li v-if="isSign && !isAdmin" class="postBlog" @click="isPost = true">Post</li>
+          <li v-if="isSign && isAdmin" @click="goControl">Content Management</li>
           <el-icon class="icon" @click="isOpen = true"><search /></el-icon>
         </ul>
       </div>
@@ -30,12 +30,12 @@
       <!-- 根据标题查找 -->
       <div class="choose" @click="atTitle">
         <div class="button" :style="{ background: onAtTitle ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">标题</div>
+        <div class="word" :style="{ color: onAtTitle ? '#fff' : '' }">Title</div>
       </div>
       <!-- 根据用户查找 -->
       <div class="choose" @click="atActor">
         <div class="button" :style="{ background: onAtActor ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">作者</div>
+        <div class="word" :style="{ color: onAtActor ? '#fff' : '' }">Actor</div>
       </div>
     </el-dialog>
   </div>
@@ -44,22 +44,22 @@
     <el-dialog v-model="isPost" fullscreen>
       <el-input v-model="blogTitle" placeholder="title" />
       <!-- 选择所属栏目 -->
-      <div class="choose" style="color: #fff; margin-left: 0px">所属栏目：</div>
+      <div class="choose" style="color: #fff; margin-left: 0px">Column：</div>
       <div class="choose" @click="category = 'film'">
         <div class="button" :style="{ background: category === 'film' ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: category === 'film' ? '#fff' : '' }">摄影</div>
+        <div class="word" :style="{ color: category === 'film' ? '#fff' : '' }">Photography</div>
       </div>
       <div class="choose" @click="category = 'art'">
         <div class="button" :style="{ background: category === 'art' ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: category === 'art' ? '#fff' : '' }">插画</div>
+        <div class="word" :style="{ color: category === 'art' ? '#fff' : '' }">Illustration</div>
       </div>
       <div class="choose" @click="category = 'poem'">
         <div class="button" :style="{ background: category === 'poem' ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: category === 'poem' ? '#fff' : '' }">诗歌</div>
+        <div class="word" :style="{ color: category === 'poem' ? '#fff' : '' }">Poetry</div>
       </div>
       <div class="choose" @click="category = 'book'">
         <div class="button" :style="{ background: category === 'book' ? '#fff' : '' }"></div>
-        <div class="word" :style="{ color: category === 'book' ? '#fff' : '' }">书评</div>
+        <div class="word" :style="{ color: category === 'book' ? '#fff' : '' }">Book review</div>
       </div>
 
       <el-input v-model="blogContent" maxlength="500" placeholder="balabalabala..." show-word-limit type="textarea" />

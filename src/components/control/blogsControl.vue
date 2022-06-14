@@ -81,7 +81,7 @@ export default defineComponent({
     const checkStatus = ref('')
     const editList = reactive<blogInfoItem>({ title: '', actor: '', category: '', date: '', content: '', picture: [] })
     const tableList = ['标题', '作者', '时间', '栏目', '内容', '审核状态', '操作']
-    const { allBlogList, editBlog, deleteBlog, checkBlogOk, checkBlogError } = blogInfo()
+    const { allBlogList, editBlog, deleteBlog, checkBlog } = blogInfo()
 
     // 保存修改博客的原有信息
     const editBlogShow = (index: number) => {
@@ -118,11 +118,7 @@ export default defineComponent({
       checkBlogDialog.value = true
     }
     const checkOneBlog = () => {
-      if (checkStatus.value === '已通过') {
-        checkBlogOk(allBlogList[checkIndex.value]._id as unknown as string)
-      } else {
-        checkBlogError(allBlogList[checkIndex.value]._id as unknown as string)
-      }
+      checkBlog(allBlogList[checkIndex.value]._id as unknown as string, checkStatus.value)
       checkBlogDialog.value = false
     }
 
